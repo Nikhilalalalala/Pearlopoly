@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { Icon } from "react-native-elements";
 
 class AddRecord extends Component {
   state = {
@@ -22,10 +23,27 @@ class AddRecord extends Component {
     this.setState({ chosenCategory: category });
   };
 
+  category(cat, iconName) {
+    return (
+      <TouchableOpacity>
+        <Icon name={iconName} />
+        <Text> {cat}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  category(cat, iconName, type) {
+    return (
+      <TouchableOpacity>
+        <Icon name={iconName} type={type} />
+        <Text> {cat}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
     return (
       <SafeAreaView>
-        <View style={styles.topbar}></View>
         <View style={styles.container}>
           <TextInput
             placeholder="Amount"
@@ -36,18 +54,21 @@ class AddRecord extends Component {
             maxLength={7}
           ></TextInput>
           <View style={styles.categoryRowOne}>
-            <Text>Education</Text>
-            <Text>Shopping</Text>
-            <Text>Food</Text>
+            {this.category("Education", "school")}
+            {this.category("Shopping", "shopping-bag", "font-awesome")}
+            {this.category("Food", "restaurant")}
           </View>
           <View style={styles.categoryRowTwo}>
-            <Text>Transport</Text>
-            <Text>Other Spending</Text>
-            <Text>Income</Text>
+            {this.category("Transport", "train")}
+            {this.category(
+              "Other Spending",
+              "question-circle-o",
+              "font-awesome"
+            )}
+            {this.category("Income", "usd", "font-awesome")}
           </View>
-        
         </View>
-     
+
         <TouchableOpacity style={styles.button}>
           <Text style={{ alignSelf: "center", fontSize: 18 }}>Add Record</Text>
         </TouchableOpacity>
@@ -75,20 +96,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
     alignSelf: "flex-end",
   },
-  //* temporary
-  topbar: {
-    width: "100%",
-    height: 54,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFBE86",
-  },
   categoryRowOne: {
     flexDirection: "row",
     alignItems: "stretch",
     justifyContent: "space-evenly",
     width: 325,
-    marginTop: 50,
+    marginTop: 30,
   },
   categoryRowTwo: {
     flexDirection: "row",

@@ -13,7 +13,6 @@ const SingleRecord = (props) => {
             <Text style={styles.value}>
                 {props.value}
             </Text>
-
         </View>
     )
 }
