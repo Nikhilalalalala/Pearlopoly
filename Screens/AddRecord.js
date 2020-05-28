@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  LayoutAnimation,
 } from "react-native";
 import { Icon } from "react-native-elements";
 
@@ -27,7 +28,7 @@ class AddRecord extends Component {
     return (
       <TouchableOpacity>
         <Icon name={iconName} />
-        <Text> {cat}</Text>
+        <Text style={styles.categoryName}> {cat}</Text>
       </TouchableOpacity>
     );
   }
@@ -36,7 +37,7 @@ class AddRecord extends Component {
     return (
       <TouchableOpacity>
         <Icon name={iconName} type={type} />
-        <Text> {cat}</Text>
+        <Text style={styles.categoryName}> {cat}</Text>
       </TouchableOpacity>
     );
   }
@@ -70,7 +71,15 @@ class AddRecord extends Component {
         </View>
 
         <TouchableOpacity style={styles.button}>
-          <Text style={{ alignSelf: "center", fontSize: 18 }}>Add Record</Text>
+          <Text
+            style={{
+              alignSelf: "center",
+              fontSize: 18,
+              fontFamily: "Lato-Bold",
+            }}
+          >
+            Add Record
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -89,6 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   inputAmount: {
+    fontFamily: "Lato-Bold",
     textAlign: "right",
     height: 40,
     marginTop: 10,
@@ -119,6 +129,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 30,
     alignSelf: "center",
+  },
+  categoryName: {
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
   },
 });
 
