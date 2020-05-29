@@ -27,7 +27,7 @@ export default function App() {
   if(fontsLoaded) {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
+        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Overview'>
           <Stack.Screen name='Login' component={LoginScreen} />
           <Stack.Screen name='Register' component={RegisterScreen} />
           <Stack.Screen name='Overview' component={OverviewScreen} />
