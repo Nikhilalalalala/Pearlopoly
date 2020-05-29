@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import AddRecord from "./Screens/AddRecord";
 import { useFonts } from '@use-expo/font';
 // import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import LoginScreen from './Screens/Login/LoginScreen';
+import RegisterScreen from './Screens/Register/RegisterScreen';
+import OverviewScreen from "./Screens/Overview/OverviewScreen";
+import AddRecord from "./Screens/AddRecord";
+import Record from "./Screens/Records/Record";
 
 export default function App() {
   // const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -15,12 +22,20 @@ export default function App() {
 
   });
 
+  const Stack = createStackNavigator();
 
   if(fontsLoaded) {
     return (
-      <View style={styles.container}>
-        <AddRecord></AddRecord>
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
+          <Stack.Screen name='Login' component={LoginScreen} />
+          <Stack.Screen name='Register' component={RegisterScreen} />
+          <Stack.Screen name='Overview' component={OverviewScreen} />
+          <Stack.Screen name='Add Record' component={AddRecord} />
+          <Stack.Screen name='Record' component={Record} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      
     );
   } else {
     return (
@@ -30,11 +45,3 @@ export default function App() {
 
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFBE86",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

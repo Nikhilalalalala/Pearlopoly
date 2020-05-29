@@ -44,7 +44,7 @@ class AddRecord extends Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={screen.container}>
         <View style={styles.container}>
           <TextInput
             placeholder="Amount"
@@ -85,6 +85,15 @@ class AddRecord extends Component {
     );
   }
 }
+
+const screen = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFBE86",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
