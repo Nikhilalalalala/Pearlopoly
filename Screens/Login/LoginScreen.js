@@ -39,7 +39,7 @@ function LoginScreen({ navigation }) {
     
   }
 
-  render() {
+  // render() {
 
     return (
       <KeyboardAvoidingView style={screen.container}>
@@ -79,7 +79,7 @@ function LoginScreen({ navigation }) {
       </KeyboardAvoidingView>
     );
   }
-}
+// }
 
 const screen = StyleSheet.create({
   container: {
