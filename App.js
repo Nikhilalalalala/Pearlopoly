@@ -11,6 +11,7 @@ import RegisterScreen from './Screens/Register/RegisterScreen';
 import OverviewScreen from "./Screens/Overview/OverviewScreen";
 import AddRecord from "./Screens/AddRecord";
 import Record from "./Screens/Records/Record";
+import PlaceholderScreen from './Screens/PlaceholderScreen';
 
 export default function App() {
   // const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -27,12 +28,13 @@ export default function App() {
   if(fontsLoaded) {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Overview'>
+        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
           <Stack.Screen name='Login' component={LoginScreen} />
           <Stack.Screen name='Register' component={RegisterScreen} />
           <Stack.Screen name='Overview' component={OverviewScreen} />
           <Stack.Screen name='Add Record' component={AddRecord} />
           <Stack.Screen name='Record' component={Record} />
+          <Stack.Screen name='Placeholder' component={PlaceholderScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       
