@@ -86,6 +86,12 @@ Some user scenarios:
 | Work on an additional feature if time permits Work on Milestone 3 submission       | 25th July |
 
 
+| S/N | Task                                | 
+|-----|-------------------------------------|
+| 1   | Team meeting & Initial Planning     | 
+| 2   | Meeting with Adviser Q&A Session    |
+| 3   | Asset Creation                      | 
+
 
 <h3>Project Log</h3>
 
