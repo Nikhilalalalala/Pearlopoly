@@ -68,23 +68,23 @@ Some user scenarios:
 
 
 <h3>Development Plan</h3>
-| Task                                                     	| Due Date  	|
-|----------------------------------------------------------	|-----------	|
-| Backend Support to add and fetch records                 	| 5th June  	|
-| Add feature for user reflection in record                	| 5th June  	|
-| Planning for Goal Setting Screen                         	| 5th June  	|
-| Making Goal Setting Feature                              	| 12th June 	|
-| Sourcing for Educational Quotes and adding into database 	| 12th June 	|
-| Fetching Educational Quotes into app                     	| 12th June 	|
-| Backend support for Overview Screen and Goal Screen      	| 20th June 	|
-| Work on UI of app                                        	| 20th June 	|
-| Prepare for Testing                                      	| 20th June 	|
-| Test and fix any further bugs                            	| 25th June 	|
-| Prepare for Milestone 2 submission                       	| 25th June 	|
-| Gather feedback about application and further improve    	| 10th July 	|
-| Any UI fixes                                             	| 10th July 	|
-| Work on an additional feature if time permits            	| 25th July 	|
-| Work on Milestone 3 submission                           	| 25th July 	|
+**Task **|**Due Date**
+:-----:|:-----:
+Backend Support to add and fetch records|5th June
+Add feature for user reflection in record|5th June
+Planning for Goal Setting Screen|5th June
+Making Goal Setting Feature|12th June
+Sourcing for Educational Quotes and adding into database|12th June
+Fetching Educational Quotes into app|12th June
+Backend support for Overview Screen and Goal Screen|20th June
+Work on UI of app|20th June
+Prepare for Testing|20th June
+Test and fix any further bugs|25th June
+Prepare for Milestone 2 submission|25th June
+Gather feedback about application and further improve|10th July
+Any UI fixes|10th July
+Work on an additional feature if time permits|25th July
+Work on Milestone 3 submission|25th July
 
 
 <h3>Project Log</h3>
