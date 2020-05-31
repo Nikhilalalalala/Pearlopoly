@@ -4,8 +4,8 @@
 Pearlopoly
 
 <h3>Members</h3>
-Mabel Koh Jiaxin (A0205492H)
-Udayagiri Nikhila Sai (A0207967N)
+- Mabel Koh Jiaxin (A0205492H)
+- Udayagiri Nikhila Sai (A0207967N)
 
 <h3>Proposed level of achievement</h3>
 Apollo 11
@@ -35,29 +35,41 @@ Some user scenarios:
 2. Bob is a student at ABC Secondary School who has trouble controlling his sufficient allowance due to his addiction to the delicious food he would buy from different places everyday (e.g. chocolate cupcake from 12 cupcakes, Starbucks coffee). However, upon discovering Pearlopoly, he has learnt some finance saving tips and is motivated to spend wisely with the interesting manner of nudges the app provides.
 
 <h3>Identify the features for your system</h3>
-Setting of goals for the month by the user, which he/she wishes to accomplish
-Clear and simple overview of user’s goal progress
-Recording of basic expenses and income with general tagging/categorisation
-Educational tips & Reminders to keep to their goal
-Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure
-Possible add ons:
-A new flavour of bubble tea used every month and customizability can be an additional feature
-Journaling by user to add more notes on each expenditure
+- Setting of goals for the month by the user, which he/she wishes to accomplish
+- Clear and simple overview of user’s goal progress
+- Recording of basic expenses and income with general tagging/categorisation
+- Educational tips & Reminders to keep to their goal
+- Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure
+- Possible add ons:
+  - A new flavour of bubble tea used every month and customizability can be an additional feature
+  - Journaling by user to add more notes on each expenditure
+
 
 <h3>Documenting the System with Sequence Diagram</h3>
+![Sequence Diagram](https://github.com/Nikhilalalalala/Pearlopoly/blob/master/MilestoneSubmissionImages/Sequence%20diagram.png)
 
 	
 
 
 <h3>Development Plan</h3>
-| Task                						| Due Date  |
-|---------------------------------------------------------------------------------------------------------------------------|-----------|
-| Backend Support to add and fetch records Add feature for user reflection in record Planning for Goal Setting Screen       | 5th June  |
-| Making Goal Setting Feature Sourcing for Educational Quotes and adding into database Fetching Educational Quotes into app | 12th June |
-| Backend support for Overview Screen and Goal Screen Work on UI of app Prepare for Testing                                 | 20th June |
-| Test and fix any further bugs Prepare for Milestone 2 submission                                                          | 25th June |
-| Gather feedback about application and further improve Any UI fixes                                                        | 10th July |
-| Work on an additional feature if time permits Work on Milestone 3 submission                                              | 25th July |
+<h3>Development Plan</h3>
+| Task                						                                         | Due Date  |
+|------------------------------------------------------------------------------------|-----------|
+| Backend Support to add and fetch records                                           | 5th June  |
+| Add feature for user reflection in record                                          | 5th June  |
+| Planning for Goal Setting Screen                                                   | 5th June  |
+| Making Goal Setting Feature                                                        | 5th June  |
+| Sourcing for Educational Quotes and adding into database                           | 12th June |
+| Fetching Educational Quotes into app                                               | 12th June |
+| Backend Support to add and fetch records                                           | 12th June |
+| Backend support for Overview Screen and Goal Screen                                | 20th June |
+| Work on UI of app Prepare for Testing                                              | 20th June |
+| Test and fix any further bugs Prepare for Milestone 2 submission                   | 25th June |
+| Backend support for Overview Screen and Goal Screen                                | 20th June |
+| Work on UI of app Prepare for Testing                                              | 20th June |
+| Gather feedback about application and further improve Any UI fixes                 | 10th July |
+| Work on an additional feature if time permits Work on Milestone 3 submission       | 25th July |
+
 
 
 <h3>Project Log</h3>
