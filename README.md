@@ -1,28 +1,26 @@
-# Pearlopoly
+<h1>Pearlopoly Milestone 1 Submission</h1>
 
-#Pearlopoly Milestone 1 Submission
-
-###Team name
+<h3>Team name</h3>
 Pearlopoly
 
-###Members
+<h3>Members</h3>
 Mabel Koh Jiaxin (A0205492H)
 Udayagiri Nikhila Sai (A0207967N)
 
-###Proposed level of achievement
+<h3>Proposed level of achievement</h3>
 Apollo 11
 
-###Motivation
+<h3>Motivation</h3>
 All too often, students find themselves struggling with their finances. ‘I’m broke,’ they whine, with only two digits in their bank accounts, all while simultaneously shopping online, booking a Grab ride, and waiting in line for the latest bubble tea flavour released. It is easy to forget where the money flows, and they often forget the reason why they’re constantly broke.
 
 Many existing applications that help track users’ finances have boring interfaces and do not attract many students to stay on the platform. More often than not, it depends on the user’s discipline to key in their records in a tedious manner. Moreover, they serve to solely track the user’s expenditure and income such that the educational element is missed out. We hope to come in and bridge this gap by making our platform engaging, fun and educational.
 
-###Aim
+<h3>Aim</h3>
 We hope to come up with an interesting and engaging way for students to integrate finance tracking into their daily routines by making an app that would appeal to the students, all while providing educational tips.
 
 Our unique value proposition is the interesting educational journey students embark on in Pearlopoly that keeps them invested in developing good spending habits.
 
-###User Story
+<h3>User Story</h3>
 As a user, who is a student, spends money without tracking it, With Pearlopoly, he can track records and learn good finance habits so that he controls his spending wisely.
 
 Some user scenarios:
@@ -30,15 +28,15 @@ Some user scenarios:
 
 2. Bob is a student at ABC Secondary School who has trouble controlling his sufficient allowance due to his addiction to the delicious food he would buy from different places everyday (e.g. chocolate cupcake from 12 cupcakes, Starbucks coffee). However, upon discovering Pearlopoly, he has learnt some finance saving tips and is motivated to spend wisely with the interesting manner of nudges the app provides.
 
-###Identify the features for your system
+<h3>Identify the features for your system</h3>
 1. Setting of goals for the month by the user, which he/she wishes to accomplish
 2. Clear and simple overview of user’s goal progress
 3. Recording of basic expenses and income with general tagging/categorisation
 4. Educational tips & Reminders to keep to their goal
 5. Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure
 6. Possible add ons:
-A new flavour of bubble tea used every month and customizability can be an additional feature
-Journaling by user to add more notes on each expenditure
+⋅⋅⋅ A new flavour of bubble tea used every month and customizability can be an additional feature
+⋅⋅⋅Journaling by user to add more notes on each expenditure
 
 	
 
@@ -61,5 +59,4 @@ Journaling by user to add more notes on each expenditure
 | 14  | Team Meeting                        | 28 May          | 3         | 3         | Updates on progress                                              |
 | 14  | Programming                         | 28 May          | 6         | 6         | Adding Fonts and Icons, and finalising POC                       |
 | 15  | Team Meeting                        | 31 May          | 3         | 3         | Finalising POC and record submission                             |
-
 
