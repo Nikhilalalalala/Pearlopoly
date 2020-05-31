@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 const HeaderBar = (props) => {
   return (
     <View style={topBar.container}>
-      <Text>{props.currentScreen}</Text>
+      <Text style={{ fontFamily: "Lato-Bold", }}>{props.currentScreen}</Text>
     </View>
   );
 }

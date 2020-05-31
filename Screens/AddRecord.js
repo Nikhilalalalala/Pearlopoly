@@ -11,8 +11,8 @@ import {
   LayoutAnimation,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import HeaderBar from './SharedContainers/HeaderBar';
-import NavigationBar from './SharedContainers/NavigationBar';
+import HeaderBar from "./SharedContainers/HeaderBar";
+import NavigationBar from "./SharedContainers/NavigationBar";
 
 class AddRecord extends Component {
   state = {
@@ -47,13 +47,11 @@ class AddRecord extends Component {
   }
 
   render() {
-
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen='New Record' />        
+        <HeaderBar currentScreen="New Record" />
 
-        <View style = {main.container}>
-
+        <View style={main.container}>
           <View style={main.line} />
 
           <View style={styles.container}>
@@ -94,7 +92,6 @@ class AddRecord extends Component {
           </TouchableOpacity>
 
           <View style={main.line} />
-
         </View>
 
         <NavigationBar />
@@ -103,7 +100,8 @@ class AddRecord extends Component {
   }
 }
 
-const mainHeight = Dimensions.get('window').height - 54 - 54 - StatusBar.currentHeight;
+const mainHeight =
+  Dimensions.get("window").height - 54 - 54 - StatusBar.currentHeight;
 
 const screen = StyleSheet.create({
   container: {
@@ -117,16 +115,16 @@ const screen = StyleSheet.create({
 
 const main = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
     height: mainHeight,
-    backgroundColor: '#FFBE86',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    backgroundColor: "#FFBE86",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   line: {
-    width: '100%',
+    width: "100%",
     height: 3,
-    backgroundColor: '#FAF3DD',
+    backgroundColor: "#FAF3DD",
   },
 });
 

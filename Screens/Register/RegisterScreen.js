@@ -122,6 +122,7 @@ const screen = StyleSheet.create({
 const register = StyleSheet.create({
   title: {
     marginBottom: 40,
+
   },
   textField: {
     height: 45,
@@ -130,6 +131,8 @@ const register = StyleSheet.create({
     borderWidth: 3,
     marginBottom: 20,
     paddingHorizontal: 10,
+    fontFamily: "Lato-Regular",
+
   },
   button: {
     height: 30,
@@ -138,10 +141,14 @@ const register = StyleSheet.create({
     backgroundColor: "#75B9BE",
     alignItems: "center",
     justifyContent: "center",
+    fontFamily: "Lato-Regular",
+
   },
   login: {
     marginTop: 100,
     textDecorationLine: "underline",
+    fontFamily: "Lato-Regular",
+
   },
 });
 
