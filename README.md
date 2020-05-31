@@ -86,11 +86,11 @@ Some user scenarios:
 | Work on an additional feature if time permits Work on Milestone 3 submission       | 25th July |
 
 
-| S/N | Task                                | 
+| Task | Due Date                           | 
 |-----|-------------------------------------|
-| 1   | Team meeting & Initial Planning     | 
-| 2   | Meeting with Adviser Q&A Session    |
-| 3   | Asset Creation                      | 
+|Backend Support to add and fetch records       | 5th June     | 
+|Add feature for user reflection in record     | 5th June    |
+| Planning for Goal Setting Screen        | 5th June        | 
 
 
 <h3>Project Log</h3>
