@@ -36,10 +36,15 @@ Some user scenarios:
 
 <h3>Identify the features for your system</h3>
 1. Setting of goals for the month by the user, which he/she wishes to accomplish
+
 2. Clear and simple overview of user’s goal progress
+
 3. Recording of basic expenses and income with general tagging/categorisation
+
 4. Educational tips & Reminders to keep to their goal
+
 5. Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure
+
 6. Possible add ons:
   - A new flavour of bubble tea used every month and customizability can be an additional feature
   - Journaling by user to add more notes on each expenditure
