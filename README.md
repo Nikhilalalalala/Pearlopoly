@@ -35,12 +35,12 @@ Some user scenarios:
 2. Bob is a student at ABC Secondary School who has trouble controlling his sufficient allowance due to his addiction to the delicious food he would buy from different places everyday (e.g. chocolate cupcake from 12 cupcakes, Starbucks coffee). However, upon discovering Pearlopoly, he has learnt some finance saving tips and is motivated to spend wisely with the interesting manner of nudges the app provides.
 
 <h3>Identify the features for your system</h3>
-- Setting of goals for the month by the user, which he/she wishes to accomplish
-- Clear and simple overview of user’s goal progress
-- Recording of basic expenses and income with general tagging/categorisation
-- Educational tips & Reminders to keep to their goal
-- Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure
-- Possible add ons:
+1. Setting of goals for the month by the user, which he/she wishes to accomplish
+2. Clear and simple overview of user’s goal progress
+3. Recording of basic expenses and income with general tagging/categorisation
+4. Educational tips & Reminders to keep to their goal
+5. Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure
+6. Possible add ons:
   - A new flavour of bubble tea used every month and customizability can be an additional feature
   - Journaling by user to add more notes on each expenditure
 
