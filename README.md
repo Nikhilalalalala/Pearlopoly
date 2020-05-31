@@ -1,5 +1,7 @@
 <h1>Pearlopoly Milestone 1 Submission</h1>
 
+Link to same document on Google: [Google Docs link](https://docs.google.com/document/d/1RF33jvM1W7EyzeQXQ9VAWzMl5IHEuhBGm4Lj3POhVdY/edit?usp=sharing)
+
 <h3>Team name</h3>
 
 Pearlopoly
