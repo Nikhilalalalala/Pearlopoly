@@ -9,7 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-firebaseDb.js/
+firebaseDb.js
 
 # macOS
 .DS_Store
