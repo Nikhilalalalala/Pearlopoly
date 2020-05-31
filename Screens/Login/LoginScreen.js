@@ -13,9 +13,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 
-// function LoginScreen({ navigation }) {
+function LoginScreen({ navigation }) {
 
-class LoginScreen extends Component{
+// class LoginScreen extends Component {
 
   // handleUpdateName = name => this.setState({name})
 
