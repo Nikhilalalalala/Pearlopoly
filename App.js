@@ -26,16 +26,16 @@ export default function App() {
 
   if(fontsLoaded) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Overview'>
-          <Stack.Screen name='Login' component={LoginScreen} />
-          <Stack.Screen name='Register' component={RegisterScreen} />
-          <Stack.Screen name='Overview' component={OverviewScreen} />
-          <Stack.Screen name='Add Record' component={AddRecord} />
-          <Stack.Screen name='Record' component={Record} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      
+      // <NavigationContainer>
+      //   <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Overview'>
+      //     <Stack.Screen name='Login' component={LoginScreen} />
+      //     <Stack.Screen name='Register' component={RegisterScreen} />
+      //     <Stack.Screen name='Overview' component={OverviewScreen} />
+      //     <Stack.Screen name='Add Record' component={AddRecord} />
+      //     <Stack.Screen name='Record' component={Record} />
+      //   </Stack.Navigator>
+      // </NavigationContainer>
+      <RegisterScreen></RegisterScreen>
     );
   } else {
     return (
