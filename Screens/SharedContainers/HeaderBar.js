@@ -1,14 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-class HeaderBar extends React.Component {
-
-  render () {
-    return (
-      <View style={topBar.container}>
-      </View>
-    );
-  }
+const HeaderBar = (props) => {
+  return (
+    <View style={topBar.container}>
+      <Text>{props.currentScreen}</Text>
+    </View>
+  );
 }
 
 const topBar = StyleSheet.create({
