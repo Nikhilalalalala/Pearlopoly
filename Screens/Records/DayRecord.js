@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop:10,
+    marginTop: 10,
   },
   date: {
-      paddingVertical: 5,
-  }
+    paddingVertical: 5,
+    fontFamily: "Lato-Regular",
+  },
 });

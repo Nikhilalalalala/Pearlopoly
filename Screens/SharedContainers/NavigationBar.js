@@ -1,20 +1,25 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
-import { useNavigation } from '@react-navigation/native';
-import Svg, {Circle} from "react-native-svg";
+import { useNavigation } from "@react-navigation/native";
+import Svg, { Circle } from "react-native-svg";
 
-function NavigationBar () {
-
+function NavigationBar() {
   const navigation = useNavigation();
-    
+
   return (
     <View style={navBar.container}>
-      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Overview')}>
+      <TouchableOpacity
+        style={navBar.buttonPlaceholder}
+        onPress={() => navigation.navigate("Overview")}
+      >
         <Icon name="home" color="#FAF3DD" />
         <Text style={navBar.text}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Record')}>
+      <TouchableOpacity
+        style={navBar.buttonPlaceholder}
+        onPress={() => navigation.navigate("Record")}
+      >
         <Icon name="bar-chart" type="font-awesome" color="#FAF3DD" />
         <Text style={navBar.text}>Records</Text>
       </TouchableOpacity>
@@ -33,20 +38,29 @@ function NavigationBar () {
         /> </Svg>
       </View> */}
 
-      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Add Record')}>
+      <TouchableOpacity
+        style={navBar.buttonPlaceholder}
+        onPress={() => navigation.navigate("Add Record")}
+      >
         <Icon name="plus" type="font-awesome" color="#FAF3DD" />
         <Text style={navBar.text}>Add</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Placeholder')}>
+      <TouchableOpacity
+        style={navBar.buttonPlaceholder}
+        onPress={() => navigation.navigate("Placeholder")}
+      >
         <Icon name="crosshairs" type="font-awesome" color="#FAF3DD" />
         <Text style={navBar.text}>Goals</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Placeholder')}>
+      <TouchableOpacity
+        style={navBar.buttonPlaceholder}
+        onPress={() => navigation.navigate("Placeholder")}
+      >
         <Icon name="settings" color="#FAF3DD" />
         <Text style={navBar.text}>Settings</Text>
       </TouchableOpacity>
     </View>
-  ); 
+  );
 }
 
 const navBar = StyleSheet.create({
@@ -65,8 +79,7 @@ const navBar = StyleSheet.create({
   },
   text: {
     color: "#FAF3DD",
-    fontFamily: 'Lato-Bold',
-
+    fontFamily: "Lato-Bold",
   },
 });
 
