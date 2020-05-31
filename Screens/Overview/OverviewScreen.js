@@ -6,32 +6,35 @@ import NavigationBar from '../SharedContainers/NavigationBar'
 import ExpenditurePie from './components/ExpenditurePie';
 import GoalProgressBar from './components/GoalProgressBar';
 
-function OverviewScreen ( {navigation} ) {
+class OverviewScreen extends Component {
 
-  return (
-    <SafeAreaView style={screen.container}>
-      <HeaderBar />
+  render () {
 
-      <View style={main.container}>
-        <View style={main.line} />
+    return (
+      <SafeAreaView style={screen.container}>
+        <HeaderBar currentScreen='Overview'/>
+
+        <View style={main.container}>
+          <View style={main.line} />
         
-        <View style={main.pieBox}>
-          <ExpenditurePie />
-        </View>
+          <View style={main.pieBox}>
+            <ExpenditurePie />
+          </View>
 
-        <View style={main.goalBox}>
-          <Text>Goal Progress</Text>
-          <GoalProgressBar />
-          <Text style={{textAlign: 'center', }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-        </View>
+          <View style={main.goalBox}>
+            <Text>Goal Progress</Text>
+            <GoalProgressBar />
+            <Text style={{textAlign: 'center', }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+          </View>
 
-        <View style={main.line} />
-      </View>
+          <View style={main.line} />
+        </View>
       
-      <NavigationBar />
+        <NavigationBar />
       
-    </SafeAreaView>
-  );
+      </SafeAreaView>
+    );
+  }
 }
 
 const mainHeight = Dimensions.get('window').height - 54 - 54 - StatusBar.currentHeight;
