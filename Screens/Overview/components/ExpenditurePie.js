@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
 
 
@@ -20,7 +20,7 @@ class ExpenditurePie extends React.Component {
         .map((value, index) => ({
           value,
           svg: {
-            fill: colorCodes[index], //i wonder what is so difficult about actually just picking unique random colours
+            fill: colorCodes[index], 
             onPress: () => console.log('press', index), //this could come in handy for stuff like looking at the details for each slice or something
           },
             key: `pie-${index}`,
@@ -29,8 +29,8 @@ class ExpenditurePie extends React.Component {
       return (
         <View style={pie.container}>
           <PieChart 
-            style = {{ height: 250 }} 
-            innerRadius = {80}
+            style = {{ height: pieHeight }} 
+            innerRadius = {pieInnerRadius}
             data = {pieData} 
           />
           <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center'}}>
@@ -39,7 +39,10 @@ class ExpenditurePie extends React.Component {
         </View>
         )
   }
-}
+};
+
+const pieHeight = (((Dimensions.get("window").height - 54 - 54 - StatusBar.currentHeight)/2 - 50) * 0.9);
+const pieInnerRadius = (pieHeight/2) * 0.65;
 
 const pie = StyleSheet.create({
   container: {
@@ -47,6 +50,6 @@ const pie = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
   }
-})
+});
 
 export default ExpenditurePie;
