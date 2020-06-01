@@ -109,5 +109,5 @@ Some user scenarios:
 | 13  | Programming                         | 27 May          | 6         | 6         | Navigation Bar and Database                                      |
 | 14  | Team Meeting                        | 28 May          | 3         | 3         | Updates on progress                                              |
 | 14  | Programming                         | 28 May          | 6         | 6         | Adding Fonts and Icons, and finalising POC                       |
-| 15  | Team Meeting                        | 31 May          | 3         | 3         | Finalising POC and record submission                             |
+| 15  | Team Meeting                        | 31 May          | 4         | 4         | Finalising POC, video and milestone 1 submission                              |
 
