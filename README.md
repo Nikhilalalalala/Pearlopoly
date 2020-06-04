@@ -10,9 +10,9 @@ Pearlopoly
 
 <h3>Members</h3>
 
-- Mabel Koh Jiaxin (A0205492H)
+- Mabel Koh Jiaxin 
 
-- Udayagiri Nikhila Sai (A0207967N)
+- Udayagiri Nikhila Sai 
 
 <h3>Proposed level of achievement</h3>
 
