@@ -64,7 +64,9 @@ Some user scenarios:
   - Journaling by user to add more notes on each expenditure
 
 <h3>Key Technologies</h3>
+
 - React Native (Javascript) for Mobile App
+
 - Firebase for Database
 
 
