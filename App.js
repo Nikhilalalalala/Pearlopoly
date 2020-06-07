@@ -14,6 +14,7 @@ import AddRecord from "./Screens/AddRecord";
 import Record from "./Screens/Records/Record";
 import PlaceholderScreen from "./Screens/PlaceholderScreen";
 import LoadingScreen from "./Screens/Loading/LoadingScreen";
+import SettingsScreen from './Screens/Settings/SettingsScreen'
 import firebaseConfig from "./firebaseConfig";
 
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -42,6 +43,7 @@ export default function App() {
           <Stack.Screen name="Add Record" component={AddRecord} />
           <Stack.Screen name="Record" component={Record} />
           <Stack.Screen name="Placeholder" component={PlaceholderScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="Loading" component={LoadingScreen} />
         </Stack.Navigator>
       </NavigationContainer>

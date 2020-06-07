@@ -14,49 +14,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import * as firebase from "firebase";
 
 
-// function LoginScreen({ navigation }) {
-  // render() {
-
-//   return (
-//     <KeyboardAvoidingView style={screen.container}>
-//       <Image
-//         style={login.title}
-//         source={require("../../assets/titlewithicon.png")}
-//       />
-
-//       <TextInput
-//         style={login.textField}
-//         placeholder="USERNAME"
-//         placeholderTextColor="#BB7E5D"
-//         returnKeyType="next"
-//       />
-
-//       <TextInput
-//         style={login.textField}
-//         placeholder="PASSWORD"
-//         placeholderTextColor="#BB7E5D"
-//         returnKeyType="done"
-//         secureTextEntry={true}
-//       />
-
-//       <TouchableOpacity
-//         style={login.button}
-//         onPress={() => navigation.navigate("Overview")}
-//       >
-//         <Text style={{ color: "#FFFFFF" }}>LOGIN</Text>
-//       </TouchableOpacity>
-
-//       <Text
-//         style={login.register}
-//         onPress={() => navigation.navigate("Register")}
-//       >
-//         DON'T HAVE AN ACCOUNT?
-//       </Text>
-//     </KeyboardAvoidingView>
-//   );
-// }
-// }
-
 export default class LoginScreen extends React.Component {
   state = { email: "", password: "", errorMessage: null };
 
@@ -66,7 +23,7 @@ export default class LoginScreen extends React.Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        this.props.navigation.navigate("Overview");
+        // this.props.navigation.navigate("Overview");
       })
       .catch((error) => this.setState({ errorMessage: error.message }));
   };

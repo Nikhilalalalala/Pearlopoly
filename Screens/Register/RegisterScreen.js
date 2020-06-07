@@ -35,7 +35,9 @@ class RegisterScreen extends Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate("Login"))
+      .then(() => {
+        console.log('signing up new account')
+        this.props.navigation.navigate("Login")})
       .catch((error) => this.setState({ errorMessage: error.message }));
   };
 
