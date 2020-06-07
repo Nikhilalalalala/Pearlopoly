@@ -4,20 +4,20 @@ import firebase from "firebase";
 
 class LoadingScreen extends Component {
 
-    componentDidMount() {
-        this.checkifLoggedIn();
-    }
+    // componentDidMount() {
+    //     this.checkifLoggedIn();
+    // }
 
-    checkifLoggedIn = () => {
-        firebase.auth().onAuthStateChanged( (user) => {
-            if (user) {
-              console.log("hello")
-                this.props.navigation.navigate('OverviewScreen')
-            } else {
-                this.props.navigation.navigate('LoginScreen')
-            }
-        })
-    }
+    // checkifLoggedIn = () => {
+    //     firebase.auth().onAuthStateChanged( (user) => {
+    //         if (user) {
+    //           console.log("hello")
+    //             this.props.navigation.navigate('OverviewScreen')
+    //         } else {
+    //             this.props.navigation.navigate('LoginScreen')
+    //         }
+    //     })
+    // }
 
   render() {
     return (
