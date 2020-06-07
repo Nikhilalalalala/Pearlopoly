@@ -14,6 +14,8 @@ import NavigationBar from "../SharedContainers/NavigationBar";
 import ExpenditurePie from "./components/ExpenditurePie";
 import GoalProgressBar from "./components/GoalProgressBar";
 
+
+
 class OverviewScreen extends Component {
   render() {
     return (

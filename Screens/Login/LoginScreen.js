@@ -11,75 +11,111 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import * as firebase from "firebase";
 
 
-function LoginScreen({ navigation }) {
-
-// class LoginScreen extends Component {
-
-  // handleUpdateName = name => this.setState({name})
-
-  // handleUpdatePasswordOnce = email => this.setState({password_once})
-
-  // handleUpdatePassword = password => this.setState({password})
-
-  // handleCreateUser = () => {
-  //   firebaseDb.firestore().collection('users').add({
-  //     name: this.state.name,
-  //     password_once: this.state.email,
-  //     password: this.state.password
-  //   }).then((res) => this.setState({
-  //     name: '',
-  //     password_once: '',
-  //     password: '',
-  //   })).catch(err => console.error(err))
-  // }
-
-  verifyUser = () => {
-    
-  }
-
+// function LoginScreen({ navigation }) {
   // render() {
 
+//   return (
+//     <KeyboardAvoidingView style={screen.container}>
+//       <Image
+//         style={login.title}
+//         source={require("../../assets/titlewithicon.png")}
+//       />
+
+//       <TextInput
+//         style={login.textField}
+//         placeholder="USERNAME"
+//         placeholderTextColor="#BB7E5D"
+//         returnKeyType="next"
+//       />
+
+//       <TextInput
+//         style={login.textField}
+//         placeholder="PASSWORD"
+//         placeholderTextColor="#BB7E5D"
+//         returnKeyType="done"
+//         secureTextEntry={true}
+//       />
+
+//       <TouchableOpacity
+//         style={login.button}
+//         onPress={() => navigation.navigate("Overview")}
+//       >
+//         <Text style={{ color: "#FFFFFF" }}>LOGIN</Text>
+//       </TouchableOpacity>
+
+//       <Text
+//         style={login.register}
+//         onPress={() => navigation.navigate("Register")}
+//       >
+//         DON'T HAVE AN ACCOUNT?
+//       </Text>
+//     </KeyboardAvoidingView>
+//   );
+// }
+// }
+
+export default class LoginScreen extends React.Component {
+  state = { email: "", password: "", errorMessage: null };
+
+  handleLogin = () => {
+    const { email, password } = this.state;
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.navigation.navigate("Overview");
+      })
+      .catch((error) => this.setState({ errorMessage: error.message }));
+  };
+  render() {
+    const { email, password, errorMessage } = this.state;
     return (
-      <KeyboardAvoidingView style={screen.container}>
+      <KeyboardAvoidingView 
+      style={screen.container}
+      >
         <Image
           style={login.title}
           source={require("../../assets/titlewithicon.png")}
         />
-  
+
         <TextInput
           style={login.textField}
           placeholder="USERNAME"
           placeholderTextColor="#BB7E5D"
+          onChangeText={(email) => this.setState({ email })}
           returnKeyType="next"
         />
-  
+
         <TextInput
           style={login.textField}
           placeholder="PASSWORD"
           placeholderTextColor="#BB7E5D"
           returnKeyType="done"
+          onChangeText={(password) => this.setState({ password })}
           secureTextEntry={true}
         />
-  
-        <TouchableOpacity
-          style={login.button}
-          onPress={() => navigation.navigate("Overview")}
-        >
+
+        <TouchableOpacity style={login.button} onPress={this.handleLogin}>
           <Text style={{ color: "#FFFFFF" }}>LOGIN</Text>
         </TouchableOpacity>
-  
+
+        {this.state.errorMessage && (
+          <Text style={{ color: "red", paddingVertical: 10, }}>{this.state.errorMessage}</Text>
+        )}
+
         <Text
           style={login.register}
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => this.props.navigation.navigate("Register")}
         >
           DON'T HAVE AN ACCOUNT?
         </Text>
       </KeyboardAvoidingView>
     );
   }
-// }
+}
 
 const screen = StyleSheet.create({
   container: {
@@ -87,15 +123,14 @@ const screen = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FAF3DD",
     alignItems: "center",
-    justifyContent: "center",
-
+    justifyContent: "flex-start",
   },
 });
+
 
 const login = StyleSheet.create({
   title: {
     marginBottom: 40,
-
   },
   textField: {
     height: 45,
@@ -105,7 +140,6 @@ const login = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     fontFamily: "Lato-Regular",
-
   },
   button: {
     height: 30,
@@ -115,14 +149,12 @@ const login = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "Lato-Regular",
-
   },
   register: {
     marginTop: 100,
     textDecorationLine: "underline",
     fontFamily: "Lato-Regular",
-
   },
 });
 
-export default LoginScreen;
+// export default LoginScreen;
