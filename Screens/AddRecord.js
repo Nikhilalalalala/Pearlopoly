@@ -11,8 +11,6 @@ import {
   LayoutAnimation,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import HeaderBar from "./SharedContainers/HeaderBar";
-import NavigationBar from "./SharedContainers/NavigationBar";
 
 class AddRecord extends Component {
   state = {
@@ -49,7 +47,6 @@ class AddRecord extends Component {
   render() {
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen="New Record" />
 
         <View style={main.container}>
           <View style={main.line} />
@@ -94,7 +91,6 @@ class AddRecord extends Component {
           <View style={main.line} />
         </View>
 
-        <NavigationBar />
       </SafeAreaView>
     );
   }
@@ -105,7 +101,6 @@ const mainHeight =
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: "#FFBE86",
     alignItems: "center",

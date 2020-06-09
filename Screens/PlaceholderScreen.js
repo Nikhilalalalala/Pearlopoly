@@ -8,14 +8,11 @@ import {
   Dimensions,
 } from "react-native";
 
-import HeaderBar from "./SharedContainers/HeaderBar";
-import NavigationBar from "./SharedContainers/NavigationBar";
 
 class PlaceholderScreen extends Component {
   render() {
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen="Placeholder" />
 
         <View style={main.container}>
           <View style={main.line} />
@@ -25,7 +22,6 @@ class PlaceholderScreen extends Component {
           <View style={main.line} />
         </View>
 
-        <NavigationBar />
       </SafeAreaView>
     );
   }
@@ -36,7 +32,6 @@ const mainHeight =
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: "#FAF3DD",
     alignItems: "center",

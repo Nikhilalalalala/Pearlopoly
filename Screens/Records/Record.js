@@ -8,8 +8,6 @@ import {
   Dimensions,
 } from "react-native";
 import DayRecord from "./DayRecord";
-import HeaderBar from "../SharedContainers/HeaderBar";
-import NavigationBar from "../SharedContainers/NavigationBar";
 
 const Record = (props) => {
   var date = new Date();
@@ -42,7 +40,6 @@ const Record = (props) => {
 
   return (
     <View style={screen.container}>
-      <HeaderBar currentScreen="Record" />
 
       <View style={main.container}>
         <View style={main.line} />
@@ -56,7 +53,6 @@ const Record = (props) => {
 
         <View style={main.line} />
       </View>
-      <NavigationBar />
     </View>
   );
 };
@@ -68,7 +64,6 @@ const mainHeight =
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: "#FAF3DD",
     alignItems: "center",

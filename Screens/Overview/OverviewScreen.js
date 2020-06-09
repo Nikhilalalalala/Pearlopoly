@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 
-import HeaderBar from "../SharedContainers/HeaderBar";
+
 import NavigationBar from "../SharedContainers/NavigationBar";
 import ExpenditurePie from "./components/ExpenditurePie";
 import GoalProgressBar from "./components/GoalProgressBar";
@@ -18,7 +18,6 @@ class OverviewScreen extends Component {
   render() {
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen="Overview" />
 
         <View style={main.container}>
           <View style={main.line} />
@@ -49,7 +48,6 @@ const mainHeight =
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: "#FAF3DD",
     alignItems: "center",
