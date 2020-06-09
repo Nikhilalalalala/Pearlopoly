@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from "react-native";
 
 import firebaseDb from "../../firebaseDb";
@@ -31,13 +32,26 @@ class RegisterScreen extends Component {
 
   handleUpdatePassword = (password) => this.setState({ password });
 
+  alertToLogin = () => {
+    Alert.alert(
+      'Thank you for signing up',
+      'Enjoy learning finance management! :)',
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false }
+    );
+  }
+
   handleSignUp = () => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
+      .then((result) => {
         console.log('signing up new account')
-        this.props.navigation.navigate("Login")})
+        // console.log(result.user) //* get uid from here
+        this.alertToLogin() //* redirects to Overview and user is signed in
+        })
       .catch((error) => this.setState({ errorMessage: error.message }));
   };
 
