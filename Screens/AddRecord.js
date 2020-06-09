@@ -13,24 +13,49 @@ import {
 import { Icon } from "react-native-elements";
 import HeaderBar from "./SharedContainers/HeaderBar";
 import NavigationBar from "./SharedContainers/NavigationBar";
+import * as firebase from "firebase";
+import firebaseDb from "../firebaseDb";
 
 class AddRecord extends Component {
   state = {
     amount: "",
     chosenCategory: "",
+    useruid: null,
   };
+
+  componentDidMount() {
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
+    console.log(useruid)
+  }
 
   handleAmount = (amount) => {
     //TODO check if input is number
     this.setState({ amount: amount });
+    console.log(this.state.amount)
   };
   handleCategory = (category) => {
     this.setState({ chosenCategory: category });
   };
 
+  addRecord = () => {
+    firebaseDb
+      .firestore()
+      .collection("users")
+      .doc(`${this.state.useruid}`)
+      .collection("records")
+      .add({
+        amount: this.state.amount,
+        timestamp: Date.now()
+        // category: this.state.chosenCategory,
+      });
+  };
+
   category(cat, iconName) {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity 
+      // onPress={this.handleCategory(cat)}
+      >
         <Icon name={iconName} />
         <Text style={styles.categoryName}> {cat}</Text>
       </TouchableOpacity>
@@ -39,7 +64,9 @@ class AddRecord extends Component {
 
   category(cat, iconName, type) {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity 
+      // onPress={this.handleCategory(cat)}
+      >
         <Icon name={iconName} type={type} />
         <Text style={styles.categoryName}> {cat}</Text>
       </TouchableOpacity>
@@ -53,11 +80,10 @@ class AddRecord extends Component {
 
         <View style={main.container}>
           <View style={main.line} />
-
           <View style={styles.container}>
             <TextInput
               placeholder="Amount"
-              onEndEditing={this.handleAmount}
+              onChangeText={this.handleAmount}
               style={styles.inputAmount}
               // value={this.state.amount}
               keyboardType="numeric"
@@ -79,7 +105,7 @@ class AddRecord extends Component {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={this.addRecord}>
             <Text
               style={{
                 alignSelf: "center",

@@ -32,26 +32,42 @@ class RegisterScreen extends Component {
 
   handleUpdatePassword = (password) => this.setState({ password });
 
-  alertToLogin = () => {
+  alertNewUser = () => {
     Alert.alert(
-      'Thank you for signing up',
-      'Enjoy learning finance management! :)',
-      [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ],
+      "Thank you for signing up",
+      "Enjoy learning finance management! :)",
+      [{ text: "OK", }],
       { cancelable: false }
     );
-  }
+  };
+
+  handleCreateUserDoc = (uid, name) => {
+    firebaseDb
+      .firestore()
+      .collection("users")
+      .doc(`${uid}`)
+      .set({
+        name: name,
+        email: this.state.email,
+        uid: uid,
+        createdAt: Date.now(),
+      })
+      .then(() => {
+        // console.log("new user document created");
+      });
+  };
 
   handleSignUp = () => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((result) => {
-        console.log('signing up new account')
-        // console.log(result.user) //* get uid from here
-        this.alertToLogin() //* redirects to Overview and user is signed in
-        })
+        console.log("signing up new account");
+        console.log(result.user); //* get uid from here
+        let name = result.user.displayName || this.state.email.split("@")[0];
+        this.handleCreateUserDoc(result.user.uid, name);
+        this.alertNewUser(); //* redirects to Overview and user is signed in
+      })
       .catch((error) => this.setState({ errorMessage: error.message }));
   };
 
@@ -101,12 +117,13 @@ class RegisterScreen extends Component {
           // this.createUser(); }}
           onPress={() => {
             if (password_once === password) {
-              this.handleSignUp()
+              this.handleSignUp();
             } else {
-              this.setState({ errorMessage: 'Passwords entered do not match.' })
+              this.setState({
+                errorMessage: "Passwords entered do not match.",
+              });
             }
           }}
-            
         >
           <Text style={{ color: "#FFFFFF" }}>REGISTER</Text>
         </TouchableOpacity>
