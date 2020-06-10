@@ -16,11 +16,8 @@ import GoalProgressBar from "./components/GoalProgressBar";
 
 import * as firebase from 'firebase';
 
-const user = firebase.auth().currentUser;
-
-// user.providerData.forEach((userInfo) => {
-// console.log('User info for provider: ', userInfo);
-// });
+//* props contains user, get useruid from there,
+//* see LoadingScreen
 
 class OverviewScreen extends Component {
   

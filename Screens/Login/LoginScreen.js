@@ -21,7 +21,7 @@ export default class LoginScreen extends React.Component {
     const { email, password } = this.state;
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email.trim(), password)
       .then(() => {
         // this.props.navigation.navigate("Overview");
         //* it navigates to Overview from App.js not here 

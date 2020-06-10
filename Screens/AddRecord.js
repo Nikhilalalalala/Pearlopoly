@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   LayoutAnimation,
+  Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import HeaderBar from "./SharedContainers/HeaderBar";
@@ -26,49 +27,72 @@ class AddRecord extends Component {
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
-    console.log(useruid)
+    console.log(useruid);
   }
 
   handleAmount = (amount) => {
     //TODO check if input is number
     this.setState({ amount: amount });
-    console.log(this.state.amount)
   };
+  
   handleCategory = (category) => {
     this.setState({ chosenCategory: category });
+    console.log(this.state.chosenCategory);
   };
 
   addRecord = () => {
-    firebaseDb
-      .firestore()
-      .collection("users")
-      .doc(`${this.state.useruid}`)
-      .collection("records")
-      .add({
-        amount: this.state.amount,
-        timestamp: Date.now()
-        // category: this.state.chosenCategory,
-      });
+    if (this.state.amount && this.state.chosenCategory) {
+      firebaseDb
+        .firestore()
+        .collection("users")
+        .doc(`${this.state.useruid}`)
+        .collection("records")
+        .add({
+          amount: this.state.amount,
+          Timestamp: Date.now(),
+          category: this.state.chosenCategory,
+        }).then(() => {
+          this.setState({amount: '', chosenCategory: ''})
+          this.props.navigation.navigate('Record')
+        })
+    } else if (!this.state.amount) {
+      Alert.alert( 'Invalid Amount',
+      'Please enter a valid amount',
+      [{ text: "OK", }],
+      { cancelable: false })
+    } else if (!this.state.chosenCategory) {
+        Alert.alert( 'No Category Chosen',
+        'Please choose a suitable category',
+        [{ text: "OK", }],
+        { cancelable: false })
+    }
   };
 
-  category(cat, iconName) {
+  category(cat, iconName, type, typeOfSpending) {
     return (
-      <TouchableOpacity 
-      // onPress={this.handleCategory(cat)}
-      >
-        <Icon name={iconName} />
-        <Text style={styles.categoryName}> {cat}</Text>
-      </TouchableOpacity>
-    );
-  }
-
-  category(cat, iconName, type) {
-    return (
-      <TouchableOpacity 
-      // onPress={this.handleCategory(cat)}
-      >
-        <Icon name={iconName} type={type} />
-        <Text style={styles.categoryName}> {cat}</Text>
+      <TouchableOpacity onPress={() => this.setState({ chosenCategory: cat })}>
+        <Icon
+          name={iconName}
+          type={type}
+          color={
+            this.state.chosenCategory === cat
+              ? "#BB7E5D"
+              : typeOfSpending === "expense"
+              ? "#ed6a5a"
+              : "#0081af"
+          }
+        />
+        <Text
+          style={
+            this.state.chosenCategory === cat
+              ? styles.categoryPressed
+              : typeOfSpending === "expense"
+              ? styles.categoryExpense
+              : styles.categoryIncome
+          }
+        >
+          {cat}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -90,18 +114,24 @@ class AddRecord extends Component {
               maxLength={7}
             ></TextInput>
             <View style={styles.categoryRowOne}>
-              {this.category("Education", "school")}
-              {this.category("Shopping", "shopping-bag", "font-awesome")}
-              {this.category("Food", "restaurant")}
+              {this.category("Education", "school", "", "expense")}
+              {this.category(
+                "Shopping",
+                "shopping-bag",
+                "font-awesome",
+                "expense"
+              )}
+              {this.category("Food", "restaurant", "", "expense")}
             </View>
             <View style={styles.categoryRowTwo}>
-              {this.category("Transport", "train")}
+              {this.category("Transport", "train", "", "expense")}
               {this.category(
                 "Other Spending",
                 "question-circle-o",
-                "font-awesome"
+                "font-awesome",
+                "expense"
               )}
-              {this.category("Income", "usd", "font-awesome")}
+              {this.category("Income", "usd", "font-awesome", "", "income")}
             </View>
           </View>
 
@@ -188,6 +218,21 @@ const styles = StyleSheet.create({
     width: 325,
     marginTop: 50,
     marginBottom: 20,
+  },
+  categoryExpense: {
+    color: "#ed6a5a",
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
+  },
+  categoryIncome: {
+    color: "#0081af",
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
+  },
+  categoryPressed: {
+    color: "#BB7E5D",
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
   },
   button: {
     width: 150,
