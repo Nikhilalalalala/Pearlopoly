@@ -9,8 +9,6 @@ import {
   Dimensions,
 } from "react-native";
 
-
-import NavigationBar from "../SharedContainers/NavigationBar";
 import ExpenditurePie from "./components/ExpenditurePie";
 import GoalProgressBar from "./components/GoalProgressBar";
 
@@ -37,7 +35,6 @@ class OverviewScreen extends Component {
           <View style={main.line} />
         </View>
 
-        <NavigationBar />
       </SafeAreaView>
     );
   }

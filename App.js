@@ -25,8 +25,7 @@ export default function App() {
     'Lato-Thin': require('./assets/fonts/Lato/Lato-Thin.ttf'),
 
   });
-  //Header bar title is "NavBarScreens" for all tab navigator screens
-  //Either fix this, or revert to the old navigation bar
+
   const Stack = createStackNavigator();
   if(fontsLoaded) {
     return (
@@ -35,18 +34,19 @@ export default function App() {
           <Stack.Screen name='Login' component={LoginScreen} options={{headerShown: false}}/>
           <Stack.Screen name='Register' component={RegisterScreen} options={{headerShown: false}}/>
           <Stack.Screen name='NavBarScreens' component={NavBarScreens}
-            options = {{
+            options = {({ route }) => ({
               headerStyle: {
                 backgroundColor: '#FFBE86',
                 height: headerHeight,
                 elevation: 0,
                 },
+                headerTitle: getHeaderTitle(route),
                 headerTitleStyle: {
                   fontFamily: 'Lato-Regular'
                 },
                 headerTitleAlign: 'center',
                 headerLeft: null,
-            }}
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -60,8 +60,7 @@ export default function App() {
 
 };
 
-//Navigation bar text is TINY
-//Logos are needed
+
 const NavBar = createBottomTabNavigator();
 
 function NavBarScreens () {
@@ -125,3 +124,22 @@ function NavBarScreens () {
 }
 
 const headerHeight = StatusBar.currentHeight + 54;
+
+function getHeaderTitle(route) {
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : route.params?.screen || 'Overview'
+
+  switch (routeName) {
+    case 'Overview':
+      return 'Overview'
+    case 'Record':
+      return 'Record'
+    case 'Add Record':
+      return 'New Record'
+    case 'Goals':
+      return 'Goals'
+    case 'Settings':
+      return 'Settings'
+  }
+}
