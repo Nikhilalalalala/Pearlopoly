@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar, StyleSheet } from 'react-native';
-import { useFonts } from '@use-expo/font';
 import { Icon } from "react-native-elements";
 import { useFonts } from "@use-expo/font";
-// import * as Font from 'expo-font';
 import { AppLoading } from "expo";
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -34,8 +32,8 @@ export default function App() {
   const Stack = createStackNavigator();
   if(fontsLoaded) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator  initialRouteName='Loading' >
+      <NavigationContainer >
+        <Stack.Navigator  initialRouteName='Loading'  >
           <Stack.Screen name='Login' component={LoginScreen} options={{headerShown: false}}/>
           <Stack.Screen name='Register' component={RegisterScreen} options={{headerShown: false}}/>
           <Stack.Screen name='Loading' component={LoadingScreen} options={{headerShown: false}}/>

@@ -12,8 +12,6 @@ import {
   Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import HeaderBar from "./SharedContainers/HeaderBar";
-import NavigationBar from "./SharedContainers/NavigationBar";
 import * as firebase from "firebase";
 import firebaseDb from "../firebaseDb";
 
@@ -25,9 +23,10 @@ class AddRecord extends Component {
   };
 
   componentDidMount() {
+  // console.log(firebase.auth().currentUser);
+
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
-    console.log(useruid);
   }
 
   handleAmount = (amount) => {
@@ -132,15 +131,6 @@ class AddRecord extends Component {
               )}
               {this.category("Income", "usd", "font-awesome", "", "income")}
             </View>
-          </View>
-          <View style={styles.categoryRowTwo}>
-            {this.category("Transport", "train")}
-            {this.category(
-              "Other Spending",
-              "question-circle-o",
-              "font-awesome"
-            )}
-            {this.category("Income", "usd", "font-awesome")}
           </View>
 
           <TouchableOpacity style={styles.button} onPress={this.addRecord}>

@@ -56,8 +56,13 @@ export default class LoginScreen extends React.Component {
           secureTextEntry={true}
         />
 
-        <TouchableOpacity style={login.button} onPress={this.handleLogin}
-        //  onPress={() => navigation.navigate("NavBarScreens")
+        <TouchableOpacity style={login.button} onPress={() => {
+            this.handleLogin;
+            this.props.navigation.navigate("NavBarScreens")
+        }
+        
+        }
+        //  onPress={)
          >
           <Text style={{ color: "#FFFFFF" }}>LOGIN</Text>
         </TouchableOpacity>
@@ -79,11 +84,11 @@ export default class LoginScreen extends React.Component {
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
+    // marginTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: "#FAF3DD",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
 });
 

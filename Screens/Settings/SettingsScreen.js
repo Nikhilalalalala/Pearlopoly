@@ -9,8 +9,8 @@ import {
   Button,
 } from "react-native";
 
-import HeaderBar from "../SharedContainers/HeaderBar";
-import NavigationBar from "../SharedContainers/NavigationBar";
+// import HeaderBar from "../SharedContainers/HeaderBar";
+// import NavigationBar from "../SharedContainers/NavigationBar";
 import * as firebase from 'firebase';
 
 class SettingsScreen extends Component {
@@ -31,18 +31,13 @@ class SettingsScreen extends Component {
   render() {
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen="Placeholder" />
-
-        <View style={main.container}>
-          <View style={main.line} />
+            <View style={main.line} />
 
           <Text style={{ fontFamily: "Lato-Bold" }}>Work in Progress!</Text>
           <Button title="Sign Out" onPress={this.logoutUser}></Button>
 
           <View style={main.line} />
-        </View>
 
-        <NavigationBar />
       </SafeAreaView>
     );
   }
@@ -53,22 +48,14 @@ const mainHeight =
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
-    backgroundColor: "#FAF3DD",
+    backgroundColor: "#FFBE86",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
   },
 });
 
 const main = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: mainHeight,
-    backgroundColor: "#FFBE86",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   line: {
     width: "100%",
     height: 3,
