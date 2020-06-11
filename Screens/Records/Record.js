@@ -41,18 +41,17 @@ const Record = (props) => {
   return (
     <View style={screen.container}>
 
-      <View style={main.container}>
-        <View style={main.line} />
+      <View style={main.line} />
 
-        <ScrollView
-          alwaysBounceVertical={true}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={[styles.container, props.style]}>{records}</View>
-        </ScrollView>
+      <ScrollView
+        alwaysBounceVertical={true}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={[styles.container, props.style]}>{records}</View>
+      </ScrollView>
 
-        <View style={main.line} />
-      </View>
+      <View style={main.line} />
+      
     </View>
   );
 };
@@ -65,7 +64,7 @@ const mainHeight =
 const screen = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAF3DD",
+    backgroundColor: "#FFBE86",
     alignItems: "center",
     justifyContent: "flex-start",
   },
@@ -80,11 +79,6 @@ const styles = StyleSheet.create({
 });
 
 const main = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: mainHeight,
-    backgroundColor: "#FFBE86",
-  },
   line: {
     width: "100%",
     height: 3,

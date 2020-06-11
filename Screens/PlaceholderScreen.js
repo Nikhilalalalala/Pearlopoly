@@ -14,13 +14,11 @@ class PlaceholderScreen extends Component {
     return (
       <SafeAreaView style={screen.container}>
 
-        <View style={main.container}>
-          <View style={main.line} />
+        <View style={main.line} />
 
-          <Text style={{ fontFamily: "Lato-Bold" }}>Work in Progress!</Text>
+        <Text style={{ fontFamily: "Lato-Bold" }}>Work in Progress!</Text>
 
-          <View style={main.line} />
-        </View>
+        <View style={main.line} />
 
       </SafeAreaView>
     );
@@ -33,20 +31,13 @@ const mainHeight =
 const screen = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAF3DD",
+    backgroundColor: "#FFBE86",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
   },
 });
 
 const main = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: mainHeight,
-    backgroundColor: "#FFBE86",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   line: {
     width: "100%",
     height: 3,
