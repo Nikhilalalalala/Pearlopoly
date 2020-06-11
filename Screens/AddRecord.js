@@ -9,37 +9,90 @@ import {
   TextInput,
   TouchableOpacity,
   LayoutAnimation,
+  Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import HeaderBar from "./SharedContainers/HeaderBar";
+import NavigationBar from "./SharedContainers/NavigationBar";
+import * as firebase from "firebase";
+import firebaseDb from "../firebaseDb";
 
 class AddRecord extends Component {
   state = {
     amount: "",
     chosenCategory: "",
+    useruid: null,
   };
+
+  componentDidMount() {
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
+    console.log(useruid);
+  }
 
   handleAmount = (amount) => {
     //TODO check if input is number
     this.setState({ amount: amount });
   };
+  
   handleCategory = (category) => {
     this.setState({ chosenCategory: category });
+    console.log(this.state.chosenCategory);
   };
 
-  category(cat, iconName) {
-    return (
-      <TouchableOpacity>
-        <Icon name={iconName} />
-        <Text style={styles.categoryName}> {cat}</Text>
-      </TouchableOpacity>
-    );
-  }
+  addRecord = () => {
+    if (this.state.amount && this.state.chosenCategory) {
+      firebaseDb
+        .firestore()
+        .collection("users")
+        .doc(`${this.state.useruid}`)
+        .collection("records")
+        .add({
+          amount: this.state.amount,
+          Timestamp: Date.now(),
+          category: this.state.chosenCategory,
+        }).then(() => {
+          this.setState({amount: '', chosenCategory: ''})
+          this.props.navigation.navigate('Record')
+        })
+    } else if (!this.state.amount) {
+      Alert.alert( 'Invalid Amount',
+      'Please enter a valid amount',
+      [{ text: "OK", }],
+      { cancelable: false })
+    } else if (!this.state.chosenCategory) {
+        Alert.alert( 'No Category Chosen',
+        'Please choose a suitable category',
+        [{ text: "OK", }],
+        { cancelable: false })
+    }
+  };
 
-  category(cat, iconName, type) {
+  category(cat, iconName, type, typeOfSpending) {
     return (
-      <TouchableOpacity>
-        <Icon name={iconName} type={type} />
-        <Text style={styles.categoryName}> {cat}</Text>
+      <TouchableOpacity onPress={() => this.setState({ chosenCategory: cat })}>
+        <Icon
+          name={iconName}
+          type={type}
+          color={
+            this.state.chosenCategory === cat
+              ? "#BB7E5D"
+              : typeOfSpending === "expense"
+              ? "#ed6a5a"
+              : "#0081af"
+          }
+        />
+        <Text
+          style={
+            this.state.chosenCategory === cat
+              ? styles.categoryPressed
+              : typeOfSpending === "expense"
+              ? styles.categoryExpense
+              : styles.categoryIncome
+          }
+        >
+          {cat}
+        </Text>
       </TouchableOpacity>
     );
   }
@@ -48,21 +101,37 @@ class AddRecord extends Component {
     return (
       <SafeAreaView style={screen.container}>
 
-        <View style={main.line} />
-
-        <View style={styles.container}>
-          <TextInput
-            placeholder="Amount"
-            onEndEditing={this.handleAmount}
-            style={styles.inputAmount}
-            // value={this.state.amount}
-            keyboardType="numeric"
-            maxLength={7}
-          ></TextInput>
-          <View style={styles.categoryRowOne}>
-            {this.category("Education", "school")}
-            {this.category("Shopping", "shopping-bag", "font-awesome")}
-            {this.category("Food", "restaurant")}
+    
+          <View style={main.line} />
+          <View style={styles.container}>
+            <TextInput
+              placeholder="Amount"
+              onChangeText={this.handleAmount}
+              style={styles.inputAmount}
+              // value={this.state.amount}
+              keyboardType="numeric"
+              maxLength={7}
+            ></TextInput>
+            <View style={styles.categoryRowOne}>
+              {this.category("Education", "school", "", "expense")}
+              {this.category(
+                "Shopping",
+                "shopping-bag",
+                "font-awesome",
+                "expense"
+              )}
+              {this.category("Food", "restaurant", "", "expense")}
+            </View>
+            <View style={styles.categoryRowTwo}>
+              {this.category("Transport", "train", "", "expense")}
+              {this.category(
+                "Other Spending",
+                "question-circle-o",
+                "font-awesome",
+                "expense"
+              )}
+              {this.category("Income", "usd", "font-awesome", "", "income")}
+            </View>
           </View>
           <View style={styles.categoryRowTwo}>
             {this.category("Transport", "train")}
@@ -73,19 +142,18 @@ class AddRecord extends Component {
             )}
             {this.category("Income", "usd", "font-awesome")}
           </View>
-        </View>
 
-        <TouchableOpacity style={styles.button}>
-          <Text
-            style={{
-              alignSelf: "center",
-              fontSize: 18,
-              fontFamily: "Lato-Bold",
-            }}
-          >
-            Add Record
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={this.addRecord}>
+            <Text
+              style={{
+                alignSelf: "center",
+                fontSize: 18,
+                fontFamily: "Lato-Bold",
+              }}
+            >
+              Add Record
+            </Text>
+          </TouchableOpacity>
 
         <View style={main.line} />
 
@@ -148,6 +216,21 @@ const styles = StyleSheet.create({
     width: 325,
     marginTop: 50,
     marginBottom: 20,
+  },
+  categoryExpense: {
+    color: "#ed6a5a",
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
+  },
+  categoryIncome: {
+    color: "#0081af",
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
+  },
+  categoryPressed: {
+    color: "#BB7E5D",
+    fontFamily: "Lato-Bold",
+    paddingTop: 7,
   },
   button: {
     width: 150,

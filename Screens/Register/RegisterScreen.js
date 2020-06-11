@@ -8,43 +8,73 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from "react-native";
 
 import firebaseDb from "../../firebaseDb";
-import firestore from 'firebase/firestore';
-
+import firestore from "firebase/firestore";
+import * as firebase from "firebase";
 
 // function RegisterScreen({ navigation }) {
 
 class RegisterScreen extends Component {
-
   state = {
-    name: "",
+    email: "",
     password_once: "",
     password: "",
-  }
+    errorMessage: null,
+  };
 
-  handleUpdateName = name => this.setState({name})
+  handleUpdateEmail = (email) => {
+    this.setState({ email })
+  };
 
-  handleUpdatePasswordOnce = email => this.setState({password_once})
+  handleUpdatePasswordOnce = (password_once) =>
+    this.setState({ password_once });
 
-  handleUpdatePassword = password => this.setState({password})
+  handleUpdatePassword = (password) => this.setState({ password });
 
-  handleCreateUser = () => {
-    firebaseDb.firestore().collection('users').add({
-      name: this.state.name,
-      password_once: this.state.email,
-      password: this.state.password
-    }).then((res) => this.setState({
-      name: '',
-      password_once: '',
-      password: '',
-    })).catch(err => console.error(err))
-  }
+  alertNewUser = () => {
+    Alert.alert(
+      "Thank you for signing up",
+      "Enjoy learning finance management! :)",
+      [{ text: "OK", }],
+      { cancelable: false }
+    );
+  };
+
+  handleCreateUserDoc = (uid, name) => {
+    firebaseDb
+      .firestore()
+      .collection("users")
+      .doc(`${uid}`)
+      .set({
+        name: name,
+        email: this.state.email,
+        uid: uid,
+        createdAt: Date.now(),
+      })
+      .then(() => {
+        // console.log("new user document created");
+      });
+  };
+
+  handleSignUp = () => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email.trim(), this.state.password)
+      .then((result) => {
+        console.log("signing up new account");
+        console.log(result.user); //* get uid from here
+        let name = result.user.displayName || this.state.email.split("@")[0];
+        this.handleCreateUserDoc(result.user.uid, name);
+        this.alertNewUser(); //* redirects to Overview and user is signed in
+      })
+      .catch((error) => this.setState({ errorMessage: error.message }));
+  };
 
   render() {
-
-    const { name, email, password } = this.state;
+    const { email, password_once, password, errorMessage } = this.state;
 
     return (
       <KeyboardAvoidingView style={screen.container}>
@@ -55,11 +85,11 @@ class RegisterScreen extends Component {
 
         <TextInput
           style={register.textField}
-          placeholder="USERNAME"
+          placeholder="EMAIL"
           placeholderTextColor="#BB7E5D"
           returnKeyType="next"
-          onChangeText={this.handleUpdateName}
-          value={name}
+          onChangeText={this.handleUpdateEmail}
+          value={email}
         />
 
         <TextInput
@@ -69,8 +99,7 @@ class RegisterScreen extends Component {
           returnKeyType="done"
           secureTextEntry={true}
           onChangeText={this.handleUpdatePasswordOnce}
-          value={email}
-
+          value={password_once}
         />
 
         <TextInput
@@ -86,21 +115,29 @@ class RegisterScreen extends Component {
         <TouchableOpacity
           style={register.button}
           // onPress= {() => {
-            // this.navigation.navigate("Overview"); 
-            // this.createUser(); }}
-            onPress={ () => {
-              if (name.length && password_once.length && password.length ) {
-                if (password_once === password) {
-                  this.handleCreateUser()}
-                }
-            }}   
+          // this.navigation.navigate("Overview");
+          // this.createUser(); }}
+          onPress={() => {
+            if (password_once === password) {
+              this.handleSignUp();
+            } else {
+              this.setState({
+                errorMessage: "Passwords entered do not match.",
+              });
+            }
+          }}
         >
           <Text style={{ color: "#FFFFFF" }}>REGISTER</Text>
         </TouchableOpacity>
-
+        {this.state.errorMessage && (
+          <Text style={{ color: "red", paddingVertical: 10 }}>
+            {this.state.errorMessage}
+            Please Try Again
+          </Text>
+        )}
         <Text
           style={register.login}
-          // onPress={() => navigation.navigate("Login")}
+          onPress={() => this.props.navigation.navigate("Login")}
         >
           ALREADY HAVE AN ACCOUNT?
         </Text>
@@ -122,7 +159,6 @@ const screen = StyleSheet.create({
 const register = StyleSheet.create({
   title: {
     marginBottom: 40,
-
   },
   textField: {
     height: 45,
@@ -132,7 +168,6 @@ const register = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     fontFamily: "Lato-Regular",
-
   },
   button: {
     height: 30,
@@ -142,13 +177,11 @@ const register = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "Lato-Regular",
-
   },
   login: {
     marginTop: 100,
     textDecorationLine: "underline",
     fontFamily: "Lato-Regular",
-
   },
 });
 

@@ -41,7 +41,7 @@ function NavigationBar () {
         <Icon name="crosshairs" type="font-awesome" color="#FAF3DD" />
         <Text style={navBar.text}>Goals</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Placeholder')}>
+      <TouchableOpacity style={navBar.buttonPlaceholder} onPress={() => navigation.navigate('Settings')}>
         <Icon name="settings" color="#FAF3DD" />
         <Text style={navBar.text}>Settings</Text>
       </TouchableOpacity>

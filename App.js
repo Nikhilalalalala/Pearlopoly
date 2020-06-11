@@ -2,37 +2,44 @@ import React, { useState } from "react";
 import { StatusBar, StyleSheet } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { Icon } from "react-native-elements";
+import { useFonts } from "@use-expo/font";
 // import * as Font from 'expo-font';
-import { AppLoading } from 'expo';
+import { AppLoading } from "expo";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import LoginScreen from './Screens/Login/LoginScreen';
-import RegisterScreen from './Screens/Register/RegisterScreen';
+import * as firebase from "firebase";
+import LoginScreen from "./Screens/Login/LoginScreen";
+import RegisterScreen from "./Screens/Register/RegisterScreen";
 import OverviewScreen from "./Screens/Overview/OverviewScreen";
 import AddRecord from "./Screens/AddRecord";
 import Record from "./Screens/Records/Record";
-import PlaceholderScreen from './Screens/PlaceholderScreen';
+import PlaceholderScreen from "./Screens/PlaceholderScreen";
+import LoadingScreen from "./Screens/Loading/LoadingScreen";
+import SettingsScreen from './Screens/Settings/SettingsScreen'
+import firebaseConfig from "./firebaseConfig";
+
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 export default function App() {
-  // const [fontsLoaded, setFontsLoaded] = useState(false);
+  
   let [fontsLoaded] = useFonts({
-    'Lato-Light': require('./assets/fonts/Lato/Lato-Light.ttf'),
-    'Lato-Regular': require('./assets/fonts/Lato/Lato-Regular.ttf'),
-    'Lato-Bold': require('./assets/fonts/Lato/Lato-Bold.ttf'),
-    'Lato-Thin': require('./assets/fonts/Lato/Lato-Thin.ttf'),
-
+    "Lato-Light": require("./assets/fonts/Lato/Lato-Light.ttf"),
+    "Lato-Regular": require("./assets/fonts/Lato/Lato-Regular.ttf"),
+    "Lato-Bold": require("./assets/fonts/Lato/Lato-Bold.ttf"),
+    "Lato-Thin": require("./assets/fonts/Lato/Lato-Thin.ttf"),
   });
 
   const Stack = createStackNavigator();
   if(fontsLoaded) {
     return (
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator  initialRouteName='Loading' >
           <Stack.Screen name='Login' component={LoginScreen} options={{headerShown: false}}/>
           <Stack.Screen name='Register' component={RegisterScreen} options={{headerShown: false}}/>
+          <Stack.Screen name='Loading' component={LoadingScreen} options={{headerShown: false}}/>
+
           <Stack.Screen name='NavBarScreens' component={NavBarScreens}
             options = {({ route }) => ({
               headerStyle: {
@@ -50,12 +57,9 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-      
     );
   } else {
-    return (
-      <AppLoading  />
-    )
+    return <AppLoading />;
   }
 
 };
@@ -112,7 +116,7 @@ function NavBarScreens () {
       />
       <NavBar.Screen 
         name='Settings' 
-        component={PlaceholderScreen} 
+        component={SettingsScreen} 
         options={{
           tabBarIcon: ({color}) => (
             <Icon name="settings" color={color} />

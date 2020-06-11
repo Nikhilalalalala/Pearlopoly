@@ -13,7 +13,14 @@ import {
 import ExpenditurePie from "./components/ExpenditurePie";
 import GoalProgressBar from "./components/GoalProgressBar";
 
+import * as firebase from 'firebase';
+
+//* props contains user, get useruid from there,
+//* see LoadingScreen
+
 class OverviewScreen extends Component {
+  
+
   render() {
     return (
       <SafeAreaView style={screen.container}>

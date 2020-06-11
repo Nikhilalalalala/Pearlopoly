@@ -1,37 +1,35 @@
-import React, { Component } from "react";
-import { Text, View } from "react-native";
-import firebase from "firebase";
+import React, { Component, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ActivityIndicator,
+} from "react-native";
+import * as firebase from "firebase";
 
-class LoadingScreen extends Component {
 
-    // componentDidMount() {
-    //     this.checkifLoggedIn();
-    // }
+export default class LoadingScreen extends Component {
 
-    // checkifLoggedIn = () => {
-    //     firebase.auth().onAuthStateChanged( (user) => {
-    //         if (user) {
-    //           console.log("hello")
-    //             this.props.navigation.navigate('OverviewScreen')
-    //         } else {
-    //             this.props.navigation.navigate('LoginScreen')
-    //         }
-    //     })
-    // }
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            this.props.navigation.navigate('Overview', {
+                user: user
+            });
+
+        } else {
+            console.log ('no user going to login')
+            this.props.navigation.navigate("Login");
+        }
+    });
+  }
 
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text>Wait ah</Text>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" />
       </View>
     );
   }
 }
-
-export default LoadingScreen;
