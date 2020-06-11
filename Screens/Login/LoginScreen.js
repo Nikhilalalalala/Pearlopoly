@@ -65,7 +65,7 @@ function LoginScreen({ navigation }) {
   
         <TouchableOpacity
           style={login.button}
-          onPress={() => navigation.navigate("Overview")}
+          onPress={() => navigation.navigate("NavBarScreens")}
         >
           <Text style={{ color: "#FFFFFF" }}>LOGIN</Text>
         </TouchableOpacity>

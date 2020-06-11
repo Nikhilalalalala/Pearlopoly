@@ -7,10 +7,9 @@ import {
   StatusBar,
   TouchableOpacity,
   Dimensions,
+  useWindowDimensions,
 } from "react-native";
 
-import HeaderBar from "../SharedContainers/HeaderBar";
-import NavigationBar from "../SharedContainers/NavigationBar";
 import ExpenditurePie from "./components/ExpenditurePie";
 import GoalProgressBar from "./components/GoalProgressBar";
 
@@ -18,53 +17,41 @@ class OverviewScreen extends Component {
   render() {
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen="Overview" />
 
-        <View style={main.container}>
-          <View style={main.line} />
+        <View style={main.line} />
 
-          <View style={main.pieBox}>
-            <ExpenditurePie />
-          </View>
-
-          <View style={main.goalBox}>
-            <Text style={{ fontFamily: "Lato-Regular" }}>Goal Progress</Text>
-            <GoalProgressBar />
-            <Text style={{ textAlign: "center", fontFamily: "Lato-Regular" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </Text>
-          </View>
-
-          <View style={main.line} />
+        <View style={main.pieBox}>
+          <ExpenditurePie />
         </View>
 
-        <NavigationBar />
+        <View style={main.goalBox}>
+          <Text style={{ fontFamily: "Lato-Regular" }}>Goal Progress</Text>
+          <GoalProgressBar />
+          <Text style={{ textAlign: "center", fontFamily: "Lato-Regular" }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </Text>
+        </View>
+
+        <View style={main.line} />
+        
       </SafeAreaView>
     );
   }
 }
 
-const mainHeight =
-  Dimensions.get("window").height - 54 - 54 - StatusBar.currentHeight;
+const mainHeight = Dimensions.get('window').height - 54 - 54 - StatusBar.currentHeight;
+
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
-    backgroundColor: "#FAF3DD",
+    backgroundColor: "#FFBE86",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
   },
 });
 
 const main = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: mainHeight,
-    backgroundColor: "#FFBE86",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   line: {
     width: "100%",
     height: 3,

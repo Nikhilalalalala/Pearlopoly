@@ -11,8 +11,6 @@ import {
   LayoutAnimation,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import HeaderBar from "./SharedContainers/HeaderBar";
-import NavigationBar from "./SharedContainers/NavigationBar";
 
 class AddRecord extends Component {
   state = {
@@ -49,52 +47,48 @@ class AddRecord extends Component {
   render() {
     return (
       <SafeAreaView style={screen.container}>
-        <HeaderBar currentScreen="New Record" />
 
-        <View style={main.container}>
-          <View style={main.line} />
+        <View style={main.line} />
 
-          <View style={styles.container}>
-            <TextInput
-              placeholder="Amount"
-              onEndEditing={this.handleAmount}
-              style={styles.inputAmount}
-              // value={this.state.amount}
-              keyboardType="numeric"
-              maxLength={7}
-            ></TextInput>
-            <View style={styles.categoryRowOne}>
-              {this.category("Education", "school")}
-              {this.category("Shopping", "shopping-bag", "font-awesome")}
-              {this.category("Food", "restaurant")}
-            </View>
-            <View style={styles.categoryRowTwo}>
-              {this.category("Transport", "train")}
-              {this.category(
-                "Other Spending",
-                "question-circle-o",
-                "font-awesome"
-              )}
-              {this.category("Income", "usd", "font-awesome")}
-            </View>
+        <View style={styles.container}>
+          <TextInput
+            placeholder="Amount"
+            onEndEditing={this.handleAmount}
+            style={styles.inputAmount}
+            // value={this.state.amount}
+            keyboardType="numeric"
+            maxLength={7}
+          ></TextInput>
+          <View style={styles.categoryRowOne}>
+            {this.category("Education", "school")}
+            {this.category("Shopping", "shopping-bag", "font-awesome")}
+            {this.category("Food", "restaurant")}
           </View>
-
-          <TouchableOpacity style={styles.button}>
-            <Text
-              style={{
-                alignSelf: "center",
-                fontSize: 18,
-                fontFamily: "Lato-Bold",
-              }}
-            >
-              Add Record
-            </Text>
-          </TouchableOpacity>
-
-          <View style={main.line} />
+          <View style={styles.categoryRowTwo}>
+            {this.category("Transport", "train")}
+            {this.category(
+              "Other Spending",
+              "question-circle-o",
+              "font-awesome"
+            )}
+            {this.category("Income", "usd", "font-awesome")}
+          </View>
         </View>
 
-        <NavigationBar />
+        <TouchableOpacity style={styles.button}>
+          <Text
+            style={{
+              alignSelf: "center",
+              fontSize: 18,
+              fontFamily: "Lato-Bold",
+            }}
+          >
+            Add Record
+          </Text>
+        </TouchableOpacity>
+
+        <View style={main.line} />
+
       </SafeAreaView>
     );
   }
@@ -105,22 +99,14 @@ const mainHeight =
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
-    backgroundColor: "#FFBE86",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-});
-
-const main = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: mainHeight,
     backgroundColor: "#FFBE86",
     alignItems: "center",
     justifyContent: "space-between",
   },
+});
+
+const main = StyleSheet.create({
   line: {
     width: "100%",
     height: 3,
