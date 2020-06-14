@@ -26,7 +26,7 @@ class RegisterScreen extends Component {
   };
 
   handleUpdateEmail = (email) => {
-    this.setState({ email })
+    this.setState({ email });
   };
 
   handleUpdatePasswordOnce = (password_once) =>
@@ -38,7 +38,7 @@ class RegisterScreen extends Component {
     Alert.alert(
       "Thank you for signing up",
       "Enjoy learning finance management! :)",
-      [{ text: "OK", }],
+      [{ text: "OK" }],
       { cancelable: false }
     );
   };
@@ -62,10 +62,11 @@ class RegisterScreen extends Component {
   handleSignUp = () => {
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email.trim(), this.state.password)
+      .createUserWithEmailAndPassword(
+        this.state.email.trim(),
+        this.state.password
+      )
       .then((result) => {
-        console.log("signing up new account");
-        console.log(result.user); //* get uid from here
         let name = result.user.displayName || this.state.email.split("@")[0];
         this.handleCreateUserDoc(result.user.uid, name);
         this.alertNewUser(); //* redirects to Overview and user is signed in

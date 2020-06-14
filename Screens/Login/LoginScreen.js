@@ -13,7 +13,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as firebase from "firebase";
 
-
 export default class LoginScreen extends React.Component {
   state = { email: "", password: "", errorMessage: null };
 
@@ -22,18 +21,16 @@ export default class LoginScreen extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email.trim(), password)
-      .then(() => {
+      .then((user) => {
         // this.props.navigation.navigate("Overview");
-        //* it navigates to Overview from App.js not here 
+        //* it navigates to Overview from App.js not here
       })
       .catch((error) => this.setState({ errorMessage: error.message }));
   };
   render() {
     const { email, password, errorMessage } = this.state;
     return (
-      <KeyboardAvoidingView 
-      style={screen.container}
-      >
+      <KeyboardAvoidingView style={screen.container}>
         <Image
           style={login.title}
           source={require("../../assets/titlewithicon.png")}
@@ -56,19 +53,23 @@ export default class LoginScreen extends React.Component {
           secureTextEntry={true}
         />
 
-        <TouchableOpacity style={login.button} onPress={() => {
-            this.handleLogin;
-            this.props.navigation.navigate("NavBarScreens")
-        }
-        
-        }
-        //  onPress={)
-         >
+        <TouchableOpacity
+          style={login.button}
+          onPress={
+            () => {
+              this.handleLogin();
+            }
+            // this.props.navigation.navigate("NavBarScreens")
+          }
+          //  onPress={)
+        >
           <Text style={{ color: "#FFFFFF" }}>LOGIN</Text>
         </TouchableOpacity>
 
         {this.state.errorMessage && (
-          <Text style={{ color: "red", paddingVertical: 10, }}>{this.state.errorMessage}</Text>
+          <Text style={{ color: "red", paddingVertical: 10 }}>
+            {this.state.errorMessage}
+          </Text>
         )}
 
         <Text
@@ -91,7 +92,6 @@ const screen = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
 
 const login = StyleSheet.create({
   title: {
