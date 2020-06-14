@@ -23,8 +23,6 @@ class AddRecord extends Component {
   };
 
   componentDidMount() {
-  // console.log(firebase.auth().currentUser);
-
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
   }
@@ -36,7 +34,6 @@ class AddRecord extends Component {
   
   handleCategory = (category) => {
     this.setState({ chosenCategory: category });
-    console.log(this.state.chosenCategory);
   };
 
   addRecord = () => {

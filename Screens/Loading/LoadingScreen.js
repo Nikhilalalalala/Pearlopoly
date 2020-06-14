@@ -8,22 +8,14 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 
-
 export default class LoadingScreen extends Component {
-
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.props.navigation.navigate('NavBarScreens', { screen: 
-            'Overview',
-            user: user  }
-          
-           );
-
-        } else {
-            console.log ('no user going to login')
-            this.props.navigation.navigate("Login");
-        }
+      if (user) {
+        this.props.navigation.navigate("NavBarScreens", { screen: "Overview" });
+      } else {
+        this.props.navigation.navigate("Login");
+      }
     });
   }
 
