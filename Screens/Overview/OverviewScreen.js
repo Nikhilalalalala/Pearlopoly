@@ -19,10 +19,6 @@ import * as firebase from 'firebase';
 //* see LoadingScreen
 
 class OverviewScreen extends Component {
-  
-  componentDidMount() {
-    console.log(this.props.user)
-  } 
 
   render() {
     return (
