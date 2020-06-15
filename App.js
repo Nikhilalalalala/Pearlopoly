@@ -12,6 +12,7 @@ import LoginScreen from "./Screens/Login/LoginScreen";
 import RegisterScreen from "./Screens/Register/RegisterScreen";
 import OverviewScreen from "./Screens/Overview/OverviewScreen";
 import AddRecord from "./Screens/AddRecord";
+import AllRecordsScreen from "./Screens/Records/AllRecords"
 import Record from "./Screens/Records/Record";
 import PlaceholderScreen from "./Screens/PlaceholderScreen";
 import LoadingScreen from "./Screens/Loading/LoadingScreen";
@@ -87,7 +88,7 @@ function NavBarScreens () {
       />
       <NavBar.Screen 
         name='Record' 
-        component={Record} 
+        component={AllRecordsScreen} 
         options={{
           tabBarIcon: ({color}) => (
             <Icon name="bar-chart" type="font-awesome" color={color} />

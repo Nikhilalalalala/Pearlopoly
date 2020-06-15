@@ -72,8 +72,8 @@ const screen = StyleSheet.create({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
+    width:'100%',
+    alignItems: 'stretch',
     marginTop: 5,
   },
 });
