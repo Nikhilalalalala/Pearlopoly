@@ -19,6 +19,7 @@ class SettingsScreen extends Component {
     const { currentUser } = firebase.auth();
     this.setState({ currentUser });
   }
+  
   logoutUser = () => {
     firebase
       .auth()

@@ -19,7 +19,9 @@ import * as firebase from 'firebase';
 //* see LoadingScreen
 
 class OverviewScreen extends Component {
-
+componentDidUpdate() {
+  //calculate for all the categories
+}
   render() {
     return (
       <SafeAreaView style={screen.container}>

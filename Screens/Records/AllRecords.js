@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,8 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
+import * as firebase from "firebase";
+import firebaseDb from "../../firebaseDb";
 
 const DayRecord = (props) => {
   return (
@@ -32,51 +34,89 @@ const SingleRecord = (props) => {
   );
 };
 
-const AllRecordsScreen = (props) => {
-  var date = new Date();
-  let records = [];
-  let month = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "November",
-    "December",
-  ];
-  let numRecordsToShow = 10;
-  for (let i = 0; i < numRecordsToShow; i++) {
-    var toPrint = JSON.stringify(date.getDate()) + " " + month[date.getMonth()];
-    if (i === 0) {
-      records.push(<DayRecord key={i} date="Today"></DayRecord>);
-    } else if (i === 1) {
-      records.push(<DayRecord key={i} date="Yesterday"></DayRecord>);
-    } else {
-      records.push(<DayRecord key={i} date={toPrint}></DayRecord>);
-    }
-    date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+class AllRecordsScreen extends Component {
+  state = {
+    useruid: null,
+    records: null,
+  };
+  componentDidMount() {
+    console.log("allrecords mounted");
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(`${useruid}`)
+      .collection("records")  
+      .onSnapshot((querySnapshot) => {
+        console.log("Total records: ", querySnapshot.size);
+
+        querySnapshot.forEach((documentSnapshot) => {
+          console.log(
+            "User ID: ",
+            documentSnapshot.id,
+            documentSnapshot.data()
+          );
+        });
+
+        this.setState({records: querySnapshot})
+      });
+  }
+  componentDidUpdate() {
   }
 
-  return (
-    <View style={screen.container}>
-      <View style={main.line} />
+  dailyRecords = () => {
+    let date = new Date();
+    let records = [];
+    let numRecordsToShow = 10;
+    let month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "November",
+      "December",
+    ];
+    for (let i = 0; i < numRecordsToShow; i++) {
+      var toPrint =
+        JSON.stringify(date.getDate()) + " " + month[date.getMonth()];
+      if (i === 0) {
+        records.push(<DayRecord key={i} date="Today"></DayRecord>);
+      } else if (i === 1) {
+        records.push(<DayRecord key={i} date="Yesterday"></DayRecord>);
+      } else {
+        records.push(<DayRecord key={i} date={toPrint}></DayRecord>);
+      }
+      date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+    }
+    return records;
+  };
+  render() {
+    return (
+      <View style={screen.container}>
+        <View style={main.line} />
 
-      <ScrollView
-        alwaysBounceVertical={true}
-        showsVerticalScrollIndicator={false}
-        style={styleRecord.container}
-      >
-        <View style={[props.style]}>{records}</View>
-      </ScrollView>
+        <ScrollView
+          alwaysBounceVertical={true}
+          showsVerticalScrollIndicator={false}
+          style={styleRecord.container}
+          // ref={(scroller) => {this.scroller = scroller}}
+          // snapToAlignment={'start'}
+          // scrollTo({x: 0, y: 0, animated: true})
+        >
+          <View>{this.dailyRecords()}</View>
+        </ScrollView>
 
-      <View style={main.line} />
-    </View>
-  );
-};
+        <View style={main.line} />
+      </View>
+    );
+  }
+}
 
 export default AllRecordsScreen;
 
