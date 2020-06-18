@@ -35,10 +35,12 @@ const SingleRecord = (props) => {
 };
 
 class AllRecordsScreen extends Component {
+
   state = {
     useruid: null,
     records: null,
   };
+
   componentDidMount() {
     console.log("allrecords mounted");
     let useruid = firebase.auth().currentUser.uid;
@@ -62,6 +64,7 @@ class AllRecordsScreen extends Component {
         this.setState({records: querySnapshot})
       });
   }
+  
   componentDidUpdate() {
   }
 
