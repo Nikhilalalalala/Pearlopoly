@@ -13,7 +13,6 @@ import RegisterScreen from "./Screens/Register/RegisterScreen";
 import OverviewScreen from "./Screens/Overview/OverviewScreen";
 import AddRecord from "./Screens/AddRecord";
 import AllRecordsScreen from "./Screens/Records/AllRecords"
-import Record from "./Screens/Records/Record";
 import PlaceholderScreen from "./Screens/PlaceholderScreen";
 import LoadingScreen from "./Screens/Loading/LoadingScreen";
 import SettingsScreen from './Screens/Settings/SettingsScreen'

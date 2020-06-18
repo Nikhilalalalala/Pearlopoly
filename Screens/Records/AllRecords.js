@@ -14,12 +14,8 @@ const DayRecord = (props) => {
   return (
     <View style={[stylesDayRecord.container, props.style]}>
       <Text style={stylesDayRecord.date}>{props.date}</Text>
-      <SingleRecord category="Education" value="5.00">
-        Buying Stationary
-      </SingleRecord>
-      <SingleRecord category="Education" value="5.00">
-        Buying Stationary
-      </SingleRecord>
+      <SingleRecord category="Education" value="5.00" name="Buying Stationary" />
+      <SingleRecord category="Education" value="5.00" name="Buying Stationary" />
     </View>
   );
 };
@@ -27,9 +23,12 @@ const DayRecord = (props) => {
 const SingleRecord = (props) => {
   return (
     <View style={stylesSingleRecord.container}>
-      <Text style={stylesSingleRecord.name}>{props.children}</Text>
+      <Text style={stylesSingleRecord.name}>{props.name}</Text>
       <Text style={stylesSingleRecord.category}>{props.category}</Text>
-      <Text style={stylesSingleRecord.value}>{props.value}</Text>
+      <Text style={
+        props.isIncome
+        ? stylesSingleRecord.incomevalue
+        : stylesSingleRecord.expensevalue }>{props.value}</Text>
     </View>
   );
 };
@@ -49,22 +48,21 @@ class AllRecordsScreen extends Component {
       .firestore()
       .collection("users")
       .doc(`${useruid}`)
-      .collection("records")  
+      .collection("records")
+      .orderBy('Timestamp', 'asc')  
       .onSnapshot((querySnapshot) => {
         console.log("Total records: ", querySnapshot.size);
-
+        let records =[]
         querySnapshot.forEach((documentSnapshot) => {
-          console.log(
-            "User ID: ",
-            documentSnapshot.id,
-            documentSnapshot.data()
-          );
+            records.push(
+              documentSnapshot.data()
+            )
         });
-
-        this.setState({records: querySnapshot})
+        this.setState({records: records})
+        
       });
   }
-  
+
   componentDidUpdate() {
   }
 
@@ -85,18 +83,30 @@ class AllRecordsScreen extends Component {
       "November",
       "December",
     ];
-    for (let i = 0; i < numRecordsToShow; i++) {
+    let i = 0;
+    (this.state.records|| []).forEach(element => {
+      let date=new Date(element.Timestamp)
       var toPrint =
         JSON.stringify(date.getDate()) + " " + month[date.getMonth()];
-      if (i === 0) {
-        records.push(<DayRecord key={i} date="Today"></DayRecord>);
-      } else if (i === 1) {
-        records.push(<DayRecord key={i} date="Yesterday"></DayRecord>);
-      } else {
-        records.push(<DayRecord key={i} date={toPrint}></DayRecord>);
-      }
-      date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
-    }
+      let isIncome
+      if(element.category === 'Income') isIncome = true;
+      else isIncome = false
+        
+      records.push(<SingleRecord name={toPrint} key={i} category={element.category} value={element.amount} isIncome={isIncome} />)
+      i++
+    });
+    // for (let i = 0; i < numRecordsToShow; i++) {
+    //   var toPrint =
+    //     JSON.stringify(date.getDate()) + " " + month[date.getMonth()];
+    //   if (i === 0) {
+    //     records.push(<DayRecord key={i} date="Today"></DayRecord>);
+    //   } else if (i === 1) {
+    //     records.push(<DayRecord key={i} date="Yesterday"></DayRecord>);
+    //   } else {
+    //     records.push(<DayRecord key={i} date={toPrint}></DayRecord>);
+    //   }
+    //   date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+    // }
     return records;
   };
   render() {
@@ -150,13 +160,20 @@ const stylesSingleRecord = StyleSheet.create({
     paddingLeft: 5,
     paddingBottom: 5,
   },
-  value: {
-    color: "#ED6A5A",
+  incomevalue: {
+    color: "#75B9BE",
     fontFamily: "Lato-Regular",
     textAlign: "right",
     bottom: 30,
     paddingRight: 5,
   },
+  expensevalue: {
+    color: "#ED6A5A",
+    fontFamily: "Lato-Regular",
+    textAlign: "right",
+    bottom: 30,
+    paddingRight: 5,
+  }
 });
 
 const stylesDayRecord = StyleSheet.create({
