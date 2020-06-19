@@ -49,7 +49,7 @@ class AllRecordsScreen extends Component {
       .collection("users")
       .doc(`${useruid}`)
       .collection("records")
-      .orderBy('Timestamp', 'asc')  
+      .orderBy('Timestamp', 'desc')  
       .onSnapshot((querySnapshot) => {
         console.log("Total records: ", querySnapshot.size);
         let records =[]
