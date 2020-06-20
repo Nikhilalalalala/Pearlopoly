@@ -169,6 +169,7 @@ const register = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     fontFamily: "Lato-Regular",
+    backgroundColor:'#e1e2da',
   },
   button: {
     height: 30,

@@ -4,7 +4,7 @@ import SingleRecord from "./SingleRecord";
 
 const DayRecord = (props) => {
   return (
-    <View style={[styles.container, props.style]}>
+    <View style={[stylesDayRecord.container, props.style]}>
       <Text>{props.date}</Text>
       <SingleRecord category="Education" value="5.00">
         Buying Stationary
@@ -18,7 +18,7 @@ const DayRecord = (props) => {
 
 export default DayRecord;
 
-const styles = StyleSheet.create({
+const stylesDayRecord = StyleSheet.create({
   container: {
     backgroundColor: "#FAF3DD",
     alignItems: "center",
