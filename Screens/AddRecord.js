@@ -18,7 +18,7 @@ import firebaseDb from "../firebaseDb";
 class AddRecord extends Component {
   state = {
     name: "",
-    amount: "",
+    amount: 0,
     chosenCategory: "",
     useruid: null,
   };
@@ -29,8 +29,15 @@ class AddRecord extends Component {
   }
 
   handleAmount = (amount) => {
-    //TODO check if input is number
-    this.setState({ amount: amount });
+    if (!isNaN(amount)) {
+      let amt = parseInt(amount, 10)
+      this.setState({ amount: amt });
+    } else {
+      Alert.alert("Invalid Amount",
+      "Please enter a valid amount",
+      [{ text: "OK" }],
+      { cancelable: false })
+    }
   };
   handleName = (name) => {
     this.setState({ name: name });
@@ -51,56 +58,55 @@ class AddRecord extends Component {
       .set({ recordID: id }, { merge: true });
   };
 
-  updateStatistics = () => {
+  updateStatistics = (amt, cat) => {
     firebase
       .firestore()
       .collection("users")
       .doc(`${this.state.useruid}`)
       .collection("statistics")
-      .orderBy("Timestamp", "desc")
+      .orderBy("beginDate", "desc")
       .limit(1)
       .get()
       .then((data) => {
-        //if condition not working
-        if (data.exists) {
-          console.log('here?)')
-          
-            let recentDate = new Date(data.Timestamp)
-            let nextWeek = Date.parse(new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7));
-            let nowDate = new Date()
-            let statsID = data.statsID
-            let docData = data.data()
-            if(nowDate < nextWeek) {
-            //check if that data is within a week
-            //if not add a new document
-            let newData;
-            switch (this.state.chosenCategory) {
-              case 'Food':
-                newData = { TotalFood: this.state.amount + docData.TotalFood};
-                break;
-              case 'Education':
-                newData = { TotalEducation: this.state.amount+ docData.TotalEducation};
-                break;
-              case 'Transport':
-                newData = { TotalTransport: this.state.amount + docData.TotalTransport };
-                break;
-              case 'Shopping':
-                newData = { TotalShopping: this.state.amount + docData.TotaTotalShoppinglFood};
-                break;
-              case 'Other Spending':
-                newData = { TotalOtherSpending: this.state.amount + docData.TotalOtherSpending};
-                break;
-              case 'Income':
-                newData = { TotalIncome: this.state.amount + docData.TotalIncome};
-                break;
-            }            
-            firebase
-              .firestore()
-              .collection("users")
-              .doc(`${this.state.useruid}`)
-              .collection("statistics").doc(`${statsID}`)
-              .set(newData, {merge: true});
-          }
+        if (!data.empty) {
+            data.forEach(dat => {
+              let docData = dat.data()  
+              let recentDate = new Date(docData.beginDate)
+              let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
+              let nowDate = new Date()
+              let statsID = docData.statsID
+              if(nowDate < nextWeek) {
+                //check if that data is within a week
+                //if not add a new document
+                let newData;
+                switch (cat) {
+                  case 'Food':
+                    newData = { TotalFood: amt + docData.TotalFood};
+                    break;
+                  case 'Education':
+                    newData = { TotalEducation: amt + docData.TotalEducation};
+                    break;
+                  case 'Transport':
+                    newData = { TotalTransport: amt + docData.TotalTransport };
+                    break;
+                  case 'Shopping':
+                    newData = { TotalShopping: amt + docData.TotalShopping};
+                    break;
+                  case 'Other Spending':
+                    newData = { TotalOtherSpending: amt + (docData.TotalOtherSpending||0)};
+                    break;
+                  case 'Income':
+                    newData = { TotalIncome: amt + docData.TotalIncome};
+                    break;
+                }            
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(`${this.state.useruid}`)
+                  .collection("statistics").doc(`${statsID}`)
+                  .set(newData, {merge: true});
+                }
+            })
           
         } else {
           firebase
@@ -119,29 +125,27 @@ class AddRecord extends Component {
             })
             .then((key) => {
               let newData
-              console.log('category ', this.state.chosenCategory)
-              switch (this.state.chosenCategory) {
+              console.log('category ', cat)
+              switch (cat) {
                 case 'Food':
-                  newData = { TotalFood: this.state.amount, statsID: key.id};
+                  newData = { TotalFood: amt, statsID: key.id};
                   break;
                 case 'Education':
-                  newData = { TotalEducation: this.state.amount, statsID: key.id};
+                  newData = { TotalEducation: amt, statsID: key.id};
                   break;
                 case 'Transport':
-                  newData = { TotalTransport: this.state.amount, statsID: key.id};
+                  newData = { TotalTransport: amt, statsID: key.id};
                   break;
                 case 'Shopping':
-                  newData = { TotalShopping: this.state.amount, statsID: key.id};
+                  newData = { TotalShopping: amt, statsID: key.id};
                   break;
                 case 'Other Spending':
-                  newData = { TotalOtherSpending: this.state.amount, statsID: key.id};
+                  newData = { TotalOtherSpending: amt, statsID: key.id};
                   break;
                 case 'Income':
-                  newData = { TotalIncome: this.state.amount, statsID: key.id};
+                  newData = { TotalIncome: amt, statsID: key.id};
                   break;
               }        
-              console.log(key.id) 
-              console.log(newData)     
               firebase
                 .firestore()
                 .collection("users")
@@ -151,10 +155,7 @@ class AddRecord extends Component {
                 .set( newData , { merge: true });
             });
         }
-      }).then(() => {
-        this.setState({ name:"", amount: "", chosenCategory: "" });
-        console.log('resetting Category', this.state.chosenCategory)
-      });
+      })
   };
 
   addRecord = () => {
@@ -172,7 +173,8 @@ class AddRecord extends Component {
         })
         .then((doc) => {
           this.addDocID(doc.id);
-          this.updateStatistics()
+          this.updateStatistics(this.state.amount, this.state.chosenCategory)
+          this.setState({ name:"", amount: "", chosenCategory: "" });
           this.props.navigation.navigate("Record");
         });
     } else if (!this.state.amount) {
@@ -240,17 +242,15 @@ class AddRecord extends Component {
             placeholder="Name"
             onChangeText={this.handleName}
             style={styles.inputAmount}
-            // value={this.state.amount}
+            value={this.state.amount}
             keyboardType='default'
-            maxLength={7}
           ></TextInput>
           <TextInput
             placeholder="Amount"
             onChangeText={this.handleAmount}
             style={styles.inputAmount}
-            // value={this.state.amount}
+            value={this.state.amount}
             keyboardType="numeric"
-            maxLength={7}
           ></TextInput>
           <View style={styles.categoryRowOne}>
             {this.category("Education", "school", "", "expense")}
