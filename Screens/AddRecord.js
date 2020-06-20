@@ -27,10 +27,11 @@ class AddRecord extends Component {
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
   }
+  // componentWillUnmount() { need to detach listeners}
 
   handleAmount = (amount) => {
     if (!isNaN(amount)) {
-      let amt = parseInt(amount, 10)
+      let amt = parseFloat(amount, 10)
       this.setState({ amount: amt });
     } else {
       Alert.alert("Invalid Amount",
@@ -160,6 +161,7 @@ class AddRecord extends Component {
 
   addRecord = () => {
     if (this.state.name && this.state.amount && this.state.chosenCategory) {
+      let realAmt = Number(this.state.amount).toFixed(2)
       firebaseDb
         .firestore()
         .collection("users")
@@ -167,7 +169,7 @@ class AddRecord extends Component {
         .collection("records")
         .add({
           name: this.state.name,
-          amount: this.state.amount,
+          amount: realAmt,
           Timestamp: Date.now(),
           category: this.state.chosenCategory,
         })
