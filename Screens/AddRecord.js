@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAF3DD",
     alignItems: "center",
     // justifyContent: "flex-end",
-    width: 350,
+    width: '90%',
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,

@@ -92,7 +92,7 @@ class AllRecordsScreen extends Component {
       if(element.category === 'Income') isIncome = true;
       else isIncome = false
         
-      records.push(<SingleRecord name={toPrint} key={i} category={element.category} value={element.amount} isIncome={isIncome} />)
+      records.push(<SingleRecord name={element.name}  key={i} category={element.category} value={element.amount} isIncome={isIncome} />)
       i++
     });
     // for (let i = 0; i < numRecordsToShow; i++) {
