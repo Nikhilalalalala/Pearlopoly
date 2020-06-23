@@ -3,13 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   TextInput,
   Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import * as firebase from "firebase";
-import { color } from "react-native-reanimated";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 class SettingsScreen extends Component {
@@ -60,6 +58,66 @@ class SettingsScreen extends Component {
     }
   };
 
+  cautionDelete = () => {
+    Alert.alert(
+      "Delete All Records?",
+      "You wont be able to revert this!",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => {
+          console.log('OK Pressed')
+          this.deleteCollection()} },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  deleteCollection = () => {
+    let collectionRef = firebase.firestore().collection(`users`).doc(`${this.state.currentUserUid}`).collection(`records`);
+    let query = collectionRef.orderBy('Timestamp').limit(10);
+  
+    return new Promise((resolve, reject) => {
+      this.deleteQueryBatch( query, resolve, reject);
+    });
+  }
+  
+  deleteQueryBatch = (query, resolve, reject) => {
+    let db = firebase.firestore()
+    query.get()
+      .then((snapshot) => {
+        console.log(`${snapshot.size}`)
+        // When there are no documents left, we are done
+        if (snapshot.size === 0) {
+          return 0;
+        }
+  
+        // Delete documents in a batch
+        let batch = db.batch();
+        snapshot.docs.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+  
+        return batch.commit().then(() => {
+          return snapshot.size;
+        });
+      }).then((numDeleted) => {
+        if (numDeleted === 0) {
+          resolve();
+          return;
+        }
+  
+        // Recurse on the next process tick, to avoid
+        // exploding the stack.
+        process.nextTick(() => {
+          deleteQueryBatch(db, query, resolve, reject);
+        });
+      })
+      .catch(reject);
+  }
+
   logoutUser = () => {
     firebase
       .auth()
@@ -108,7 +166,7 @@ class SettingsScreen extends Component {
               }}
             />
           </View>
-          
+
           <View style={styles.line} />
 
           <Text style={styles.header}>Infomation </Text>
@@ -119,12 +177,14 @@ class SettingsScreen extends Component {
           <TouchableOpacity>
             <Text style={styles.item}>FAQ </Text>
           </TouchableOpacity>
-          
+
           <View style={styles.line} />
 
           <Text style={styles.header}>Account </Text>
           <TouchableOpacity>
-            <Text style={styles.item}>Clear All Records </Text>
+            <Text style={styles.item} onPress={() => this.cautionDelete()}>
+              Clear All Records
+            </Text>
           </TouchableOpacity>
           <View style={styles.line} />
           <TouchableOpacity>
@@ -183,7 +243,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     // borderColor:"#000000",
     // borderWidth:10,
-
   },
   icon: {
     opacity: 0.5,

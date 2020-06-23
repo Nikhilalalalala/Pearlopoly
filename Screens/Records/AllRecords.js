@@ -9,13 +9,22 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import firebaseDb from "../../firebaseDb";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DayRecord = (props) => {
   return (
     <View style={[stylesDayRecord.container, props.style]}>
       <Text style={stylesDayRecord.date}>{props.date}</Text>
-      <SingleRecord category="Education" value="5.00" name="Buying Stationary" />
-      <SingleRecord category="Education" value="5.00" name="Buying Stationary" />
+      <SingleRecord
+        category="Education"
+        value="5.00"
+        name="Buying Stationary"
+      />
+      <SingleRecord
+        category="Education"
+        value="5.00"
+        name="Buying Stationary"
+      />
     </View>
   );
 };
@@ -25,16 +34,20 @@ const SingleRecord = (props) => {
     <View style={stylesSingleRecord.container}>
       <Text style={stylesSingleRecord.name}>{props.name}</Text>
       <Text style={stylesSingleRecord.category}>{props.category}</Text>
-      <Text style={
-        props.isIncome
-        ? stylesSingleRecord.incomevalue
-        : stylesSingleRecord.expensevalue }>{props.value}</Text>
+      <Text
+        style={
+          props.isIncome
+            ? stylesSingleRecord.incomevalue
+            : stylesSingleRecord.expensevalue
+        }
+      >
+        {props.value}
+      </Text>
     </View>
   );
 };
 
 class AllRecordsScreen extends Component {
-
   state = {
     useruid: null,
     records: null,
@@ -49,22 +62,18 @@ class AllRecordsScreen extends Component {
       .collection("users")
       .doc(`${useruid}`)
       .collection("records")
-      .orderBy('Timestamp', 'desc')  
+      .orderBy("Timestamp", "desc")
       .onSnapshot((querySnapshot) => {
         console.log("Total records: ", querySnapshot.size);
-        let records =[]
+        let records = [];
         querySnapshot.forEach((documentSnapshot) => {
-            records.push(
-              documentSnapshot.data()
-            )
+          records.push(documentSnapshot.data());
         });
-        this.setState({records: records})
-        
+        this.setState({ records: records });
       });
   }
 
-  componentDidUpdate() {
-  }
+  componentDidUpdate() {}
 
   dailyRecords = () => {
     let date = new Date();
@@ -84,16 +93,24 @@ class AllRecordsScreen extends Component {
       "December",
     ];
     let i = 0;
-    (this.state.records|| []).forEach(element => {
-      let date=new Date(element.Timestamp)
+    (this.state.records || []).forEach((element) => {
+      let date = new Date(element.Timestamp);
       var toPrint =
         JSON.stringify(date.getDate()) + " " + month[date.getMonth()];
-      let isIncome
-      if(element.category === 'Income') isIncome = true;
-      else isIncome = false
-        
-      records.push(<SingleRecord name={element.name}  key={i} category={element.category} value={element.amount} isIncome={isIncome} />)
-      i++
+      let isIncome;
+      if (element.category === "Income") isIncome = true;
+      else isIncome = false;
+
+      records.push(
+        <SingleRecord
+          name={element.name}
+          key={i}
+          category={element.category}
+          value={element.amount}
+          isIncome={isIncome}
+        />
+      );
+      i++;
     });
     // for (let i = 0; i < numRecordsToShow; i++) {
     //   var toPrint =
@@ -113,17 +130,31 @@ class AllRecordsScreen extends Component {
     return (
       <View style={screen.container}>
         <View style={main.line} />
-
-        <ScrollView
-          alwaysBounceVertical={true}
-          showsVerticalScrollIndicator={false}
-          style={styleRecord.container}
-          // ref={(scroller) => {this.scroller = scroller}}
-          // snapToAlignment={'start'}
-          // scrollTo({x: 0, y: 0, animated: true})
-        >
-          <View>{this.dailyRecords()}</View>
-        </ScrollView>
+        {this.state.records > 0 ? (
+          <ScrollView
+            alwaysBounceVertical={true}
+            showsVerticalScrollIndicator={false}
+            style={styleRecord.container}
+            // ref={(scroller) => {this.scroller = scroller}}
+            // snapToAlignment={'start'}
+            // scrollTo({x: 0, y: 0, animated: true})
+          >
+            <View>{this.dailyRecords()}</View>
+          </ScrollView>
+        ) : (
+          <View style={styleRecord.emptyState}>
+            <View style={styleRecord.emptyStateInside} >
+            <Text style={styleRecord.emptyStateText}>No Records Yet :(</Text>
+            <TouchableOpacity
+            style={styleRecord.emptyStateButton}
+            onPress={() => console.log("how to navigate to addrecord?")}
+            >
+             <Text style={styleRecord.emptyStateText} > Add Record
+               </Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
         <View style={main.line} />
       </View>
@@ -136,6 +167,33 @@ export default AllRecordsScreen;
 const styleRecord = StyleSheet.create({
   container: {
     paddingHorizontal: "5%",
+  },
+  emptyState: {
+    flex: 1,
+    backgroundColor: "#FFBE86",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  emptyStateButton: {
+   padding: 5,
+   backgroundColor: '#BB7E5D',
+   borderRadius:5,
+   marginTop: 20,
+   fontFamily: "Lato-Regular",
+   fontSize:18,
+
+  },
+  emptyStateInside: {
+    flex: 1,
+    backgroundColor: "#FFBE86",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emptyStateText: {
+    padding: 10,
+    fontFamily: "Lato-Regular",
+    fontSize:18,
+
   },
 });
 
@@ -173,7 +231,7 @@ const stylesSingleRecord = StyleSheet.create({
     textAlign: "right",
     bottom: 30,
     paddingRight: 5,
-  }
+  },
 });
 
 const stylesDayRecord = StyleSheet.create({
