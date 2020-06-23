@@ -1,17 +1,55 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import * as firebase from 'firebase';
+import firebaseDb from '../../firebaseDb';
+import { Alert } from 'react-native';
 
 // if goal for xxx category isn't set, can insert message: 'goal for xxx category not set'
 class SingleGoal extends React.Component {
-  render() {
-    let spending = Number(this.props.spending).toFixed(2);
-    let limit = Number(this.props.limit).toFixed(2);
-    let category = this.props.category;
-    console.log({category}, {limit}, {spending});
+  
+  state = {
+    useruid: null,
+  }
+  
+  componentDidMount() {
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
+  };
+
+  componentDidUpdate() {
     
+  };
+
+  handleAmount = (amount) => {
+    if(!isNaN(amount)) {
+      let amt = parseFloat(amount, 10);
+      this.setState({amount: amt});
+    }
+    else {
+      Alert.alert('Invalid amount', 
+        'Please enter a valid amount',
+        [{ text: 'OK' }],
+        { cancelable: false },
+      )
+    }
+  }
+
+  handleCategory = (category) => {
+    this.setState({ chosenCategory: category });
+  }
+  
+  render() {
+    var spending = this.props.spending;
+    var limit = this.props.limit;
+    var category = this.props.category;
+
+    var spendingPrint = Number(spending).toFixed(2);
+    var limitPrint = Number(limit).toFixed(2);
+
     //if limit is 0, there is effectively no limit set
     if (limit == 0) {
-      console.log({category} + ' limit not set');
+
       //gray
       return(
         <View style={styles.container}>
@@ -24,37 +62,37 @@ class SingleGoal extends React.Component {
       );
     }
     else if (spending < limit) {
-      console.log(spending + '<' + limit);
+
       //green/blue
       return(
         <View style={styles.container}>
           <Text style={{ fontFamily: 'Lato-Regular' }}>{category}</Text>
           <View style={styles.goalGreen}>
-            <Text style={{ fontFamily: 'Lato-Regular' }}>${spending} / ${limit}</Text>
+            <Text style={{ fontFamily: 'Lato-Regular' }}>${spendingPrint} / ${limitPrint}</Text>
           </View>
         </View>
       );
     }
     else if (spending == limit) {
-      console.log(spending + '==' + limit);
+
       //orange/brown idk
       return(
         <View style={styles.container}>
           <Text style={{ fontFamily: 'Lato-Regular' }}>{category}</Text>
           <View style={styles.goalOrange}>
-            <Text style={{ fontFamily: 'Lato-Regular' }}>${spending} / ${limit}</Text>
+            <Text style={{ fontFamily: 'Lato-Regular' }}>${spendingPrint} / ${limitPrint}</Text>
           </View>
         </View>
       );
     }
     else {
       //red/pink
-      console.log(spending + '>' + limit);
+
       return(
         <View style={styles.container}>
           <Text style={{ fontFamily: 'Lato-Regular' }}>{category}</Text>
           <View style={styles.goalRed}>
-            <Text style={{ fontFamily: 'Lato-Regular' }}>${spending} / ${limit}</Text>
+            <Text style={{ fontFamily: 'Lato-Regular' }}>${spendingPrint} / ${limitPrint}</Text>
           </View>
       </View>
       );
