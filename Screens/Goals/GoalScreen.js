@@ -1,17 +1,151 @@
 import React from 'react';
-import { View, ScrollView, Text, StatusBar, StyleSheet, Dimensions, Modal, TouchableOpacity, Picker } from 'react-native';
+import { View, ScrollView, Text, StatusBar, StyleSheet, Dimensions, Modal, TouchableOpacity, Picker, TextInput, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import * as firebase from 'firebase';
+import firebaseDb from '../../firebaseDb';
 import GoalProgressBar from "../Overview/components/GoalProgressBar";
 import SingleGoal from './SingleGoal';
-import { TextInput } from 'react-native-gesture-handler';
 
 class Goals extends React.Component {
   state = {
     modalVisible1: false,
     modalVisible2: false,
-    selectedValue: null,
+    selectedCategory: 'Education',
+    
+    useruid: null,
+    limits: null,
+    amount: 0,
   };
+
+  componentDidMount() {
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
+  };
+
+  updateLimits = (amount, selectedCategory) => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(`${this.state.useruid}`)
+      .collection('statistics')
+      .orderBy('beginDate', 'desc')
+      .limit(1)
+      .get()
+      .then((data) => {
+        if (!data.empty) {
+          data.forEach(dat => {
+            let docData = dat.data()
+            let recentDate = new Date(docData.beginDate)
+            let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
+            let nowDate = new Date()
+            let statsID = docData.statsID
+            if(nowDate < nextWeek) { 
+              let newData;
+              switch(selectedCategory) {
+                case 'Overall':
+                  newData = {OverallLimit: amount};
+                  break;
+                case 'Food':
+                  newData = {FoodLimit: amount};
+                  break;
+                case 'Education':
+                  newData = {EducationLimit: amount};
+                  break;
+                case 'Transport':
+                  newData = {TransportLimit: amount};
+                  break;
+                case 'Shopping':
+                  newData = {ShoppingLimit: amount};
+                  break;
+                case 'Other Spending':
+                  newData = {OtherLimit: amount};
+                  break;
+              }
+              firebase
+                .firestore()
+                .collection('users')
+                .doc(`${this.state.useruid}`)
+                .collection('statistics').doc(`${statsID}`)
+                .set(newData, {merge: true});
+            }
+            else {
+              firebase
+                .firestore()
+                .collection('users')
+                .doc(`${this.state.useruid}`)
+                .collection('statistics')
+                .add({
+                  TotalEducation: 0,
+                  TotalFood: 0,
+                  TotalShopping: 0,
+                  TotalTransport: 0,
+                  TotalOtherSpending: 0,
+                  TotalIncome: 0,
+                  OverallLimit: 0,
+                  EducationLimit: 0,
+                  FoodLimit: 0,
+                  ShoppingLimit: 0,
+                  TransportLimit: 0,
+                  OtherLimit: 0,
+                  beginDate: Date.now(),
+                })
+                .then((key) => {
+                  let newData;
+                  switch (selectedCategory) {
+                    case 'Overall':
+                      newData = {OverallLimit: amount, statsID: key.id};
+                      break;
+                    case 'Food':
+                      newData = {FoodLimit: amount, statsID: key.id};
+                      break;
+                    case 'Education':
+                      newData = {EducationLimit: amount, statsID: key.id};
+                      break;
+                    case 'Transport':
+                      newData = {TransportLimit: amount, statsID: key.id};
+                      break;
+                    case 'Shopping':
+                      newData = {ShoppingLimit: amount, statsID: key.id};
+                      break;
+                    case 'Other Spending':
+                      newData = {OtherLimit: amount, statsID: key.id};
+                      break;
+                  }
+                  firebase
+                    .firestore()
+                    .collection('users')
+                    .doc(`${this.state.useruid}`)
+                    .collection('statistics')
+                    .doc(key.id)
+                    .set( newData, {merge: true});
+                  });
+            }
+          })
+        }
+      })
+  };
+
+
+  handleAmount = (amount) => {
+    if(!isNaN(amount)) {
+      let amt = parseFloat(amount, 10);
+      this.setState({amount: amt});
+      console.log('amount entered is ' + amt);
+    }
+    else {
+      Alert.alert('Invalid amount', 
+        'Please enter a valid amount',
+        [{ text: 'OK' }],
+        { cancelable: false },
+      )
+    }
+  };
+
+  handleCategory = (itemValue) => {
+    this.setState({selectedValue: itemValue});
+    console.log('category chosen is ' + itemValue);
+  }
+
   render() {
     return (
       <View style={screen.container}>
@@ -36,10 +170,11 @@ class Goals extends React.Component {
               <Text style={{ fontFamily: 'Lato-Regular' }}>Set overall goal limit:</Text>
               <TextInput
                 placeholder='Limit'
+                onChangeText={this.handleAmount}
                 keyboardType='numeric'
                 style={{borderWidth: 1, width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
               ></TextInput>
-              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible1: false});}}>
+              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible1: false}); this.updateLimits(this.state.amount, 'Overall'); }}>
                 <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -73,10 +208,10 @@ class Goals extends React.Component {
             <View style={modal.overallEdit}>
               <Text style={{ fontFamily: 'Lato-Regular' }}>Set category goal limit:</Text>
               <Picker
-                selectedValue={this.state.selectedValue}
-                style={{ height: 50, width: 185, borderWidth: 1, }}
+                selectedValue={this.state.selectedCategory}
+                style={{ height: 50, width: 185, }}
                 mode='dropdown'
-                onValueChange={(itemValue, itemIndex) => this.setState({selectedValue: itemValue})}
+                onValueChange={(itemValue, itemIndex) => {this.setState({selectedCategory: itemValue}); console.log('selected category is ' + this.state.selectedCategory)}}
               >
                 <Picker.Item label='Education' value='Education' />
                 <Picker.Item label='Shopping' value='Shopping' />
@@ -86,10 +221,11 @@ class Goals extends React.Component {
               </Picker>
               <TextInput
                 placeholder='Limit'
+                onChangeText={this.handleAmount}
                 keyboardType='numeric'
                 style={{borderWidth: 1, width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
               ></TextInput>
-              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible2: false});}}>
+              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible2: false}); this.updateLimits(this.state.amount, this.state.selectedCategory); }}>
                 <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
               </TouchableOpacity>
             </View>

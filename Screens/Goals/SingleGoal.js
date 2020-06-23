@@ -1,43 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import * as firebase from 'firebase';
-import firebaseDb from '../../firebaseDb';
-import { Alert } from 'react-native';
 
 // if goal for xxx category isn't set, can insert message: 'goal for xxx category not set'
 class SingleGoal extends React.Component {
-  
-  state = {
-    useruid: null,
-  }
-  
-  componentDidMount() {
-    let useruid = firebase.auth().currentUser.uid;
-    this.setState({ useruid: useruid });
-  };
-
-  componentDidUpdate() {
-    
-  };
-
-  handleAmount = (amount) => {
-    if(!isNaN(amount)) {
-      let amt = parseFloat(amount, 10);
-      this.setState({amount: amt});
-    }
-    else {
-      Alert.alert('Invalid amount', 
-        'Please enter a valid amount',
-        [{ text: 'OK' }],
-        { cancelable: false },
-      )
-    }
-  }
-
-  handleCategory = (category) => {
-    this.setState({ chosenCategory: category });
-  }
   
   render() {
     var spending = this.props.spending;
