@@ -18,7 +18,7 @@ import firebaseDb from "../firebaseDb";
 class AddRecord extends Component {
   state = {
     name: "",
-    amount: 0,
+    amount: '',
     chosenCategory: "",
     useruid: null,
   };
@@ -31,13 +31,15 @@ class AddRecord extends Component {
 
   handleAmount = (amount) => {
     if (!isNaN(amount)) {
-      let amt = parseFloat(amount, 10)
+      let amt = parseFloat(amount, 10);
       this.setState({ amount: amt });
     } else {
-      Alert.alert("Invalid Amount",
-      "Please enter a valid amount",
-      [{ text: "OK" }],
-      { cancelable: false })
+      Alert.alert(
+        "Invalid Amount",
+        "Please enter a valid amount",
+        [{ text: "OK" }],
+        { cancelable: false }
+      );
     }
   };
   handleName = (name) => {
@@ -46,7 +48,7 @@ class AddRecord extends Component {
 
   handleCategory = (category) => {
     this.setState({ chosenCategory: category });
-    console.log('handle Category', this.state.chosenCategory)
+    console.log("handle Category", this.state.chosenCategory);
   };
 
   addDocID = (id) => {
@@ -70,45 +72,51 @@ class AddRecord extends Component {
       .get()
       .then((data) => {
         if (!data.empty) {
-            data.forEach(dat => {
-              let docData = dat.data()  
-              let recentDate = new Date(docData.beginDate)
-              let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
-              let nowDate = new Date()
-              let statsID = docData.statsID
-              if(nowDate < nextWeek) {
-                //check if that data is within a week
-                //if not add a new document
-                let newData;
-                switch (cat) {
-                  case 'Food':
-                    newData = { TotalFood: amt + docData.TotalFood};
-                    break;
-                  case 'Education':
-                    newData = { TotalEducation: amt + docData.TotalEducation};
-                    break;
-                  case 'Transport':
-                    newData = { TotalTransport: amt + docData.TotalTransport };
-                    break;
-                  case 'Shopping':
-                    newData = { TotalShopping: amt + docData.TotalShopping};
-                    break;
-                  case 'Other Spending':
-                    newData = { TotalOtherSpending: amt + (docData.TotalOtherSpending||0)};
-                    break;
-                  case 'Income':
-                    newData = { TotalIncome: amt + docData.TotalIncome};
-                    break;
-                }            
-                firebase
-                  .firestore()
-                  .collection("users")
-                  .doc(`${this.state.useruid}`)
-                  .collection("statistics").doc(`${statsID}`)
-                  .set(newData, {merge: true});
-                }
-            })
-          
+          data.forEach((dat) => {
+            let docData = dat.data();
+            let recentDate = new Date(docData.beginDate);
+            let nextWeek = new Date(
+              recentDate.getFullYear(),
+              recentDate.getMonth(),
+              recentDate.getDate() + 7
+            );
+            let nowDate = new Date();
+            let statsID = docData.statsID;
+            if (nowDate < nextWeek) {
+              //check if that data is within a week
+              //if not add a new document
+              let newData;
+              switch (cat) {
+                case "Food":
+                  newData = { TotalFood: amt + docData.TotalFood };
+                  break;
+                case "Education":
+                  newData = { TotalEducation: amt + docData.TotalEducation };
+                  break;
+                case "Transport":
+                  newData = { TotalTransport: amt + docData.TotalTransport };
+                  break;
+                case "Shopping":
+                  newData = { TotalShopping: amt + docData.TotalShopping };
+                  break;
+                case "Other Spending":
+                  newData = {
+                    TotalOtherSpending: amt + (docData.TotalOtherSpending || 0),
+                  };
+                  break;
+                case "Income":
+                  newData = { TotalIncome: amt + docData.TotalIncome };
+                  break;
+              }
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(`${this.state.useruid}`)
+                .collection("statistics")
+                .doc(`${statsID}`)
+                .set(newData, { merge: true });
+            }
+          });
         } else {
           firebase
             .firestore()
@@ -131,58 +139,61 @@ class AddRecord extends Component {
               beginDate: Date.now(),
             })
             .then((key) => {
-              let newData
-              console.log('category ', cat)
+              let newData;
+              console.log("category ", cat);
               switch (cat) {
-                case 'Food':
-                  newData = { TotalFood: amt, statsID: key.id};
+                case "Food":
+                  newData = { TotalFood: amt, statsID: key.id };
                   break;
-                case 'Education':
-                  newData = { TotalEducation: amt, statsID: key.id};
+                case "Education":
+                  newData = { TotalEducation: amt, statsID: key.id };
                   break;
-                case 'Transport':
-                  newData = { TotalTransport: amt, statsID: key.id};
+                case "Transport":
+                  newData = { TotalTransport: amt, statsID: key.id };
                   break;
-                case 'Shopping':
-                  newData = { TotalShopping: amt, statsID: key.id};
+                case "Shopping":
+                  newData = { TotalShopping: amt, statsID: key.id };
                   break;
-                case 'Other Spending':
-                  newData = { TotalOtherSpending: amt, statsID: key.id};
+                case "Other Spending":
+                  newData = { TotalOtherSpending: amt, statsID: key.id };
                   break;
-                case 'Income':
-                  newData = { TotalIncome: amt, statsID: key.id};
+                case "Income":
+                  newData = { TotalIncome: amt, statsID: key.id };
                   break;
-              }        
+              }
               firebase
                 .firestore()
                 .collection("users")
                 .doc(`${this.state.useruid}`)
                 .collection("statistics")
                 .doc(key.id)
-                .set( newData , { merge: true });
+                .set(newData, { merge: true });
             });
         }
-      })
+      });
   };
 
   addRecord = () => {
     if (this.state.name && this.state.amount && this.state.chosenCategory) {
-      let realAmt = Number(this.state.amount).toFixed(2)
+      let name = this.state.name
+      let realAmt = this.state.amount;
+      let chosenCategory = this.state.chosenCategory;
+      this.setState({ name: "", amount: "", chosenCategory: "" });
+
       firebaseDb
         .firestore()
         .collection("users")
         .doc(`${this.state.useruid}`)
         .collection("records")
         .add({
-          name: this.state.name,
+          name: name,
           amount: realAmt,
           Timestamp: Date.now(),
-          category: this.state.chosenCategory,
+          category: chosenCategory,
         })
         .then((doc) => {
           this.addDocID(doc.id);
-          this.updateStatistics(this.state.amount, this.state.chosenCategory)
-          this.setState({ name:"", amount: "", chosenCategory: "" });
+          this.updateStatistics(realAmt, chosenCategory);
           this.props.navigation.navigate("Record");
         });
     } else if (!this.state.amount) {
@@ -211,10 +222,11 @@ class AddRecord extends Component {
 
   category(cat, iconName, type, typeOfSpending) {
     return (
-      <TouchableOpacity 
-      onPress={() => {
-          this.setState({ chosenCategory: cat })
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          this.setState({ chosenCategory: cat });
+        }}
+      >
         <Icon
           name={iconName}
           type={type}
@@ -246,13 +258,15 @@ class AddRecord extends Component {
       <SafeAreaView style={screen.container}>
         <View style={main.line} />
         <View style={styles.container}>
-        <TextInput
+          
+          <TextInput
             placeholder="Name"
             onChangeText={this.handleName}
             style={styles.inputAmount}
-            value={this.state.amount}
-            keyboardType='default'
+            value={this.state.name}
+            keyboardType="default"
           ></TextInput>
+
           <TextInput
             placeholder="Amount"
             onChangeText={this.handleAmount}
@@ -260,6 +274,7 @@ class AddRecord extends Component {
             value={this.state.amount}
             keyboardType="numeric"
           ></TextInput>
+
           <View style={styles.categoryRowOne}>
             {this.category("Education", "school", "", "expense")}
             {this.category(
@@ -300,8 +315,6 @@ class AddRecord extends Component {
   }
 }
 
-const mainHeight =
-  Dimensions.get("window").height - 54 - 54 - StatusBar.currentHeight;
 
 const screen = StyleSheet.create({
   container: {
@@ -325,7 +338,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAF3DD",
     alignItems: "center",
     // justifyContent: "flex-end",
-    width: '90%',
+    width: "90%",
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
@@ -339,6 +352,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginRight: 20,
     alignSelf: "flex-end",
+    width:'100%'
   },
   categoryRowOne: {
     flexDirection: "row",

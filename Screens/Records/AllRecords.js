@@ -4,11 +4,8 @@ import {
   Text,
   View,
   ScrollView,
-  StatusBar,
-  Dimensions,
 } from "react-native";
 import * as firebase from "firebase";
-import firebaseDb from "../../firebaseDb";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DayRecord = (props) => {
@@ -51,6 +48,7 @@ class AllRecordsScreen extends Component {
   state = {
     useruid: null,
     records: null,
+    numOfRecords: 0
   };
 
   componentDidMount() {
@@ -70,6 +68,7 @@ class AllRecordsScreen extends Component {
           records.push(documentSnapshot.data());
         });
         this.setState({ records: records });
+        this.setState({numOfRecords: records.length})
       });
   }
 
@@ -130,28 +129,28 @@ class AllRecordsScreen extends Component {
     return (
       <View style={screen.container}>
         <View style={main.line} />
-        {this.state.records > 0 ? (
+        {this.state.numOfRecords ? (
           <ScrollView
             alwaysBounceVertical={true}
             showsVerticalScrollIndicator={false}
             style={styleRecord.container}
-            // ref={(scroller) => {this.scroller = scroller}}
-            // snapToAlignment={'start'}
-            // scrollTo({x: 0, y: 0, animated: true})
           >
             <View>{this.dailyRecords()}</View>
           </ScrollView>
         ) : (
           <View style={styleRecord.emptyState}>
-            <View style={styleRecord.emptyStateInside} >
-            <Text style={styleRecord.emptyStateText}>No Records Yet :(</Text>
-            <TouchableOpacity
-            style={styleRecord.emptyStateButton}
-            onPress={() => {this.props.navigation.navigate("NavBarScreens", { screen: "Add Record" })}}
-            >
-             <Text style={styleRecord.emptyStateText} > Add Record
-               </Text>
-            </TouchableOpacity>
+            <View style={styleRecord.emptyStateInside}>
+              <Text style={styleRecord.emptyStateText}>No Records Yet :(</Text>
+              <TouchableOpacity
+                style={styleRecord.emptyStateButton}
+                onPress={() => {
+                  this.props.navigation.navigate("NavBarScreens", {
+                    screen: "Add Record",
+                  });
+                }}
+              >
+                <Text style={styleRecord.emptyStateText}>Add Record</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -175,13 +174,12 @@ const styleRecord = StyleSheet.create({
     justifyContent: "space-between",
   },
   emptyStateButton: {
-   padding: 5,
-   backgroundColor: '#BB7E5D',
-   borderRadius:5,
-   marginTop: 20,
-   fontFamily: "Lato-Regular",
-   fontSize:18,
-
+    padding: 5,
+    backgroundColor: "#BB7E5D",
+    borderRadius: 5,
+    marginTop: 20,
+    fontFamily: "Lato-Regular",
+    fontSize: 18,
   },
   emptyStateInside: {
     flex: 1,
@@ -192,8 +190,7 @@ const styleRecord = StyleSheet.create({
   emptyStateText: {
     padding: 10,
     fontFamily: "Lato-Regular",
-    fontSize:18,
-
+    fontSize: 18,
   },
 });
 

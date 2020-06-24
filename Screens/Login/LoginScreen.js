@@ -64,7 +64,7 @@ export default class LoginScreen extends React.Component {
         </TouchableOpacity>
 
         {this.state.errorMessage && (
-          <Text style={{ color: "red", paddingVertical: 10 }}>
+          <Text style={{ color: "red", paddingVertical: 10, paddingHorizontal:10 }}>
             {this.state.errorMessage}
           </Text>
         )}
