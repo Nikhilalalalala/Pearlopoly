@@ -14,7 +14,7 @@ class SingleGoal extends React.Component {
     var limitPrint = Number(limit).toFixed(2);
 
     //if limit is 0, there is effectively no limit set
-    if (limit == 0) {
+    if (limit == 0 || limit == null) {
 
       //gray
       return(

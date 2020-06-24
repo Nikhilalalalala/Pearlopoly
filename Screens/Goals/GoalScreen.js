@@ -10,16 +10,33 @@ class Goals extends React.Component {
   state = {
     modalVisible1: false,
     modalVisible2: false,
-    selectedCategory: 'Education',
-    
+
     useruid: null,
-    limits: null,
+    
+    selectedCategory: 'Education',
     amount: 0,
+
+    limits: null, 
   };
 
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(`${useruid}`)
+      .collection('statistics')
+      .orderBy('Timestamp', 'desc')  
+      .onSnapshot((querySnapshot) => {
+        let limits =[]
+        querySnapshot.forEach((doc) =>{
+          limits.push(
+            doc.data()
+          )
+        });
+        this.setState({limits: limits})
+      });
   };
 
   updateLimits = (amount, selectedCategory) => {
@@ -39,7 +56,7 @@ class Goals extends React.Component {
             let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
             let nowDate = new Date()
             let statsID = docData.statsID
-            if(nowDate < nextWeek) { 
+            if(nowDate < nextWeek) {
               let newData;
               switch(selectedCategory) {
                 case 'Overall':
@@ -146,7 +163,9 @@ class Goals extends React.Component {
     console.log('category chosen is ' + itemValue);
   }
 
+
   render() {
+
     return (
       <View style={screen.container}>
 
@@ -191,11 +210,11 @@ class Goals extends React.Component {
             showsVerticalScrollIndicator={false}
             alwaysBounceVertical={true} 
           >
-            <SingleGoal category='Education' spending={15} limit={20}/>
-            <SingleGoal category='Shopping'spending={10} limit={5}/>
-            <SingleGoal category='Food' spending={8.5} limit={15}/>
-            <SingleGoal category='Transport' spending={5} limit={5}/>
-            <SingleGoal category='Other Spending' spending={7.5} limit={0}/>
+            <SingleGoal category='Education' spending={5} limit={10}/>
+            <SingleGoal category='Shopping'spending={5.5} limit={20}/>
+            <SingleGoal category='Food' spending={5} limit={10}/>
+            <SingleGoal category='Transport' spending={10} limit={5}/>
+            <SingleGoal category='Other Spending' spending={2} limit={0}/>
           </ScrollView>
         </View>
         
