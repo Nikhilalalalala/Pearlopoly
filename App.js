@@ -12,7 +12,8 @@ import LoginScreen from "./Screens/Login/LoginScreen";
 import RegisterScreen from "./Screens/Register/RegisterScreen";
 import OverviewScreen from "./Screens/Overview/OverviewScreen";
 import AddRecord from "./Screens/AddRecord";
-import AllRecordsScreen from "./Screens/Records/AllRecords"
+import AllRecordsScreen from "./Screens/Records/AllRecords";
+import GoalScreen from "./Screens/Goals/GoalScreen";
 import PlaceholderScreen from "./Screens/PlaceholderScreen";
 import LoadingScreen from "./Screens/Loading/LoadingScreen";
 import SettingsScreen from './Screens/Settings/SettingsScreen'
@@ -105,7 +106,7 @@ function NavBarScreens () {
       />
       <NavBar.Screen 
         name='Goals' 
-        component={PlaceholderScreen} 
+        component={GoalScreen} 
         options={{
           tabBarIcon: ({color}) => (
             <Icon name="crosshairs" type="font-awesome" color={color} />

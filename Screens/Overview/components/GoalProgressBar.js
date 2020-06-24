@@ -10,12 +10,12 @@ class GoalProgressBar extends React.Component {
             }
         ]
 
-        const colors = ['#F4978E', '#75B9BE'];
+        const colors = ['#F4978E', '#BCD8C1'];
         const keys = ['expenditure', 'limitLeft'];
 
         return (
             <StackedBarChart 
-            style = {{height: 35, width: '80%'}}
+            style = {{height: 35, width: '100%'}}
             keys = {keys}
             colors = {colors}
             data = {goalData}

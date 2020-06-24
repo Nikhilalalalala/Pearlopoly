@@ -122,6 +122,12 @@ class AddRecord extends Component {
               TotalTransport: 0,
               TotalOtherSpending: 0,
               TotalIncome: 0,
+              OverallLimit: 0,
+              EducationLimit: 0,
+              FoodLimit: 0,
+              ShoppingLimit: 0,
+              TransportLimit: 0,
+              OtherLimit: 0,
               beginDate: Date.now(),
             })
             .then((key) => {
