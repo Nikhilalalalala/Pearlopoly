@@ -23,7 +23,7 @@ export default class LoginScreen extends React.Component {
       .signInWithEmailAndPassword(email.trim(), password)
       .then((user) => {
         // this.props.navigation.navigate("Overview");
-        //* it navigates to Overview from App.js not here
+        //* it navigates to Overview from Loading.js not here
       })
       .catch((error) => this.setState({ errorMessage: error.message }));
   };

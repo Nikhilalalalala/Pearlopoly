@@ -147,7 +147,7 @@ class AllRecordsScreen extends Component {
             <Text style={styleRecord.emptyStateText}>No Records Yet :(</Text>
             <TouchableOpacity
             style={styleRecord.emptyStateButton}
-            onPress={() => console.log("how to navigate to addrecord?")}
+            onPress={() => {this.props.navigation.navigate("NavBarScreens", { screen: "Add Record" })}}
             >
              <Text style={styleRecord.emptyStateText} > Add Record
                </Text>
