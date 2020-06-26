@@ -32,7 +32,16 @@ class AddRecord extends Component {
   handleAmount = (amount) => {
     if (!isNaN(amount)) {
       let amt = parseFloat(amount, 10);
-      this.setState({ amount: amt });
+      if (amt > 0) {
+        this.setState({ amount: amt });
+      } else {
+        Alert.alert(
+          "Invalid Amount",
+          "Please enter a valid amount",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+      }
     } else {
       Alert.alert(
         "Invalid Amount",
