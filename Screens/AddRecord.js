@@ -127,7 +127,6 @@ class AddRecord extends Component {
                   break;
                 case "Income":
                   newData = { TotalIncome: amt + docData.TotalIncome,
-                    TotalOverall: amt + (docData.TotalOverall||0),
                   };
                   break;
               }
@@ -172,19 +171,19 @@ class AddRecord extends Component {
               console.log("category ", cat);
               switch (cat) {
                 case "Food":
-                  newData = { TotalFood: amt, statsID: key.id };
+                  newData = { TotalFood: amt, TotalOverall: amt, statsID: key.id };
                   break;
                 case "Education":
-                  newData = { TotalEducation: amt, statsID: key.id };
+                  newData = { TotalEducation: amt, TotalOverall: amt, statsID: key.id };
                   break;
                 case "Transport":
-                  newData = { TotalTransport: amt, statsID: key.id };
+                  newData = { TotalTransport: amt, TotalOverall: amt, statsID: key.id };
                   break;
                 case "Shopping":
-                  newData = { TotalShopping: amt, statsID: key.id };
+                  newData = { TotalShopping: amt, TotalOverall: amt, statsID: key.id };
                   break;
                 case "Other Spending":
-                  newData = { TotalOtherSpending: amt, statsID: key.id };
+                  newData = { TotalOtherSpending: amt, TotalOverall: amt, statsID: key.id };
                   break;
                 case "Income":
                   newData = { TotalIncome: amt, statsID: key.id };
@@ -297,7 +296,7 @@ class AddRecord extends Component {
               keyboardType="default"
             ></TextInput>
           </View>
-          <View style={styles.fieldViewAmount}>
+          <View style={styles.fieldViewName}>
             <Text style={styles.fieldTitle}> Amount: </Text>
             <TextInput
               placeholder="Amount"
@@ -395,7 +394,7 @@ const styles = StyleSheet.create({
   },
   fieldTitle: {
     fontFamily: "Lato-Bold",
-    fontSize: 20,
+    fontSize: 14,
     color: "#BB7E5D",
     padding: 5,
   },
@@ -405,7 +404,7 @@ const styles = StyleSheet.create({
     borderColor: "#BB7E5D",
     borderWidth: 2,
     padding: 5,
-    width: "60%",
+    width: "100%",
     textAlign: "center",
   },
   fieldViewName: {
