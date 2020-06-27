@@ -91,6 +91,9 @@ class RegisterScreen extends Component {
           returnKeyType="next"
           onChangeText={this.handleUpdateEmail}
           value={email}
+          autoCapitalize= 'none'
+          autoCompleteType='email'
+
         />
 
         <TextInput
@@ -101,6 +104,7 @@ class RegisterScreen extends Component {
           secureTextEntry={true}
           onChangeText={this.handleUpdatePasswordOnce}
           value={password_once}
+          autoCapitalize= 'none'
         />
 
         <TextInput
@@ -111,6 +115,7 @@ class RegisterScreen extends Component {
           onChangeText={this.handleUpdatePassword}
           value={password}
           secureTextEntry={true}
+          autoCapitalize= 'none'
         />
 
         <TouchableOpacity
@@ -131,17 +136,21 @@ class RegisterScreen extends Component {
           <Text style={{ color: "#FFFFFF" }}>REGISTER</Text>
         </TouchableOpacity>
         {this.state.errorMessage && (
-          <Text style={{ color: "red", paddingVertical: 10, paddingHorizontal:10 }}>
+          <Text
+            style={{ color: "red", paddingVertical: 10, paddingHorizontal: 10 }}
+          >
             {this.state.errorMessage}
             Please Try Again
           </Text>
         )}
-        <Text
+        <TouchableOpacity
           style={register.login}
           onPress={() => this.props.navigation.navigate("Login")}
         >
-          ALREADY HAVE AN ACCOUNT?
-        </Text>
+          <Text style={{ textDecorationLine: "underline" }}>
+            ALREADY HAVE AN ACCOUNT?
+          </Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     );
   }
@@ -169,7 +178,7 @@ const register = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     fontFamily: "Lato-Regular",
-    backgroundColor:'#e1e2da',
+    backgroundColor: "#e1e2da",
   },
   button: {
     height: 30,
@@ -181,9 +190,10 @@ const register = StyleSheet.create({
     fontFamily: "Lato-Regular",
   },
   login: {
-    marginTop: 100,
+    marginTop: 70,
     textDecorationLine: "underline",
     fontFamily: "Lato-Regular",
+    padding: 15,
   },
 });
 

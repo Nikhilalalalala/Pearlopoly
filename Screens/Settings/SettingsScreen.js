@@ -81,7 +81,8 @@ class SettingsScreen extends Component {
           text: "OK",
           onPress: () => {
             console.log("OK Pressed");
-            this.deleteCollection();
+            this.deleteCollection('records');
+            this.deleteCollection('statistics');
           },
         },
       ],
@@ -89,12 +90,12 @@ class SettingsScreen extends Component {
     );
   };
 
-  deleteCollection = () => {
+  deleteCollection = (col) => {
     let collectionRef = firebase
       .firestore()
       .collection(`users`)
       .doc(`${this.state.currentUserUid}`)
-      .collection(`records`);
+      .collection(col);
     let query = collectionRef.orderBy("Timestamp").limit(10);
 
     return new Promise((resolve, reject) => {
