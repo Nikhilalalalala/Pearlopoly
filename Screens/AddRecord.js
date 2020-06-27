@@ -80,6 +80,8 @@ class AddRecord extends Component {
       .limit(1)
       .get()
       .then((data) => {
+        //if there is already an existing stats document
+        let needToCreateNewStats = false
         if (!data.empty) {
           data.forEach((dat) => {
             let docData = dat.data();
@@ -91,30 +93,42 @@ class AddRecord extends Component {
             );
             let nowDate = new Date();
             let statsID = docData.statsID;
+            // if it is within the timelimit
             if (nowDate < nextWeek) {
               //check if that data is within a week
               //if not add a new document
               let newData;
               switch (cat) {
                 case "Food":
-                  newData = { TotalFood: amt + docData.TotalFood };
+                  newData = {
+                    TotalFood: amt + docData.TotalFood,
+                    TotalOverall: amt + docData.TotalOverall,
+                  };
                   break;
                 case "Education":
-                  newData = { TotalEducation: amt + docData.TotalEducation };
+                  newData = { TotalEducation: amt + docData.TotalEducation,
+                    TotalOverall: amt + docData.TotalOverall,
+                  };
                   break;
                 case "Transport":
-                  newData = { TotalTransport: amt + docData.TotalTransport };
-                  break;
+                  newData = { TotalTransport: amt + docData.TotalTransport,
+                    TotalOverall: amt + docData.TotalOverall,
+                  };
                 case "Shopping":
-                  newData = { TotalShopping: amt + docData.TotalShopping };
+                  newData = { TotalShopping: amt + docData.TotalShopping,
+                    TotalOverall: amt + docData.TotalOverall,
+                  };
                   break;
                 case "Other Spending":
                   newData = {
-                    TotalOtherSpending: amt + (docData.TotalOtherSpending || 0),
+                    TotalOtherSpending: amt + docData.TotalOtherSpending,
+                    TotalOverall: amt + docData.TotalOverall,
                   };
                   break;
                 case "Income":
-                  newData = { TotalIncome: amt + docData.TotalIncome };
+                  newData = { TotalIncome: amt + docData.TotalIncome,
+                    TotalOverall: amt + (docData.TotalOverall||0),
+                  };
                   break;
               }
               firebase
@@ -124,9 +138,14 @@ class AddRecord extends Component {
                 .collection("statistics")
                 .doc(`${statsID}`)
                 .set(newData, { merge: true });
+            } else {
+              needToCreateNewStats = true
             }
           });
         } else {
+          needToCreateNewStats = true
+        }
+        if (needToCreateNewStats) {
           firebase
             .firestore()
             .collection("users")
@@ -139,6 +158,7 @@ class AddRecord extends Component {
               TotalTransport: 0,
               TotalOtherSpending: 0,
               TotalIncome: 0,
+              TotalOverall: 0,
               OverallLimit: 0,
               EducationLimit: 0,
               FoodLimit: 0,
