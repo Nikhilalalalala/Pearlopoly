@@ -19,8 +19,8 @@ class GoalProgressBar extends React.Component {
       shopping: 0,
       transport: 0,
     },
-    TotalSpending: 0,
-    LimitBalance: 0,
+    totalSpending: 0,
+    limitBalance: 0,
   };
 
   componentDidMount() {
@@ -37,9 +37,7 @@ class GoalProgressBar extends React.Component {
         .doc(`${uid}`)
         .collection("statistics")
         .orderBy("beginDate", "desc")
-        .limit(1)
-        .get()
-        .then( collection => {
+        .onSnapshot( collection => {
           console.log(collection.size)
           collection.forEach(doc => {
             this.setState({ 
@@ -66,12 +64,12 @@ class GoalProgressBar extends React.Component {
             let totalSpending = doc.data().TotalEducation + doc.data().TotalFood + doc.data().TotalOtherSpending + doc.data().TotalShopping + doc.data().TotalTransport;
             //let totalSpending = this.state.expenditure.education + this.state.expenditure.food + this.state.expenditure.other + this.state.expenditure.shopping + this.state.expenditure.transport;
             console.log('variable: ', totalSpending);
-            this.setState({TotalSpending: totalSpending});
+            this.setState({totalSpending: totalSpending});
             console.log('TotalSpending: ', this.state.totalSpending);
             console.log('OverallLimit: ', this.state.limits.overall);
-            let limitBalance = this.state.limits.overall - this.state.TotalSpending;
-            this.setState({LimitBalnce: limitBalance});
-            console.log('states: ', this.state.TotalSpending, this.state.LimitBalance)
+            let limitBalance = this.state.limits.overall - this.state.totalSpending;
+            this.setState({limitBalnce: limitBalance});
+            console.log('states: ', this.state.totalSpending, this.state.limitBalance)
           });
         });
       }
@@ -83,12 +81,12 @@ class GoalProgressBar extends React.Component {
       })*/
       render() {
         //this.getData(this.state.useruid);
-        console.log('expenditure: ', this.state.TotalSpending);
-        console.log('limit left: ', this.state.LimitBalance);
+        console.log('expenditure: ', this.state.totalSpending);
+        console.log('limit left: ', this.state.limitBalance);
         const goalData = [
             {
-                expenditure: this.state.TotalSpending,
-                limitLeft: this.state.LimitBalance,
+                expenditure: this.state.totalSpending,
+                limitLeft: this.state.limitBalance,
             }
         ]
 

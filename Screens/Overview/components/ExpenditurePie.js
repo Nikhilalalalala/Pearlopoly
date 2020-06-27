@@ -23,7 +23,6 @@ class ExpenditurePie extends React.Component {
 
   constructor(props) {
     super(props);
-    this.getUser();
     let useruid = firebase.auth().currentUser.uid;
     this.subscriber = 
       firebase
@@ -32,9 +31,7 @@ class ExpenditurePie extends React.Component {
         .doc(useruid)
         .collection("statistics")
         .orderBy("beginDate", "desc")
-        .limit(1)
-        .get()
-        .then( collection => {
+        .onSnapshot( collection => {
           console.log(collection.size)
           collection.forEach(doc => {
             this.setState({
@@ -49,10 +46,6 @@ class ExpenditurePie extends React.Component {
           });
         });
   };
-  getUser = async () => {
-    let useruid = firebase.auth().currentUser.uid;
-    const userDoc = await firebase.firestore().collection('users').doc(useruid).get()
-  }
 
 
   render() {

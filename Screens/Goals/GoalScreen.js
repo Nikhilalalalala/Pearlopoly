@@ -46,9 +46,7 @@ class GoalScreen extends React.Component {
         .doc(`${uid}`)
         .collection("statistics")
         .orderBy("beginDate", "desc")
-        .limit(1)
-        .get()
-        .then( collection => {
+        .onSnapshot( collection => {
           console.log(collection.size)
           collection.forEach(doc => {
             this.setState({ 
