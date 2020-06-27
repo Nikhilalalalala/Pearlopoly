@@ -5,17 +5,24 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
-  View,
   TouchableOpacity,
-  StatusBar,
+  TouchableHighlight,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import * as firebase from "firebase";
 
 export default class LoginScreen extends React.Component {
   state = { email: "", password: "", errorMessage: null };
 
+  
+  constructor(props) {
+    super(props);
+    this.textInputPassword = React.createRef();
+    this.focusTextInputPW = this.focusTextInputPW.bind(this);
+    
+  }
+  focusTextInputPW() {
+    this.textInputPassword.current.focus();
+  }
   handleLogin = () => {
     const { email, password } = this.state;
     firebase
@@ -42,15 +49,22 @@ export default class LoginScreen extends React.Component {
           placeholderTextColor="#BB7E5D"
           onChangeText={(email) => this.setState({ email })}
           returnKeyType="next"
+          autoCapitalize= 'none'
+          autoCompleteType='email'
+          onSubmitEditing ={this.focusTextInputPW}
+          blurOnSubmit={false}
         />
 
         <TextInput
+          ref={this.textInputPassword}
           style={login.textField}
           placeholder="PASSWORD"
           placeholderTextColor="#BB7E5D"
           returnKeyType="done"
           onChangeText={(password) => this.setState({ password })}
           secureTextEntry={true}
+          autoCapitalize= 'none'
+
         />
 
         <TouchableOpacity
@@ -69,12 +83,14 @@ export default class LoginScreen extends React.Component {
           </Text>
         )}
 
-        <Text
+        <TouchableOpacity
           style={login.register}
+          underlayColor="white"
           onPress={() => this.props.navigation.navigate("Register")}
-        >
+        ><Text style={{ textDecorationLine: "underline", }}>
           DON'T HAVE AN ACCOUNT?
         </Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     );
   }
@@ -114,9 +130,10 @@ const login = StyleSheet.create({
     fontFamily: "Lato-Regular",
   },
   register: {
-    marginTop: 100,
+    marginTop: 85,
     textDecorationLine: "underline",
     fontFamily: "Lato-Regular",
+    padding: 15,
   },
 });
 

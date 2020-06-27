@@ -25,12 +25,31 @@ class RegisterScreen extends Component {
     errorMessage: null,
   };
 
+  constructor(props) {
+    super(props);
+    this.textInputPasswordOne = React.createRef();
+    this.focusTextInputPWOne = this.focusTextInputPWOne.bind(this);
+
+    this.textInputPasswordTwo = React.createRef();
+    this.focusTextInputPWTwo = this.focusTextInputPWTwo.bind(this);
+  }
+
+  focusTextInputPWOne() {
+    this.textInputPasswordOne.current.focus();
+  }
+  focusTextInputPWTwo() {
+    this.textInputPasswordTwo.current.focus();
+  }
+
   handleUpdateEmail = (email) => {
+    // this.focusTextInputPWOne()
     this.setState({ email });
   };
 
-  handleUpdatePasswordOnce = (password_once) =>
+  handleUpdatePasswordOnce = (password_once) => {
+    // this.focusTextInputPWTwo()
     this.setState({ password_once });
+  };
 
   handleUpdatePassword = (password) => this.setState({ password });
 
@@ -91,9 +110,15 @@ class RegisterScreen extends Component {
           returnKeyType="next"
           onChangeText={this.handleUpdateEmail}
           value={email}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          autoFocus={true}
+          onSubmitEditing={this.focusTextInputPWOne}
+          blurOnSubmit={false}
         />
 
         <TextInput
+          ref={this.textInputPasswordOne}
           style={register.textField}
           placeholder="PASSWORD"
           placeholderTextColor="#BB7E5D"
@@ -101,9 +126,13 @@ class RegisterScreen extends Component {
           secureTextEntry={true}
           onChangeText={this.handleUpdatePasswordOnce}
           value={password_once}
+          autoCapitalize="none"
+          onSubmitEditing={this.focusTextInputPWTwo}
+          blurOnSubmit={false}
         />
 
         <TextInput
+          ref={this.textInputPasswordTwo}
           style={register.textField}
           placeholder="RE-ENTER PASSWORD"
           placeholderTextColor="#BB7E5D"
@@ -111,6 +140,8 @@ class RegisterScreen extends Component {
           onChangeText={this.handleUpdatePassword}
           value={password}
           secureTextEntry={true}
+          autoCapitalize="none"
+          showSoftInputOnFocus={true}
         />
 
         <TouchableOpacity
@@ -131,17 +162,21 @@ class RegisterScreen extends Component {
           <Text style={{ color: "#FFFFFF" }}>REGISTER</Text>
         </TouchableOpacity>
         {this.state.errorMessage && (
-          <Text style={{ color: "red", paddingVertical: 10, paddingHorizontal:10 }}>
+          <Text
+            style={{ color: "red", paddingVertical: 10, paddingHorizontal: 10 }}
+          >
             {this.state.errorMessage}
             Please Try Again
           </Text>
         )}
-        <Text
+        <TouchableOpacity
           style={register.login}
           onPress={() => this.props.navigation.navigate("Login")}
         >
-          ALREADY HAVE AN ACCOUNT?
-        </Text>
+          <Text style={{ textDecorationLine: "underline" }}>
+            ALREADY HAVE AN ACCOUNT?
+          </Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     );
   }
@@ -169,7 +204,7 @@ const register = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     fontFamily: "Lato-Regular",
-    backgroundColor:'#e1e2da',
+    backgroundColor: "#e1e2da",
   },
   button: {
     height: 30,
@@ -181,9 +216,10 @@ const register = StyleSheet.create({
     fontFamily: "Lato-Regular",
   },
   login: {
-    marginTop: 100,
+    marginTop: 70,
     textDecorationLine: "underline",
     fontFamily: "Lato-Regular",
+    padding: 15,
   },
 });
 
