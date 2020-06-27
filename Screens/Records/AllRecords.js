@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import * as firebase from "firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Icon } from "react-native-elements";
 
 const DayRecord = (props) => {
   return (
@@ -26,20 +22,62 @@ const DayRecord = (props) => {
   );
 };
 
+const iconify = (cat) => {
+  let nameIcon;
+  let type = "";
+  switch (cat) {
+    case "Food":
+      nameIcon = "restaurant";
+      break;
+    case "Education":
+      nameIcon = "school";
+      break;
+    case "Transport":
+      nameIcon = "train";
+      break;
+    case "Shopping":
+      nameIcon = "shopping-bag";
+      type = "font-awesome";
+      break;
+    case "Other Spending":
+      nameIcon = "question-circle-o";
+      type = "font-awesome";
+      break;
+    case "Income":
+      nameIcon = "usd";
+      type = "font-awesome";
+      break;
+  }
+  return (
+    <Icon
+      style={stylesSingleRecord.categoryIcon}
+      name={nameIcon}
+      type={type}
+      color={cat !== "Income" ? "#ed6a5a" : "#75B9BE"}
+    />
+  );
+};
+
 const SingleRecord = (props) => {
   return (
     <View style={stylesSingleRecord.container}>
-      <Text style={stylesSingleRecord.name}>{props.name}</Text>
-      <Text style={stylesSingleRecord.category}>{props.category}</Text>
-      <Text
-        style={
-          props.isIncome
-            ? stylesSingleRecord.incomevalue
-            : stylesSingleRecord.expensevalue
-        }
-      >
-        {props.value}
-      </Text>
+      <Text style={stylesSingleRecord.name}>{props.date}</Text>
+
+      <View style={stylesSingleRecord.bottomRow}>
+        <View style={stylesSingleRecord.nameAndIcon}>
+          {iconify(props.category)}
+          <Text style={stylesSingleRecord.name}>{props.name}</Text>
+        </View>
+        <Text
+          style={
+            props.isIncome
+              ? stylesSingleRecord.incomevalue
+              : stylesSingleRecord.expensevalue
+          }
+        >
+          $ {Number(props.value).toFixed(2)}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -48,11 +86,10 @@ class AllRecordsScreen extends Component {
   state = {
     useruid: null,
     records: null,
-    numOfRecords: 0
+    numOfRecords: 0,
   };
 
   componentDidMount() {
-    console.log("allrecords mounted");
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
     firebase
@@ -62,13 +99,12 @@ class AllRecordsScreen extends Component {
       .collection("records")
       .orderBy("Timestamp", "desc")
       .onSnapshot((querySnapshot) => {
-        console.log("Total records: ", querySnapshot.size);
         let records = [];
         querySnapshot.forEach((documentSnapshot) => {
           records.push(documentSnapshot.data());
         });
         this.setState({ records: records });
-        this.setState({numOfRecords: records.length})
+        this.setState({ numOfRecords: records.length });
       });
   }
 
@@ -107,6 +143,7 @@ class AllRecordsScreen extends Component {
           category={element.category}
           value={element.amount}
           isIncome={isIncome}
+          date={toPrint}
         />
       );
       i++;
@@ -201,7 +238,25 @@ const stylesSingleRecord = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 5,
-    height: 55,
+    height: 60,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+  },
+  nameAndIcon: {
+    paddingBottom: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    // width:'100%'
+  },
+  bottomRow: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
   },
   name: {
     fontFamily: "Lato-Regular",
@@ -215,19 +270,26 @@ const stylesSingleRecord = StyleSheet.create({
     paddingLeft: 5,
     paddingBottom: 5,
   },
+  categoryIcon: {
+    textAlign: "left",
+    paddingLeft: 5,
+    paddingBottom: 5,
+  },
   incomevalue: {
     color: "#75B9BE",
     fontFamily: "Lato-Regular",
     textAlign: "right",
-    bottom: 30,
+    bottom: 28,
     paddingRight: 5,
+    alignSelf: "flex-end",
   },
   expensevalue: {
     color: "#ED6A5A",
     fontFamily: "Lato-Regular",
     textAlign: "right",
-    bottom: 30,
+    bottom: 28,
     paddingRight: 5,
+    alignSelf: "flex-end",
   },
 });
 

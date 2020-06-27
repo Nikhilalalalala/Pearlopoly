@@ -81,8 +81,8 @@ class SettingsScreen extends Component {
           text: "OK",
           onPress: () => {
             console.log("OK Pressed");
-            this.deleteCollection('records');
-            this.deleteCollection('statistics');
+            this.deleteCollection("records");
+            this.deleteCollection("statistics");
           },
         },
       ],
@@ -261,21 +261,27 @@ class SettingsScreen extends Component {
               </View>
 
               <Text style={styles.aboutus}>
-                What can I do in this application ? {'\n'}{'\n'}
-
-                There's a lot you can do here! You can firstly track your expenses by 
-                simply adding records everytime you incur an expense or earn some money!
-                Its a simple process on the Add Record page! 
-                Next you can see your expenses in a visual manner and know where your money is going
-                Finally, you can learn something new with our tips on the Overview page {'\n'}{'\n'}
-              
+                What can I do in this application ? {"\n"}
+                {"\n"}
+                There's a lot you can do here! You can firstly track your
+                expenses by simply adding records everytime you incur an expense
+                or earn some money! Its a simple process on the Add Record page!
+                Next you can see your expenses in a visual manner and know where
+                your money is going Finally, you can learn something new with
+                our tips on the Overview page {"\n"}
+                {"\n"}
               </Text>
             </View>
           </Modal>
           <TouchableOpacity>
-            <Text style={styles.item} onPress={() => {
-              this.setModalVisibleFAQ(true);
-            }} >FAQ </Text>
+            <Text
+              style={styles.item}
+              onPress={() => {
+                this.setModalVisibleFAQ(true);
+              }}
+            >
+              FAQ{" "}
+            </Text>
           </TouchableOpacity>
 
           <View style={styles.line} />

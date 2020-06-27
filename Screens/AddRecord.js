@@ -18,7 +18,7 @@ import firebaseDb from "../firebaseDb";
 class AddRecord extends Component {
   state = {
     name: "",
-    amount: '',
+    amount: "",
     chosenCategory: "",
     useruid: null,
   };
@@ -184,7 +184,7 @@ class AddRecord extends Component {
 
   addRecord = () => {
     if (this.state.name && this.state.amount && this.state.chosenCategory) {
-      let name = this.state.name
+      let name = this.state.name;
       let realAmt = this.state.amount;
       let chosenCategory = this.state.chosenCategory;
       this.setState({ name: "", amount: "", chosenCategory: "" });
@@ -267,23 +267,26 @@ class AddRecord extends Component {
       <SafeAreaView style={screen.container}>
         <View style={main.line} />
         <View style={styles.container}>
-          
-          <TextInput
-            placeholder="Name"
-            onChangeText={this.handleName}
-            style={styles.inputAmount}
-            value={this.state.name}
-            keyboardType="default"
-          ></TextInput>
-
-          <TextInput
-            placeholder="Amount"
-            onChangeText={this.handleAmount}
-            style={styles.inputAmount}
-            value={this.state.amount}
-            keyboardType="numeric"
-          ></TextInput>
-
+          <View style={styles.fieldViewName}>
+            <Text style={styles.fieldTitle}> Name of Expense: </Text>
+            <TextInput
+              placeholder="Name"
+              onChangeText={this.handleName}
+              style={styles.nameField}
+              value={this.state.name}
+              keyboardType="default"
+            ></TextInput>
+          </View>
+          <View style={styles.fieldViewAmount}>
+            <Text style={styles.fieldTitle}> Amount: </Text>
+            <TextInput
+              placeholder="Amount"
+              onChangeText={this.handleAmount}
+              style={styles.amountField}
+              value={this.state.amount}
+              keyboardType="numeric"
+            ></TextInput>
+          </View>
           <View style={styles.categoryRowOne}>
             {this.category("Education", "school", "", "expense")}
             {this.category(
@@ -324,7 +327,6 @@ class AddRecord extends Component {
   }
 }
 
-
 const screen = StyleSheet.create({
   container: {
     flex: 1,
@@ -346,7 +348,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FAF3DD",
     alignItems: "center",
-    // justifyContent: "flex-end",
+    // flexDirection:'column',
     width: "90%",
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -361,7 +363,44 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginRight: 20,
     alignSelf: "flex-end",
-    width:'100%'
+    width: "100%",
+  },
+  nameField: {
+    fontFamily: "Lato-Bold",
+    fontSize: 20,
+    borderColor: "#BB7E5D",
+    borderWidth: 2,
+    padding: 5,
+    textAlign: "center",
+  },
+  fieldTitle: {
+    fontFamily: "Lato-Bold",
+    fontSize: 20,
+    color: "#BB7E5D",
+    padding: 5,
+  },
+  amountField: {
+    fontFamily: "Lato-Bold",
+    fontSize: 20,
+    borderColor: "#BB7E5D",
+    borderWidth: 2,
+    padding: 5,
+    width: "60%",
+    textAlign: "center",
+  },
+  fieldViewName: {
+    width: "90%",
+  },
+  fieldViewAmount: {
+    // display: "flex",
+    // flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "flex-start",
+    // width: "100%",
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
   },
   categoryRowOne: {
     flexDirection: "row",

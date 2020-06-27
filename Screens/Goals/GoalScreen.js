@@ -146,8 +146,16 @@ class Goals extends React.Component {
   handleAmount = (amount) => {
     if(!isNaN(amount)) {
       let amt = parseFloat(amount, 10);
-      this.setState({amount: amt});
-      console.log('amount entered is ' + amt);
+      if (amt > 0) {
+        this.setState({amount: amt});
+        console.log('amount entered is ' + amt);
+      } else {
+        Alert.alert('Invalid amount', 
+        'Please enter a valid amount',
+        [{ text: 'OK' }],
+        { cancelable: false },
+      )
+      }
     }
     else {
       Alert.alert('Invalid amount', 
@@ -160,7 +168,6 @@ class Goals extends React.Component {
 
   handleCategory = (itemValue) => {
     this.setState({selectedValue: itemValue});
-    console.log('category chosen is ' + itemValue);
   }
 
 
@@ -174,7 +181,11 @@ class Goals extends React.Component {
         <View style={main.box1}>
           <View style={main.title1}>
             <Text style={{ fontFamily: 'Lato-Regular' }}>Overall Goal Progress: </Text>
-            <Icon name={"edit"} style={main.icon} onPress={() => {this.setState({modalVisible1: true});}}/>
+            <Icon 
+              name={"edit"} 
+              style={main.icon} 
+              color="#BB7E5D" 
+              onPress={() => {this.setState({modalVisible1: true});}}/>
           </View>
           <GoalProgressBar />
         </View>
@@ -204,7 +215,11 @@ class Goals extends React.Component {
         <View style={main.box2}>
           <View style={main.title2}>
             <Text style={{ fontFamily: 'Lato-Regular' }}>Sub-goals: </Text>
-            <Icon name={"edit"} style={main.icon} onPress={() => {this.setState({modalVisible2: true});}}/>
+            <Icon 
+              name={"edit"} 
+              style={main.icon} 
+              color="#BB7E5D" 
+              onPress={() => {this.setState({modalVisible2: true});}}/>
           </View>
           <ScrollView 
             showsVerticalScrollIndicator={false}
@@ -225,10 +240,10 @@ class Goals extends React.Component {
         >
           <View style={modal.backgroundDim}>
             <View style={modal.overallEdit}>
-              <Text style={{ fontFamily: 'Lato-Regular' }}>Set category goal limit:</Text>
+              <Text style={{ fontFamily: 'Lato-Regular', paddingTop:5, }}>Set category goal limit:</Text>
               <Picker
                 selectedValue={this.state.selectedCategory}
-                style={{ height: 50, width: 185, }}
+                style={{ height: 50, width: 185 }}
                 mode='dropdown'
                 onValueChange={(itemValue, itemIndex) => {this.setState({selectedCategory: itemValue}); console.log('selected category is ' + this.state.selectedCategory)}}
               >
@@ -242,7 +257,7 @@ class Goals extends React.Component {
                 placeholder='Limit'
                 onChangeText={this.handleAmount}
                 keyboardType='numeric'
-                style={{borderWidth: 1, width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
+                style={{borderWidth: 1, borderColor:'#BB7E5D', width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
               ></TextInput>
               <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible2: false}); this.updateLimits(this.state.amount, this.state.selectedCategory); }}>
                 <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
@@ -308,7 +323,7 @@ const main = StyleSheet.create({
   },
   icon: {
     opacity: 0.5,
-    color: '#BB7E5D',
+    // color: '#BB7E5D',
   }
 });
 
@@ -333,9 +348,10 @@ const modal = StyleSheet.create({
     height: 30,
     width: 60,
     marginTop: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#BB7E5D',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius:4
   }
 })
 
