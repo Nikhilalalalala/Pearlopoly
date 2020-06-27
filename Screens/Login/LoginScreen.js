@@ -13,6 +13,16 @@ import * as firebase from "firebase";
 export default class LoginScreen extends React.Component {
   state = { email: "", password: "", errorMessage: null };
 
+  
+  constructor(props) {
+    super(props);
+    this.textInputPassword = React.createRef();
+    this.focusTextInputPW = this.focusTextInputPW.bind(this);
+    
+  }
+  focusTextInputPW() {
+    this.textInputPassword.current.focus();
+  }
   handleLogin = () => {
     const { email, password } = this.state;
     firebase
@@ -41,9 +51,12 @@ export default class LoginScreen extends React.Component {
           returnKeyType="next"
           autoCapitalize= 'none'
           autoCompleteType='email'
+          onSubmitEditing ={this.focusTextInputPW}
+          blurOnSubmit={false}
         />
 
         <TextInput
+          ref={this.textInputPassword}
           style={login.textField}
           placeholder="PASSWORD"
           placeholderTextColor="#BB7E5D"

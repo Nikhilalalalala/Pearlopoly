@@ -25,12 +25,31 @@ class RegisterScreen extends Component {
     errorMessage: null,
   };
 
+  constructor(props) {
+    super(props);
+    this.textInputPasswordOne = React.createRef();
+    this.focusTextInputPWOne = this.focusTextInputPWOne.bind(this);
+
+    this.textInputPasswordTwo = React.createRef();
+    this.focusTextInputPWTwo = this.focusTextInputPWTwo.bind(this);
+  }
+
+  focusTextInputPWOne() {
+    this.textInputPasswordOne.current.focus();
+  }
+  focusTextInputPWTwo() {
+    this.textInputPasswordTwo.current.focus();
+  }
+
   handleUpdateEmail = (email) => {
+    // this.focusTextInputPWOne()
     this.setState({ email });
   };
 
-  handleUpdatePasswordOnce = (password_once) =>
+  handleUpdatePasswordOnce = (password_once) => {
+    // this.focusTextInputPWTwo()
     this.setState({ password_once });
+  };
 
   handleUpdatePassword = (password) => this.setState({ password });
 
@@ -91,12 +110,15 @@ class RegisterScreen extends Component {
           returnKeyType="next"
           onChangeText={this.handleUpdateEmail}
           value={email}
-          autoCapitalize= 'none'
-          autoCompleteType='email'
-
+          autoCapitalize="none"
+          autoCompleteType="email"
+          autoFocus={true}
+          onSubmitEditing={this.focusTextInputPWOne}
+          blurOnSubmit={false}
         />
 
         <TextInput
+          ref={this.textInputPasswordOne}
           style={register.textField}
           placeholder="PASSWORD"
           placeholderTextColor="#BB7E5D"
@@ -104,10 +126,13 @@ class RegisterScreen extends Component {
           secureTextEntry={true}
           onChangeText={this.handleUpdatePasswordOnce}
           value={password_once}
-          autoCapitalize= 'none'
+          autoCapitalize="none"
+          onSubmitEditing={this.focusTextInputPWTwo}
+          blurOnSubmit={false}
         />
 
         <TextInput
+          ref={this.textInputPasswordTwo}
           style={register.textField}
           placeholder="RE-ENTER PASSWORD"
           placeholderTextColor="#BB7E5D"
@@ -115,7 +140,8 @@ class RegisterScreen extends Component {
           onChangeText={this.handleUpdatePassword}
           value={password}
           secureTextEntry={true}
-          autoCapitalize= 'none'
+          autoCapitalize="none"
+          showSoftInputOnFocus={true}
         />
 
         <TouchableOpacity
