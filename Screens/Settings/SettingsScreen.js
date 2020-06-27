@@ -96,8 +96,13 @@ class SettingsScreen extends Component {
       .collection(`users`)
       .doc(`${this.state.currentUserUid}`)
       .collection(col);
-    let query = collectionRef.orderBy("Timestamp").limit(10);
-
+    let query;
+    if (col === "records") {
+      query = collectionRef.orderBy("Timestamp").limit(10);
+    } else {
+      //col === 'statistics'
+      query = collectionRef.orderBy("beginDate").limit(10);
+    }
     return new Promise((resolve, reject) => {
       this.deleteQueryBatch(query, resolve, reject);
     });
