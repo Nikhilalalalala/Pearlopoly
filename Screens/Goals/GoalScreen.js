@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Text, StatusBar, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as firebase from 'firebase';
-import GoalProgressBar from "../Overview/components/GoalProgressBar";
+import GoalProgressBar from "../components/GoalProgressBar";
 import SingleGoal from './SingleGoal';
 
 class GoalScreen extends React.Component {
