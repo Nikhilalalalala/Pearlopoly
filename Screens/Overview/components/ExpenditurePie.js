@@ -14,6 +14,7 @@ class ExpenditurePie extends React.Component {
       other: 0,
       shopping: 0,
       transport: 0,
+      overall: 0,
     }
   }
   componentDidMount() {
@@ -41,6 +42,7 @@ class ExpenditurePie extends React.Component {
                 other: doc.data().TotalOtherSpending,
                 shopping: doc.data().TotalShopping,
                 transport: doc.data().TotalTransport,
+                overall: doc.data().TotalOverall,
               }
             });
           });
@@ -70,6 +72,8 @@ class ExpenditurePie extends React.Component {
             key: `pie-${index}`,
         }))
 
+      const totalExpenditure = Number(this.state.expenditure.overall).toFixed(2);
+
       return (
         <View style={pie.container}>
           <PieChart 
@@ -77,8 +81,8 @@ class ExpenditurePie extends React.Component {
             innerRadius = {pieInnerRadius}
             data = {pieData} 
           />
-          <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center'}}>
-            Expenditure
+          <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', fontFamily: 'Lato-Regular'}}>
+            Expenditure: ${totalExpenditure}
           </Text>
         </View>
         )
