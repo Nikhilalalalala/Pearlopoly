@@ -1,16 +1,67 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
+import * as firebase from 'firebase';
 
 
 class ExpenditurePie extends React.Component {
+  state = {
+    useruid: null,
+
+    expenditure: {
+      education: 0,
+      food: 0,
+      other: 0,
+      shopping: 0,
+      transport: 0,
+    }
+  }
+  componentDidMount() {
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
+  }
+
+  constructor(props) {
+    super(props);
+    this.getUser();
+    let useruid = firebase.auth().currentUser.uid;
+    this.subscriber = 
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(useruid)
+        .collection("statistics")
+        .orderBy("beginDate", "desc")
+        .limit(1)
+        .get()
+        .then( collection => {
+          console.log(collection.size)
+          collection.forEach(doc => {
+            this.setState({
+              expenditure: {
+                education: doc.data().TotalEducation,
+                food: doc.data().TotalFood,
+                other: doc.data().TotalOtherSpending,
+                shopping: doc.data().TotalShopping,
+                transport: doc.data().TotalTransport,
+              }
+            });
+          });
+        });
+  };
+  getUser = async () => {
+    let useruid = firebase.auth().currentUser.uid;
+    const userDoc = await firebase.firestore().collection('users').doc(useruid).get()
+  }
+
+
   render() {
+    console.log('pie chart render called');
       
     //i don't know where we are going to pull the data from yet, so placeholder data!
     //data index corresponds to colour in colorCodes array
     //TODO: index of data don't actually correspond to color => data[5] is displayed in colorCodes[4] instead
-      const total = 75;
-      const data = [20, 10, 30, 10, 5];
+      const data = [this.state.expenditure.education, this.state.expenditure.food, this.state.expenditure.other, this.state.expenditure.shopping, this.state.expenditure.transport];
       const colorCodes = ['#FFBE86', '#BCD8C1', '#BB7E5D', '#F4978E', '#75B9BE'];
 
       //Do I know how this works? No. Absolutely not.
