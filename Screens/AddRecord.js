@@ -297,7 +297,7 @@ class AddRecord extends Component {
               keyboardType="default"
             ></TextInput>
           </View>
-          <View style={styles.fieldViewAmount}>
+          <View style={styles.fieldViewName}>
             <Text style={styles.fieldTitle}> Amount: </Text>
             <TextInput
               placeholder="Amount"
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
   },
   fieldTitle: {
     fontFamily: "Lato-Bold",
-    fontSize: 20,
+    fontSize: 14,
     color: "#BB7E5D",
     padding: 5,
   },
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     borderColor: "#BB7E5D",
     borderWidth: 2,
     padding: 5,
-    width: "60%",
+    width: "100%",
     textAlign: "center",
   },
   fieldViewName: {
