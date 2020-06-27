@@ -260,8 +260,8 @@ class GoalScreen extends React.Component {
             showsVerticalScrollIndicator={false}
             alwaysBounceVertical={true} 
           >
-            <SingleGoal category='Education' spending={this.state.expenditure.education} limit={this.state.limits.EducationLimit}/>
-            <SingleGoal category='Shopping'spending={this.state.expenditure.shopping} limit={this.state.limits.ShoppingLimit}/>
+            <SingleGoal category='Education' spending={this.state.expenditure.education} limit={this.state.limits.education}/>
+            <SingleGoal category='Shopping'spending={this.state.expenditure.shopping} limit={this.state.limits.shopping}/>
             <SingleGoal category='Food' spending={this.state.expenditure.food} limit={this.state.limits.food}/>
             <SingleGoal category='Transport' spending={this.state.expenditure.transport} limit={this.state.limits.transport}/>
             <SingleGoal category='Other Spending' spending={this.state.expenditure.other} limit={this.state.limits.other}/>

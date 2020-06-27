@@ -13,6 +13,7 @@ class GoalProgressBar extends React.Component {
       transport: 0,
     },
     expenditure: {
+      overall: 0,
       education: 0,
       food: 0,
       other: 0,
@@ -52,6 +53,7 @@ class GoalProgressBar extends React.Component {
             });
             this.setState({
               expenditure: {
+                overall: doc.data().TotalOverall,
                 education: doc.data().TotalEducation,
                 food: doc.data().TotalFood,
                 other: doc.data().TotalOtherSpending,
@@ -59,17 +61,6 @@ class GoalProgressBar extends React.Component {
                 transport: doc.data().TotalTransport,
               },
             });
-            //this.setState({ TotalSpending: (doc.data().TotalEducation + doc.data().TotalFood + doc.data().TotalOtherSpending + doc.data().TotalShopping + doc.data().TotalTransport)});
-            
-            let totalSpending = doc.data().TotalEducation + doc.data().TotalFood + doc.data().TotalOtherSpending + doc.data().TotalShopping + doc.data().TotalTransport;
-            //let totalSpending = this.state.expenditure.education + this.state.expenditure.food + this.state.expenditure.other + this.state.expenditure.shopping + this.state.expenditure.transport;
-            console.log('variable: ', totalSpending);
-            this.setState({totalSpending: totalSpending});
-            console.log('TotalSpending: ', this.state.totalSpending);
-            console.log('OverallLimit: ', this.state.limits.overall);
-            let limitBalance = this.state.limits.overall - this.state.totalSpending;
-            this.setState({limitBalnce: limitBalance});
-            console.log('states: ', this.state.totalSpending, this.state.limitBalance)
           });
         });
       }
@@ -81,27 +72,39 @@ class GoalProgressBar extends React.Component {
       })*/
       render() {
         //this.getData(this.state.useruid);
-        console.log('expenditure: ', this.state.totalSpending);
-        console.log('limit left: ', this.state.limitBalance);
+
         const goalData = [
             {
-                expenditure: this.state.totalSpending,
-                limitLeft: this.state.limitBalance,
+                expenditure: this.state.expenditure.overall,
+                limitLeft: this.state.limits.overall - this.state.expenditure.overall,
             }
         ]
 
         const colors = ['#F4978E', '#BCD8C1'];
         const keys = ['expenditure', 'limitLeft'];
 
-        return (
-            <StackedBarChart 
-            style = {{height: 35, width: '100%'}}
-            keys = {keys}
-            colors = {colors}
-            data = {goalData}
-            horizontal = {true}
+        if (this.state.limits.overall == 0 || isNaN(this.state.limits.overall)) {
+          return(
+            <StackedBarChart
+              style ={{height: 35, width: '100%'}}
+              keys = {['noRecords']}
+              colors = {['#E1E2DA']}
+              data = {[{noRecords: 1}]}
+              horizontal = {true}
             />
-        )
+          )
+        }
+        else {
+          return (
+            <StackedBarChart 
+              style = {{height: 35, width: '100%'}}
+              keys = {keys}
+              colors = {colors}
+              data = {goalData}
+              horizontal = {true}
+            />
+          )
+        };
       }
 }
 

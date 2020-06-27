@@ -74,18 +74,46 @@ class ExpenditurePie extends React.Component {
 
       const totalExpenditure = Number(this.state.expenditure.overall).toFixed(2);
 
-      return (
-        <View style={pie.container}>
+      if (totalExpenditure == 0 || isNaN(totalExpenditure)) {
+        return(
+          <View style={pie.container}>
           <PieChart 
             style = {{ height: pieHeight }} 
             innerRadius = {pieInnerRadius}
-            data = {pieData} 
+            data = {
+              [1]
+              .filter((value) => value > 0)
+              .map((value, index) => ({
+                value,
+                svg: {
+                  fill: '#E1E2DA', 
+                   onPress: () => console.log('press', index), 
+                },
+                   key: `pie-${index}`,
+              }))
+            }
           />
           <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', fontFamily: 'Lato-Regular'}}>
-            Expenditure: ${totalExpenditure}
+            No records Yet :(
           </Text>
         </View>
+        );
+      }
+      else {
+        return (
+          <View style={pie.container}>
+            <PieChart 
+              style = {{ height: pieHeight }} 
+              innerRadius = {pieInnerRadius}
+              data = {pieData} 
+            />
+            <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', fontFamily: 'Lato-Regular'}}>
+              Expenditure: ${totalExpenditure}
+            </Text>
+          </View>
         )
+      };
+      
   }
 };
 

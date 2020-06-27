@@ -114,6 +114,7 @@ class AddRecord extends Component {
                   newData = { TotalTransport: amt + docData.TotalTransport,
                     TotalOverall: amt + docData.TotalOverall,
                   };
+                  break;
                 case "Shopping":
                   newData = { TotalShopping: amt + docData.TotalShopping,
                     TotalOverall: amt + docData.TotalOverall,

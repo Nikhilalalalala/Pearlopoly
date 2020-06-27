@@ -13,6 +13,10 @@ class SingleGoal extends React.Component {
     var spendingPrint = Number(spending).toFixed(2);
     var limitPrint = Number(limit).toFixed(2);
 
+    console.log('category: ', this.props.category);
+    console.log('spending: ', this.props.spending);
+    console.log('limit: ', this.props.limit);
+
     //if limit is 0, there is effectively no limit set
     if (limit == 0 || limit == null) {
 
