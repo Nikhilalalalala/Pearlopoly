@@ -40,7 +40,6 @@ class GoalProgressBar extends React.Component {
         .collection("statistics")
         .orderBy("beginDate", "desc")
         .onSnapshot( collection => {
-          console.log(collection.size)
           collection.forEach(doc => {
             this.setState({ 
               limits: {
@@ -82,9 +81,9 @@ class GoalProgressBar extends React.Component {
 
         if (this.state.limits.overall != 0 && limitBalance < 0) {
           return(
-            <View style={{height: 35, width: '100%',}} >
+            <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }} >
               <StackedBarChart
-                style ={{height: '100%', width: '100%'}}
+                style ={{height: '100%', width: '100%', }}
                 keys = {['exceed']}
                 colors = {['#F4978E']}
                 data = {[{exceed: 1}]}
@@ -96,7 +95,7 @@ class GoalProgressBar extends React.Component {
         }
         else if (this.state.limits.overall == 0 || isNaN(this.state.limits.overall)) {
           return(
-            <View style={{height: 35, width: '100%',}}>
+            <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }}>
               <StackedBarChart
                 style ={{height: '100%', width: '100%'}}
                 keys = {['noRecords']}

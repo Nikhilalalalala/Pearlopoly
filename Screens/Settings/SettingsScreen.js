@@ -45,7 +45,6 @@ class SettingsScreen extends Component {
   };
   updateName = () => {
     let newName = this.state.newUserName;
-    console.log(newName);
     if (newName) {
       firebase
         .firestore()
@@ -80,7 +79,6 @@ class SettingsScreen extends Component {
         {
           text: "OK",
           onPress: () => {
-            console.log("OK Pressed");
             this.deleteCollection("records");
             this.deleteCollection("statistics");
           },
@@ -113,7 +111,6 @@ class SettingsScreen extends Component {
     query
       .get()
       .then((snapshot) => {
-        console.log(`${snapshot.size}`);
         // When there are no documents left, we are done
         if (snapshot.size === 0) {
           return 0;
@@ -255,14 +252,22 @@ class SettingsScreen extends Component {
             visible={this.state.modalVisibleFAQ}
           >
             <View style={styles.modal}>
-              <View
-                style={styles.modalBack}
-                onPress={() => {
-                  this.setModalVisibleFAQ(!this.state.modalVisibleFAQ);
-                }}
-              >
-                <Icon name={"arrow-back"} />
-                <Text style={styles.modalBackText}>Back </Text>
+              <View style={styles.modalBack}>
+                <Icon
+                  name={"arrow-back"}
+                  color={"#FAF3DD"}
+                  onPress={() => {
+                    this.setModalVisibleFAQ(!this.state.modalVisibleFAQ);
+                  }}
+                />
+                <Text
+                  style={styles.modalBackText}
+                  onPress={() => {
+                    this.setModalVisibleFAQ(!this.state.modalVisibleFAQ);
+                  }}
+                >
+                  Back{" "}
+                </Text>
               </View>
 
               <Text style={styles.aboutus}>
@@ -273,7 +278,7 @@ class SettingsScreen extends Component {
                 or earn some money! Its a simple process on the Add Record page!
                 Next you can see your expenses in a visual manner and know where
                 your money is going finally, you can learn something new with
-                our tips on the Overview page {"\n"}
+                our tips on the Overview page. {"\n"}
                 {"\n"}
               </Text>
             </View>

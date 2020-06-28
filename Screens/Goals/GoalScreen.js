@@ -45,7 +45,6 @@ class GoalScreen extends React.Component {
         .collection("statistics")
         .orderBy("beginDate", "desc")
         .onSnapshot( collection => {
-          console.log(collection.size)
           collection.forEach(doc => {
             this.setState({ 
               limits: {
@@ -72,78 +71,81 @@ class GoalScreen extends React.Component {
 
 
   updateLimits = (amount) => {
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(`${this.state.useruid}`)
-      .collection('statistics')
-      .orderBy('beginDate', 'desc')
-      .limit(1)
-      .get()
-      .then((data) => {
-        if (!data.empty) {
-          data.forEach(dat => {
-            let docData = dat.data()
-            let recentDate = new Date(docData.beginDate)
-            let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
-            let nowDate = new Date()
-            let statsID = docData.statsID
-            if(nowDate < nextWeek) {
-              let newData;
-              newData = {OverallLimit: amount};
-              
-              firebase
-                .firestore()
-                .collection('users')
-                .doc(`${this.state.useruid}`)
-                .collection('statistics').doc(`${statsID}`)
-                .set(newData, {merge: true});
-            }
-            else {
-              firebase
-                .firestore()
-                .collection('users')
-                .doc(`${this.state.useruid}`)
-                .collection('statistics')
-                .add({
-                  TotalEducation: 0,
-                  TotalFood: 0,
-                  TotalShopping: 0,
-                  TotalTransport: 0,
-                  TotalOtherSpending: 0,
-                  TotalIncome: 0,
-                  OverallLimit: 0,
-                  EducationLimit: 0,
-                  FoodLimit: 0,
-                  ShoppingLimit: 0,
-                  TransportLimit: 0,
-                  OtherLimit: 0,
-                  beginDate: Date.now(),
-                })
-                .then((key) => {
-                  let newData;
-                  newData = {OverallLimit: amount, statsID: key.id};
-                  firebase
-                    .firestore()
-                    .collection('users')
-                    .doc(`${this.state.useruid}`)
-                    .collection('statistics')
-                    .doc(key.id)
-                    .set( newData, {merge: true});
-                  });
-            }
-          })
-        }
-      })
+    if (amount > 0) {
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(`${this.state.useruid}`)
+        .collection('statistics')
+        .orderBy('beginDate', 'desc')
+        .limit(1)
+        .get()
+        .then((data) => {
+          if (!data.empty) {
+            data.forEach(dat => {
+              let docData = dat.data()
+              let recentDate = new Date(docData.beginDate)
+              let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
+              let nowDate = new Date()
+              let statsID = docData.statsID
+              if(nowDate < nextWeek) {
+                let newData;
+                newData = {OverallLimit: amount};
+                
+                firebase
+                  .firestore()
+                  .collection('users')
+                  .doc(`${this.state.useruid}`)
+                  .collection('statistics').doc(`${statsID}`)
+                  .set(newData, {merge: true});
+              }
+              else {
+                firebase
+                  .firestore()
+                  .collection('users')
+                  .doc(`${this.state.useruid}`)
+                  .collection('statistics')
+                  .add({
+                    TotalEducation: 0,
+                    TotalFood: 0,
+                    TotalShopping: 0,
+                    TotalTransport: 0,
+                    TotalOtherSpending: 0,
+                    TotalIncome: 0,
+                    OverallLimit: 0,
+                    EducationLimit: 0,
+                    FoodLimit: 0,
+                    ShoppingLimit: 0,
+                    TransportLimit: 0,
+                    OtherLimit: 0,
+                    beginDate: Date.now(),
+                  })
+                  .then((key) => {
+                    let newData;
+                    newData = {OverallLimit: amount, statsID: key.id};
+                    firebase
+                      .firestore()
+                      .collection('users')
+                      .doc(`${this.state.useruid}`)
+                      .collection('statistics')
+                      .doc(key.id)
+                      .set( newData, {merge: true});
+                    });
+              }
+            })
+          }
+        })
+    }
   };
 
 
   handleAmount = (amount) => {
     if(!isNaN(amount)) {
       let amt = parseFloat(amount, 10);
+      console.log(amt)
       if (amt > 0) {
+        console.log('itsmore than 0?')
         this.setState({amount: amt});
-        console.log('amount entered is ' + amt);
       } else {
         Alert.alert('Invalid amount', 
         'Please enter a valid amount',
@@ -176,7 +178,10 @@ class GoalScreen extends React.Component {
               color="#BB7E5D" 
               onPress={() => {this.setState({modalVisible: true});}}/>
           </View>
-          <GoalProgressBar />
+          <Text style={{alignSelf: 'center', fontFamily: 'Lato-Regular', marginBottom:5, }}> Current Overall Spending Limit: $ {Number(this.state.limits.overall).toFixed(2)} </Text>
+          <TouchableOpacity style={{width:'100%',}}  onPress={() => {this.setState({modalVisible: true})}}>
+            <GoalProgressBar />
+          </TouchableOpacity> 
         </View>
 
         <Modal
@@ -191,7 +196,8 @@ class GoalScreen extends React.Component {
                 placeholder='Limit'
                 onChangeText={this.handleAmount}
                 keyboardType='numeric'
-                autoFocus={true}
+                autoFocus={true} 
+                onSubmitEditing={() => {this.setState({modalVisible: false}); this.updateLimits(this.state.amount); }}
                 style={{borderWidth: 1, width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
               ></TextInput>
               <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible: false}); this.updateLimits(this.state.amount); }}>

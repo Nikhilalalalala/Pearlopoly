@@ -33,7 +33,6 @@ class ExpenditurePie extends React.Component {
         .collection("statistics")
         .orderBy("beginDate", "desc")
         .onSnapshot( collection => {
-          console.log(collection.size)
           collection.forEach(doc => {
             this.setState({
               expenditure: {
@@ -51,7 +50,6 @@ class ExpenditurePie extends React.Component {
 
 
   render() {
-    console.log('pie chart render called');
       
     //i don't know where we are going to pull the data from yet, so placeholder data!
     //data index corresponds to colour in colorCodes array
@@ -67,7 +65,7 @@ class ExpenditurePie extends React.Component {
           value,
           svg: {
             fill: colorCodes[index], 
-            onPress: () => console.log('press', index), //this could come in handy for stuff like looking at the details for each slice or something
+            // onPress: () => console.log('press', index), //this could come in handy for stuff like looking at the details for each slice or something
           },
             key: `pie-${index}`,
         }))
@@ -87,7 +85,7 @@ class ExpenditurePie extends React.Component {
                 value,
                 svg: {
                   fill: '#E1E2DA', 
-                   onPress: () => console.log('press', index), 
+                  //  onPress: () => console.log('press', index), 
                 },
                    key: `pie-${index}`,
               }))
