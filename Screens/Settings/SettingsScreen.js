@@ -272,7 +272,7 @@ class SettingsScreen extends Component {
                 expenses by simply adding records everytime you incur an expense
                 or earn some money! Its a simple process on the Add Record page!
                 Next you can see your expenses in a visual manner and know where
-                your money is going Finally, you can learn something new with
+                your money is going finally, you can learn something new with
                 our tips on the Overview page {"\n"}
                 {"\n"}
               </Text>
