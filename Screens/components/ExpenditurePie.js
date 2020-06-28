@@ -37,7 +37,6 @@ class ExpenditurePie extends React.Component {
         .collection("statistics")
         .orderBy("beginDate", "desc")
         .onSnapshot( collection => {
-          console.log(collection.size)
           collection.forEach(doc => {
             this.setState({
               expenditure: {
@@ -92,7 +91,7 @@ class ExpenditurePie extends React.Component {
                 value,
                 svg: {
                   fill: '#E1E2DA', 
-                   onPress: () => console.log('press', index), 
+                  //  onPress: () => console.log('press', index), 
                 },
                    key: `pie-${index}`,
               }))

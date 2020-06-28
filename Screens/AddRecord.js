@@ -57,7 +57,6 @@ class AddRecord extends Component {
 
   handleCategory = (category) => {
     this.setState({ chosenCategory: category });
-    console.log("handle Category", this.state.chosenCategory);
   };
 
   addDocID = (id) => {
@@ -169,7 +168,6 @@ class AddRecord extends Component {
             })
             .then((key) => {
               let newData;
-              console.log("category ", cat);
               switch (cat) {
                 case "Food":
                   newData = { TotalFood: amt, TotalOverall: amt, statsID: key.id };

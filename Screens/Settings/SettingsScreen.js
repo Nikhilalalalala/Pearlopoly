@@ -45,7 +45,6 @@ class SettingsScreen extends Component {
   };
   updateName = () => {
     let newName = this.state.newUserName;
-    console.log(newName);
     if (newName) {
       firebase
         .firestore()
@@ -80,9 +79,8 @@ class SettingsScreen extends Component {
         {
           text: "OK",
           onPress: () => {
-            console.log("OK Pressed");
-            this.deleteCollection("records");
             this.deleteCollection("statistics");
+            this.deleteCollection("records");
           },
         },
       ],
@@ -90,58 +88,47 @@ class SettingsScreen extends Component {
     );
   };
 
-  deleteCollection = (col) => {
+  deleteCollection = async (col) => {
     let collectionRef = firebase
       .firestore()
       .collection(`users`)
       .doc(`${this.state.currentUserUid}`)
-      .collection(col);
+      .collection(`${col}`);
+    // const query = collectionRef.orderBy('Timestamp').limit(100);
     let query;
     if (col === "records") {
-      query = collectionRef.orderBy("Timestamp").limit(10);
+      query = collectionRef.orderBy("Timestamp").limit(100);
     } else {
       //col === 'statistics'
-      query = collectionRef.orderBy("beginDate").limit(10);
+      query = collectionRef.orderBy("statsID").limit(100);
     }
     return new Promise((resolve, reject) => {
-      this.deleteQueryBatch(query, resolve, reject);
+      this.deleteQueryBatch(query, resolve).catch(reject);
     });
   };
 
-  deleteQueryBatch = (query, resolve, reject) => {
-    let db = firebase.firestore();
-    query
-      .get()
-      .then((snapshot) => {
-        console.log(`${snapshot.size}`);
-        // When there are no documents left, we are done
-        if (snapshot.size === 0) {
-          return 0;
-        }
+  deleteQueryBatch = async (query, resolve) => {
+    const snapshot = await query.get();
 
-        // Delete documents in a batch
-        let batch = db.batch();
-        snapshot.docs.forEach((doc) => {
-          batch.delete(doc.ref);
-        });
+    const batchSize = snapshot.size;
+    if (batchSize === 0) {
+      // When there are no documents left, we are done
+      resolve();
+      return;
+    }
 
-        return batch.commit().then(() => {
-          return snapshot.size;
-        });
-      })
-      .then((numDeleted) => {
-        if (numDeleted === 0) {
-          resolve();
-          return;
-        }
+    // Delete documents in a batch
+    const batch = firebase.firestore().batch();
+    snapshot.docs.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
 
-        // Recurse on the next process tick, to avoid
-        // exploding the stack.
-        process.nextTick(() => {
-          deleteQueryBatch(db, query, resolve, reject);
-        });
-      })
-      .catch(reject);
+    // Recurse on the next process tick, to avoid
+    // exploding the stack.
+    // process.nextTick(() => {
+    //   deleteQueryBatch(query, resolve);
+    // });
   };
 
   logoutUser = () => {
@@ -255,14 +242,22 @@ class SettingsScreen extends Component {
             visible={this.state.modalVisibleFAQ}
           >
             <View style={styles.modal}>
-              <View
-                style={styles.modalBack}
-                onPress={() => {
-                  this.setModalVisibleFAQ(!this.state.modalVisibleFAQ);
-                }}
-              >
-                <Icon name={"arrow-back"} />
-                <Text style={styles.modalBackText}>Back </Text>
+              <View style={styles.modalBack}>
+                <Icon
+                  name={"arrow-back"}
+                  color={"#FAF3DD"}
+                  onPress={() => {
+                    this.setModalVisibleFAQ(!this.state.modalVisibleFAQ);
+                  }}
+                />
+                <Text
+                  style={styles.modalBackText}
+                  onPress={() => {
+                    this.setModalVisibleFAQ(!this.state.modalVisibleFAQ);
+                  }}
+                >
+                  Back{" "}
+                </Text>
               </View>
 
               <Text style={styles.aboutus}>
@@ -273,7 +268,7 @@ class SettingsScreen extends Component {
                 or earn some money! Its a simple process on the Add Record page!
                 Next you can see your expenses in a visual manner and know where
                 your money is going finally, you can learn something new with
-                our tips on the Overview page {"\n"}
+                our tips on the Overview page. {"\n"}
                 {"\n"}
               </Text>
             </View>

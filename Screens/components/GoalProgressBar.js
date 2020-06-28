@@ -39,29 +39,34 @@ class GoalProgressBar extends React.Component {
         .doc(`${uid}`)
         .collection("statistics")
         .orderBy("beginDate", "desc")
+        .limit(1)
         .onSnapshot( collection => {
-          console.log(collection.size)
           collection.forEach(doc => {
-            this.setState({ 
-              limits: {
-                overall: doc.data().OverallLimit,
-                education: doc.data().EducationLimit,
-                food: doc.data().FoodLimit,
-                other: doc.data().OtherLimit,
-                shopping: doc.data().ShoppingLimit,
-                transport: doc.data().TransportLimit,
-              },
-            });
-            this.setState({
-              expenditure: {
-                overall: doc.data().TotalOverall,
-                education: doc.data().TotalEducation,
-                food: doc.data().TotalFood,
-                other: doc.data().TotalOtherSpending,
-                shopping: doc.data().TotalShopping,
-                transport: doc.data().TotalTransport,
-              },
-            });
+            let recentDate = new Date(doc.data().beginDate)
+            let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
+            let nowDate = new Date()
+            if (nowDate < nextWeek) {
+              this.setState({ 
+                limits: {
+                  overall: doc.data().OverallLimit,
+                  education: doc.data().EducationLimit,
+                  food: doc.data().FoodLimit,
+                  other: doc.data().OtherLimit,
+                  shopping: doc.data().ShoppingLimit,
+                  transport: doc.data().TransportLimit,
+                },
+              });
+              this.setState({
+                expenditure: {
+                  overall: doc.data().TotalOverall,
+                  education: doc.data().TotalEducation,
+                  food: doc.data().TotalFood,
+                  other: doc.data().TotalOtherSpending,
+                  shopping: doc.data().TotalShopping,
+                  transport: doc.data().TotalTransport,
+                },
+              });
+            }
           });
         });
       }
@@ -82,9 +87,9 @@ class GoalProgressBar extends React.Component {
 
         if (this.state.limits.overall != 0 && limitBalance < 0) {
           return(
-            <View style={{height: 35, width: '100%',}} >
+            <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }} >
               <StackedBarChart
-                style ={{height: '100%', width: '100%'}}
+                style ={{height: '100%', width: '100%', }}
                 keys = {['exceed']}
                 colors = {['#F4978E']}
                 data = {[{exceed: 1}]}
@@ -96,7 +101,7 @@ class GoalProgressBar extends React.Component {
         }
         else if (this.state.limits.overall == 0 || isNaN(this.state.limits.overall)) {
           return(
-            <View style={{height: 35, width: '100%',}}>
+            <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }}>
               <StackedBarChart
                 style ={{height: '100%', width: '100%'}}
                 keys = {['noRecords']}
