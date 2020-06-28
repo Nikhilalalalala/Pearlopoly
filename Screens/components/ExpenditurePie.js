@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
 import * as firebase from 'firebase';
 
@@ -112,9 +112,21 @@ class ExpenditurePie extends React.Component {
               innerRadius = {pieInnerRadius}
               data = {pieData} 
             />
-            <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', fontFamily: 'Lato-Regular'}}>
-              {this.state.category}: ${this.state.amount}
-            </Text>
+            <TouchableOpacity 
+              style={{
+                height: pieInnerRadius*2,
+                width: pieInnerRadius*2,
+                borderRadius: pieInnerRadius,
+                position: 'absolute', 
+                alignSelf: 'center', 
+                justifyContent: 'center',
+              }} 
+              onPress={() => {this.setState({ category: 'Overall' }); this.setState({ amount: Number(this.state.expenditure.overall).toFixed(2) });}}
+            >
+              <Text style={{position: 'absolute', alignSelf: 'center', fontFamily: 'Lato-Regular'}}>
+                {this.state.category}: ${this.state.amount}
+              </Text>
+            </TouchableOpacity>
           </View>
         )
       };
