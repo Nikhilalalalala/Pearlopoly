@@ -39,28 +39,34 @@ class GoalProgressBar extends React.Component {
         .doc(`${uid}`)
         .collection("statistics")
         .orderBy("beginDate", "desc")
+        .limit(1)
         .onSnapshot( collection => {
           collection.forEach(doc => {
-            this.setState({ 
-              limits: {
-                overall: doc.data().OverallLimit,
-                education: doc.data().EducationLimit,
-                food: doc.data().FoodLimit,
-                other: doc.data().OtherLimit,
-                shopping: doc.data().ShoppingLimit,
-                transport: doc.data().TransportLimit,
-              },
-            });
-            this.setState({
-              expenditure: {
-                overall: doc.data().TotalOverall,
-                education: doc.data().TotalEducation,
-                food: doc.data().TotalFood,
-                other: doc.data().TotalOtherSpending,
-                shopping: doc.data().TotalShopping,
-                transport: doc.data().TotalTransport,
-              },
-            });
+            let recentDate = new Date(doc.data().beginDate)
+            let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
+            let nowDate = new Date()
+            if (nowDate < nextWeek) {
+              this.setState({ 
+                limits: {
+                  overall: doc.data().OverallLimit,
+                  education: doc.data().EducationLimit,
+                  food: doc.data().FoodLimit,
+                  other: doc.data().OtherLimit,
+                  shopping: doc.data().ShoppingLimit,
+                  transport: doc.data().TransportLimit,
+                },
+              });
+              this.setState({
+                expenditure: {
+                  overall: doc.data().TotalOverall,
+                  education: doc.data().TotalEducation,
+                  food: doc.data().TotalFood,
+                  other: doc.data().TotalOtherSpending,
+                  shopping: doc.data().TotalShopping,
+                  transport: doc.data().TotalTransport,
+                },
+              });
+            }
           });
         });
       }

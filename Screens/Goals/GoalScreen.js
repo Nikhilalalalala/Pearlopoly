@@ -44,27 +44,33 @@ class GoalScreen extends React.Component {
         .doc(`${uid}`)
         .collection("statistics")
         .orderBy("beginDate", "desc")
+        .limit(1)
         .onSnapshot( collection => {
           collection.forEach(doc => {
-            this.setState({ 
-              limits: {
-                overall: doc.data().OverallLimit,
-                education: doc.data().EducationLimit,
-                food: doc.data().FoodLimit,
-                other: doc.data().OtherLimit,
-                shopping: doc.data().ShoppingLimit,
-                transport: doc.data().TransportLimit,
-              },
-            });
-            this.setState({
-              expenditure: {
-                education: doc.data().TotalEducation,
-                food: doc.data().TotalFood,
-                other: doc.data().TotalOtherSpending,
-                shopping: doc.data().TotalShopping,
-                transport: doc.data().TotalTransport,
-              },
-            });
+            let recentDate = new Date(doc.data().beginDate)
+            let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
+            let nowDate = new Date()
+            if (nowDate < nextWeek) {
+              this.setState({ 
+                limits: {
+                  overall: doc.data().OverallLimit,
+                  education: doc.data().EducationLimit,
+                  food: doc.data().FoodLimit,
+                  other: doc.data().OtherLimit,
+                  shopping: doc.data().ShoppingLimit,
+                  transport: doc.data().TransportLimit,
+                },
+              });
+              this.setState({
+                expenditure: {
+                  education: doc.data().TotalEducation,
+                  food: doc.data().TotalFood,
+                  other: doc.data().TotalOtherSpending,
+                  shopping: doc.data().TotalShopping,
+                  transport: doc.data().TotalTransport,
+                },
+              });
+            }
           });
         });
       }
@@ -81,6 +87,7 @@ class GoalScreen extends React.Component {
         .limit(1)
         .get()
         .then((data) => {
+          let needToCreateNewStats = false;
           if (!data.empty) {
             data.forEach(dat => {
               let docData = dat.data()
@@ -100,7 +107,14 @@ class GoalScreen extends React.Component {
                   .set(newData, {merge: true});
               }
               else {
-                firebase
+                needToCreateNewStats = true;
+              }
+            })
+          } else {
+            needToCreateNewStats = true
+          }
+          if (needToCreateNewStats) {
+            firebase
                   .firestore()
                   .collection('users')
                   .doc(`${this.state.useruid}`)
@@ -131,8 +145,6 @@ class GoalScreen extends React.Component {
                       .doc(key.id)
                       .set( newData, {merge: true});
                     });
-              }
-            })
           }
         })
     }

@@ -27,6 +27,7 @@ class SingleGoal extends React.Component {
         .limit(1)
         .get()
         .then((data) => {
+          let needToCreatNewStats = false
           if (!data.empty) {
             data.forEach(dat => {
               let docData = dat.data()
@@ -61,7 +62,14 @@ class SingleGoal extends React.Component {
                   .set(newData, {merge: true});
               }
               else {
-                firebase
+                needToCreatNewStats = true
+              }
+            })
+          } else {
+            needToCreatNewStats = true
+          }
+          if (needToCreatNewStats) {
+            firebase
                   .firestore()
                   .collection('users')
                   .doc(`${this.state.useruid}`)
@@ -109,8 +117,6 @@ class SingleGoal extends React.Component {
                       .doc(key.id)
                       .set( newData, {merge: true});
                     });
-              }
-            })
           }
         })
     }

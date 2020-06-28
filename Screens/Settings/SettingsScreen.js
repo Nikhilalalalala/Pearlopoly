@@ -79,8 +79,8 @@ class SettingsScreen extends Component {
         {
           text: "OK",
           onPress: () => {
-            this.deleteCollection("records");
             this.deleteCollection("statistics");
+            this.deleteCollection("records");
           },
         },
       ],
@@ -88,57 +88,47 @@ class SettingsScreen extends Component {
     );
   };
 
-  deleteCollection = (col) => {
+  deleteCollection = async (col) => {
     let collectionRef = firebase
       .firestore()
       .collection(`users`)
       .doc(`${this.state.currentUserUid}`)
-      .collection(col);
+      .collection(`${col}`);
+    // const query = collectionRef.orderBy('Timestamp').limit(100);
     let query;
     if (col === "records") {
-      query = collectionRef.orderBy("Timestamp").limit(10);
+      query = collectionRef.orderBy("Timestamp").limit(100);
     } else {
       //col === 'statistics'
-      query = collectionRef.orderBy("beginDate").limit(10);
+      query = collectionRef.orderBy("statsID").limit(100);
     }
     return new Promise((resolve, reject) => {
-      this.deleteQueryBatch(query, resolve, reject);
+      this.deleteQueryBatch(query, resolve).catch(reject);
     });
   };
 
-  deleteQueryBatch = (query, resolve, reject) => {
-    let db = firebase.firestore();
-    query
-      .get()
-      .then((snapshot) => {
-        // When there are no documents left, we are done
-        if (snapshot.size === 0) {
-          return 0;
-        }
+  deleteQueryBatch = async (query, resolve) => {
+    const snapshot = await query.get();
 
-        // Delete documents in a batch
-        let batch = db.batch();
-        snapshot.docs.forEach((doc) => {
-          batch.delete(doc.ref);
-        });
+    const batchSize = snapshot.size;
+    if (batchSize === 0) {
+      // When there are no documents left, we are done
+      resolve();
+      return;
+    }
 
-        return batch.commit().then(() => {
-          return snapshot.size;
-        });
-      })
-      .then((numDeleted) => {
-        if (numDeleted === 0) {
-          resolve();
-          return;
-        }
+    // Delete documents in a batch
+    const batch = firebase.firestore().batch();
+    snapshot.docs.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
 
-        // Recurse on the next process tick, to avoid
-        // exploding the stack.
-        process.nextTick(() => {
-          deleteQueryBatch(db, query, resolve, reject);
-        });
-      })
-      .catch(reject);
+    // Recurse on the next process tick, to avoid
+    // exploding the stack.
+    // process.nextTick(() => {
+    //   deleteQueryBatch(query, resolve);
+    // });
   };
 
   logoutUser = () => {
