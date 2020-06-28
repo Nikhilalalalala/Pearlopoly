@@ -10,8 +10,8 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import ExpenditurePie from "./components/ExpenditurePie";
-import GoalProgressBar from "./components/GoalProgressBar";
+import ExpenditurePie from "../components/ExpenditurePie";
+import GoalProgressBar from "../components/GoalProgressBar";
 
 import * as firebase from 'firebase';
 
