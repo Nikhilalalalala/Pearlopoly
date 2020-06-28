@@ -136,7 +136,7 @@ class SettingsScreen extends Component {
       .auth()
       .signOut()
       .then(() => {
-        this.props.navigation.navigate("Login");
+        this.props.navigation.reset({ index: 0, routes: [{ name: "Login"}]});;
         this.setState({ currentUser: null });
       });
   };

@@ -12,7 +12,7 @@ export default class LoadingScreen extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.props.navigation.navigate("NavBarScreens", { screen: "Overview" });
+        this.props.navigation.reset({ index: 0, routes: [{ name: "NavBarScreens"}]});
       } else {
         this.props.navigation.navigate("Login");
       }
