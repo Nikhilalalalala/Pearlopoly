@@ -1,45 +1,77 @@
 import React from 'react';
-import { View, ScrollView, Text, StatusBar, StyleSheet, Dimensions, Modal, TouchableOpacity, Picker, TextInput, Alert } from 'react-native';
+import { View, ScrollView, Text, StatusBar, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as firebase from 'firebase';
-import firebaseDb from '../../firebaseDb';
-import GoalProgressBar from "../Overview/components/GoalProgressBar";
+import GoalProgressBar from "../components/GoalProgressBar";
 import SingleGoal from './SingleGoal';
 
-class Goals extends React.Component {
+class GoalScreen extends React.Component {
   state = {
-    modalVisible1: false,
-    modalVisible2: false,
+    modalVisible: false,
 
     useruid: null,
     
-    selectedCategory: 'Education',
     amount: 0,
 
-    limits: null, 
+    limits: {
+      overall: 0,
+      education: 0,
+      food: 0,
+      other: 0,
+      shopping: 0,
+      transport: 0,
+    },
+    expenditure: {
+      education: 0,
+      food: 0,
+      other: 0,
+      shopping: 0,
+      transport: 0,
+    },
   };
 
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(`${useruid}`)
-      .collection('statistics')
-      .orderBy('Timestamp', 'desc')  
-      .onSnapshot((querySnapshot) => {
-        let limits =[]
-        querySnapshot.forEach((doc) =>{
-          limits.push(
-            doc.data()
-          )
-        });
-        this.setState({limits: limits})
-      });
-  };
+    this.getData(useruid);      
+  }
 
-  updateLimits = (amount, selectedCategory) => {
+  getData(uid) {
+    this.subscriber =
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(`${uid}`)
+        .collection("statistics")
+        .orderBy("beginDate", "desc")
+        .onSnapshot( collection => {
+          console.log(collection.size)
+          collection.forEach(doc => {
+            this.setState({ 
+              limits: {
+                overall: doc.data().OverallLimit,
+                education: doc.data().EducationLimit,
+                food: doc.data().FoodLimit,
+                other: doc.data().OtherLimit,
+                shopping: doc.data().ShoppingLimit,
+                transport: doc.data().TransportLimit,
+              },
+            });
+            this.setState({
+              expenditure: {
+                education: doc.data().TotalEducation,
+                food: doc.data().TotalFood,
+                other: doc.data().TotalOtherSpending,
+                shopping: doc.data().TotalShopping,
+                transport: doc.data().TotalTransport,
+              },
+            });
+          });
+        });
+      }
+
+
+  updateLimits = (amount) => {
     firebase
       .firestore()
       .collection('users')
@@ -58,26 +90,8 @@ class Goals extends React.Component {
             let statsID = docData.statsID
             if(nowDate < nextWeek) {
               let newData;
-              switch(selectedCategory) {
-                case 'Overall':
-                  newData = {OverallLimit: amount};
-                  break;
-                case 'Food':
-                  newData = {FoodLimit: amount};
-                  break;
-                case 'Education':
-                  newData = {EducationLimit: amount};
-                  break;
-                case 'Transport':
-                  newData = {TransportLimit: amount};
-                  break;
-                case 'Shopping':
-                  newData = {ShoppingLimit: amount};
-                  break;
-                case 'Other Spending':
-                  newData = {OtherLimit: amount};
-                  break;
-              }
+              newData = {OverallLimit: amount};
+              
               firebase
                 .firestore()
                 .collection('users')
@@ -108,26 +122,7 @@ class Goals extends React.Component {
                 })
                 .then((key) => {
                   let newData;
-                  switch (selectedCategory) {
-                    case 'Overall':
-                      newData = {OverallLimit: amount, statsID: key.id};
-                      break;
-                    case 'Food':
-                      newData = {FoodLimit: amount, statsID: key.id};
-                      break;
-                    case 'Education':
-                      newData = {EducationLimit: amount, statsID: key.id};
-                      break;
-                    case 'Transport':
-                      newData = {TransportLimit: amount, statsID: key.id};
-                      break;
-                    case 'Shopping':
-                      newData = {ShoppingLimit: amount, statsID: key.id};
-                      break;
-                    case 'Other Spending':
-                      newData = {OtherLimit: amount, statsID: key.id};
-                      break;
-                  }
+                  newData = {OverallLimit: amount, statsID: key.id};
                   firebase
                     .firestore()
                     .collection('users')
@@ -166,13 +161,7 @@ class Goals extends React.Component {
     }
   };
 
-  handleCategory = (itemValue) => {
-    this.setState({selectedValue: itemValue});
-  }
-
-
   render() {
-
     return (
       <View style={screen.container}>
 
@@ -185,7 +174,7 @@ class Goals extends React.Component {
               name={"edit"} 
               style={main.icon} 
               color="#BB7E5D" 
-              onPress={() => {this.setState({modalVisible1: true});}}/>
+              onPress={() => {this.setState({modalVisible: true});}}/>
           </View>
           <GoalProgressBar />
         </View>
@@ -193,7 +182,7 @@ class Goals extends React.Component {
         <Modal
           animationType='slide'
           transparent={true}
-          visible={this.state.modalVisible1}
+          visible={this.state.modalVisible}
         >
           <View style={modal.backgroundDim}>
             <View style={modal.overallEdit}>
@@ -202,9 +191,10 @@ class Goals extends React.Component {
                 placeholder='Limit'
                 onChangeText={this.handleAmount}
                 keyboardType='numeric'
+                autoFocus={true}
                 style={{borderWidth: 1, width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
               ></TextInput>
-              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible1: false}); this.updateLimits(this.state.amount, 'Overall'); }}>
+              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible: false}); this.updateLimits(this.state.amount); }}>
                 <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -215,56 +205,20 @@ class Goals extends React.Component {
         <View style={main.box2}>
           <View style={main.title2}>
             <Text style={{ fontFamily: 'Lato-Regular' }}>Sub-goals: </Text>
-            <Icon 
-              name={"edit"} 
-              style={main.icon} 
-              color="#BB7E5D" 
-              onPress={() => {this.setState({modalVisible2: true});}}/>
           </View>
           <ScrollView 
             showsVerticalScrollIndicator={false}
             alwaysBounceVertical={true} 
           >
-            <SingleGoal category='Education' spending={5} limit={10}/>
-            <SingleGoal category='Shopping'spending={5.5} limit={20}/>
-            <SingleGoal category='Food' spending={5} limit={10}/>
-            <SingleGoal category='Transport' spending={10} limit={5}/>
-            <SingleGoal category='Other Spending' spending={2} limit={0}/>
+            <SingleGoal category='Education' spending={this.state.expenditure.education} limit={this.state.limits.education}/>
+            <SingleGoal category='Shopping'spending={this.state.expenditure.shopping} limit={this.state.limits.shopping}/>
+            <SingleGoal category='Food' spending={this.state.expenditure.food} limit={this.state.limits.food}/>
+            <SingleGoal category='Transport' spending={this.state.expenditure.transport} limit={this.state.limits.transport}/>
+            <SingleGoal category='Other Spending' spending={this.state.expenditure.other} limit={this.state.limits.other}/>
           </ScrollView>
         </View>
         
-        <Modal
-          animationType='slide'
-          transparent={true}
-          visible={this.state.modalVisible2}
-        >
-          <View style={modal.backgroundDim}>
-            <View style={modal.overallEdit}>
-              <Text style={{ fontFamily: 'Lato-Regular', paddingTop:5, }}>Set category goal limit:</Text>
-              <Picker
-                selectedValue={this.state.selectedCategory}
-                style={{ height: 50, width: 185 }}
-                mode='dropdown'
-                onValueChange={(itemValue, itemIndex) => {this.setState({selectedCategory: itemValue}); console.log('selected category is ' + this.state.selectedCategory)}}
-              >
-                <Picker.Item label='Education' value='Education' />
-                <Picker.Item label='Shopping' value='Shopping' />
-                <Picker.Item label='Food' value='Food' />
-                <Picker.Item label='Transport' value='Transport' />
-                <Picker.Item label='Other Spending' value='Other Spending' />
-              </Picker>
-              <TextInput
-                placeholder='Limit'
-                onChangeText={this.handleAmount}
-                keyboardType='numeric'
-                style={{borderWidth: 1, borderColor:'#BB7E5D', width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
-              ></TextInput>
-              <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible2: false}); this.updateLimits(this.state.amount, this.state.selectedCategory); }}>
-                <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+        
 
         <View style={main.line} />
 
@@ -273,7 +227,7 @@ class Goals extends React.Component {
   }
 }
 // limit={15} spending={13} color={'#BCD8C1'}
-export default Goals;
+export default GoalScreen;
 
 const mainHeight = Dimensions.get('window').height - 54 -54 - StatusBar.currentHeight;
 const windowHeight = Dimensions.get('window').height;
