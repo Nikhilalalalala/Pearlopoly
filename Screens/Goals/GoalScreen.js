@@ -191,6 +191,7 @@ class GoalScreen extends React.Component {
                 placeholder='Limit'
                 onChangeText={this.handleAmount}
                 keyboardType='numeric'
+                autoFocus={true}
                 style={{borderWidth: 1, width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
               ></TextInput>
               <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible: false}); this.updateLimits(this.state.amount); }}>

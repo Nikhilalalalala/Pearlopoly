@@ -172,6 +172,7 @@ class SingleGoal extends React.Component {
                   placeholder='Limit'
                   onChangeText={this.handleAmount}
                   keyboardType='numeric'
+                  autoFocus={true}
                   style={{borderWidth: 1, borderColor:'#BB7E5D', width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
                 ></TextInput>
                 <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible: false}); this.updateLimits(this.state.amount, category); }}>
