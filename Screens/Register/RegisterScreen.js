@@ -184,7 +184,6 @@ class RegisterScreen extends Component {
 
 const screen = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flex: 1,
     backgroundColor: "#FAF3DD",
     alignItems: "center",
