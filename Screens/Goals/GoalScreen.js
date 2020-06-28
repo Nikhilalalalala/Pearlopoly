@@ -190,7 +190,7 @@ class GoalScreen extends React.Component {
               color="#BB7E5D" 
               onPress={() => {this.setState({modalVisible: true});}}/>
           </View>
-          <Text style={{alignSelf: 'center', fontFamily: 'Lato-Regular', marginBottom:5, }}> Current Overall Spending Limit: $ {Number(this.state.limits.overall).toFixed(2)} </Text>
+          <Text style={{alignSelf: 'center', fontFamily: 'Lato-Regular', marginBottom: 5, }}> Current Overall Spending Limit: $ {Number(this.state.limits.overall).toFixed(2)} </Text>
           <TouchableOpacity style={{width:'100%',}}  onPress={() => {this.setState({modalVisible: true})}}>
             <GoalProgressBar />
           </TouchableOpacity> 

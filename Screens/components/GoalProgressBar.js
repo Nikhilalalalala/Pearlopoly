@@ -85,6 +85,7 @@ class GoalProgressBar extends React.Component {
         const colors = ['#F4978E', '#BCD8C1'];
         const keys = ['expenditure', 'limitLeft'];
 
+        //exceeded
         if (this.state.limits.overall != 0 && limitBalance < 0) {
           return(
             <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }} >
@@ -95,10 +96,11 @@ class GoalProgressBar extends React.Component {
                 data = {[{exceed: 1}]}
                 horizontal = {true}
               />
-              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 8.5, alignSelf: 'center'}}>Limit exceeded by: ${exceededAmt}</Text>
+              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>Limit exceeded by: ${exceededAmt}</Text>
             </View>
           )
         }
+        //no limit set
         else if (this.state.limits.overall == 0 || isNaN(this.state.limits.overall)) {
           return(
             <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }}>
@@ -109,14 +111,14 @@ class GoalProgressBar extends React.Component {
                 data = {[{noRecords: 1}]}
                 horizontal = {true}
               />
-              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 8.5, alignSelf: 'center'}}>No limit set yet</Text>
+              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>No limit set yet</Text>
             </View>
           )
         }
+        //Normal progress bar
         else {
           return (
-            <View style={{height: 35, width: '100%',}}>
-              
+            <View style={{height: 40, width: '100%',}}>
               <StackedBarChart 
                 style = {{height: '100%', width: '100%'}}
                 keys = {keys}
@@ -124,7 +126,7 @@ class GoalProgressBar extends React.Component {
                 data = {goalData}
                 horizontal = {true}
               />
-              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 8.5, alignSelf: 'center'}}>Limit Balance: ${limitBalance}</Text>
+              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>Limit Balance: ${limitBalance}</Text>
             </View>
           )
         };

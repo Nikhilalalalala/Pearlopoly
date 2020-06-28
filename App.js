@@ -67,6 +67,7 @@ export default function App() {
 const NavBar = createBottomTabNavigator();
 
 function NavBarScreens () {
+  
   return (
     <NavBar.Navigator 
       tabBarOptions = {{ 
