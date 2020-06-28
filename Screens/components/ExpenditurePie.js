@@ -15,7 +15,11 @@ class ExpenditurePie extends React.Component {
       shopping: 0,
       transport: 0,
       overall: 0,
-    }
+    },
+
+    category: 'Overall',
+    amount: 0,
+    
   }
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
@@ -45,29 +49,30 @@ class ExpenditurePie extends React.Component {
                 overall: doc.data().TotalOverall,
               }
             });
+            this.setState({
+              amount: Number(doc.data().TotalOverall).toFixed(2),
+            });
           });
         });
   };
 
 
   render() {
-    console.log('pie chart render called');
       
-    //i don't know where we are going to pull the data from yet, so placeholder data!
-    //data index corresponds to colour in colorCodes array
-    //TODO: index of data don't actually correspond to color => data[5] is displayed in colorCodes[4] instead
       const data = [this.state.expenditure.education, this.state.expenditure.food, this.state.expenditure.other, this.state.expenditure.shopping, this.state.expenditure.transport];
+      const cat = ['Education', 'Food', 'Other', 'Shopping', 'Transport'];
       const colorCodes = ['#FFBE86', '#BCD8C1', '#BB7E5D', '#F4978E', '#75B9BE'];
+      //orange, green, brown, pink, blue
 
       //Do I know how this works? No. Absolutely not.
       //But observations: seems to arrange the slices of the chart by descending order
       const pieData = data
-        .filter((value) => value > 0)
+        .filter((value) => value >= 0)
         .map((value, index) => ({
           value,
           svg: {
             fill: colorCodes[index], 
-            onPress: () => console.log('press', index), //this could come in handy for stuff like looking at the details for each slice or something
+            onPress: () => {this.setState({ category: cat[index] }); this.setState({ amount: Number(data[index]).toFixed(2) }); }, 
           },
             key: `pie-${index}`,
         }))
@@ -108,7 +113,7 @@ class ExpenditurePie extends React.Component {
               data = {pieData} 
             />
             <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', fontFamily: 'Lato-Regular'}}>
-              Expenditure: ${totalExpenditure}
+              {this.state.category}: ${this.state.amount}
             </Text>
           </View>
         )
