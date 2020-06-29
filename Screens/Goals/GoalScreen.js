@@ -179,7 +179,7 @@ class GoalScreen extends React.Component {
     return (
       <View style={screen.container}>
 
-        <View style={main.line} />
+        <View style={main.lineTop} />
 
         <View style={main.box1}>
           <View style={main.title1}>
@@ -238,7 +238,7 @@ class GoalScreen extends React.Component {
         
         
 
-        <View style={main.line} />
+        <View style={main.lineBot} />
 
       </View>
     )
@@ -255,15 +255,22 @@ const screen = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFBE86',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
 });
 
 const main = StyleSheet.create({
-  line: {
+  lineTop: {
     width: '100%',
     height: 3,
     backgroundColor: '#FAF3DD',
+  },
+  lineBot: {
+    width: '100%',
+    height: 3,
+    backgroundColor: '#FAF3DD',
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    bottom: 0,
   },
   box1: {
     width: '90%',
@@ -272,6 +279,7 @@ const main = StyleSheet.create({
     backgroundColor: '#FAF3DD',
     padding: 20,
     justifyContent: 'flex-start',
+    margin: 22,
   },
   title1: {
     width: '100%',
