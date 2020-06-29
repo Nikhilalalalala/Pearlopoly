@@ -46,19 +46,6 @@ Some user scenarios:
 2. Bob is a student at ABC Secondary School who has trouble controlling his sufficient allowance due to his addiction to the delicious food he would buy from different places everyday (e.g. chocolate cupcake from 12 cupcakes, Starbucks coffee). However, upon discovering Pearlopoly, he has learnt some finance saving tips and is motivated to spend wisely with the interesting manner of nudges the app provides.
 
 <h3>Identify the features for your system</h3>
-- Recording of basic expenses and income with general tagging/categorisation. Categories include:  Education, Shopping, Food, Transport, Other Spending, Income
-Setting of weekly goals by the user, which he/she wishes to accomplish. This includes the spending limits the user wants to enforce for each category. As well as the total limit on the all their expenditure
-- Weekly analysis of their expenditure and refresh statistics every week
-- Clear and simple overview of user’s goal progress through pie charts and bar charts
-- Educational tips & Reminders to keep to their goal
-- Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure 
-- Possible add ons: 
-  - A new flavour of bubble tea used every month and customizability can be an additional feature
-Journaling by user to add more notes on each expenditure
-View previous Overviews and progress, or an accumulated three months goal overview, e.g. accumulated categorical expenditure, how many times did they hit/miss their goal
-A walk-through or guide for first time users
-
-
 - Setting of weekly goals by the user, which he/she wishes to accomplish. This includes the spending limits the user wants to enforce for each category. As well as the total limit on the all their expenditure
 
 - Recording of basic expenses and income with general tagging/categorisation. Categories include:  Education, Shopping, Food, Transport, Other Spending, Income
@@ -88,6 +75,10 @@ A walk-through or guide for first time users
 - React Native (Javascript) for Mobile App
 
 - Firebase for Database
+
+- Git and GitHub for version control and collaboration
+
+- Git Kraken Glo Boards for project management
 
 
 <h3>Documenting the System with Sequence Diagram</h3>
