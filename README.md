@@ -83,5 +83,5 @@ Some user scenarios:
 
 <h3>Documenting the System with Sequence Diagram</h3>
 
-![Sequence Diagram](https://github.com/Nikhilalalalala/Pearlopoly/blob/master/MilestoneSubmissionImages/Sequence%20diagram.png)
+![Sequence Diagram](https://github.com/Nikhilalalalala/Pearlopoly/blob/master/MilestoneSubmissionImages/M2SequenceDiagram.png)
 
