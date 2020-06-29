@@ -2,7 +2,7 @@
 
 - [Google Docs Link](https://docs.google.com/document/d/12by_jcH7jBmpQ3__S4nS7uV3D9sOKNWBPyQnE7pBAKA/edit?usp=sharing)
 - [Link to application](https://expo.io/@nikhilalalalala/Pearlopoly)
-- [Link to demo video](https://drive.google.com/file/d/1M5meCd1f9HY-bMSjypXGVnHPZwolw7aY/view?usp=sharing)
+- [Link to demo video](https://drive.google.com/file/d/1o6orTFU935-RS0a4pwMkeDzSUMqTorAQ/view?usp=sharing)
 
 
 <h3>Team name</h3>
