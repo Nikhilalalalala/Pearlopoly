@@ -46,10 +46,26 @@ Some user scenarios:
 2. Bob is a student at ABC Secondary School who has trouble controlling his sufficient allowance due to his addiction to the delicious food he would buy from different places everyday (e.g. chocolate cupcake from 12 cupcakes, Starbucks coffee). However, upon discovering Pearlopoly, he has learnt some finance saving tips and is motivated to spend wisely with the interesting manner of nudges the app provides.
 
 <h3>Identify the features for your system</h3>
+- Recording of basic expenses and income with general tagging/categorisation. Categories include:  Education, Shopping, Food, Transport, Other Spending, Income
+Setting of weekly goals by the user, which he/she wishes to accomplish. This includes the spending limits the user wants to enforce for each category. As well as the total limit on the all their expenditure
+- Weekly analysis of their expenditure and refresh statistics every week
+- Clear and simple overview of user’s goal progress through pie charts and bar charts
+- Educational tips & Reminders to keep to their goal
+- Satisfaction rating of every expenditure can be recorded by user to reflect on the expenditure 
+- Possible add ons: 
+  - A new flavour of bubble tea used every month and customizability can be an additional feature
+Journaling by user to add more notes on each expenditure
+View previous Overviews and progress, or an accumulated three months goal overview, e.g. accumulated categorical expenditure, how many times did they hit/miss their goal
+A walk-through or guide for first time users
 
-- Setting of goals for the month by the user, which he/she wishes to accomplish
 
-- Clear and simple overview of user’s goal progress
+- Setting of weekly goals by the user, which he/she wishes to accomplish. This includes the spending limits the user wants to enforce for each category. As well as the total limit on the all their expenditure
+
+- Recording of basic expenses and income with general tagging/categorisation. Categories include:  Education, Shopping, Food, Transport, Other Spending, Income
+
+- Weekly analysis of their expenditure and refresh statistics every week
+
+- Clear and simple overview of user’s goal progress through pie charts and bar charts
 
 - Recording of basic expenses and income with general tagging/categorisation
 
@@ -62,6 +78,10 @@ Some user scenarios:
   - A new flavour of bubble tea used every month and customizability can be an additional feature
 
   - Journaling by user to add more notes on each expenditure
+  
+  - View previous Overviews and progress, or an accumulated three months goal overview, e.g. accumulated categorical expenditure, how many times did they hit/miss their goal
+  
+  - A walk-through or guide for first time users
 
 <h3>Key Technologies</h3>
 
@@ -73,49 +93,4 @@ Some user scenarios:
 <h3>Documenting the System with Sequence Diagram</h3>
 
 ![Sequence Diagram](https://github.com/Nikhilalalalala/Pearlopoly/blob/master/MilestoneSubmissionImages/Sequence%20diagram.png)
-
-	
-
-
-<h3>Development Plan</h3>
-
-| Task | Due Date                           | 
-|-----|-------------------------------------|
-|Backend Support to add and fetch records      | 5th June     | 
-|Add feature for user reflection in record     | 5th June     |
-| Planning for Goal Setting Screen             | 5th June     | 
-|Making Goal Setting Feature                                                         | 5th June  | 
-|Sourcing for Educational Quotes and adding into database                            | 12th June |
-| Backend Support to add and fetch records                                           | 12th Jun  | 
-| Backend support for Overview Screen and Goal Screen                                | 20th June |
-| Work on UI of app Prepare for Testing                                              | 20th June |
-| Test and fix any further bugs Prepare for Milestone 2 submission                   | 25th June |
-| Backend support for Overview Screen and Goal Screen                                | 20th June |
-| Work on UI of app Prepare for Testing                                              | 20th June |
-| Gather feedback about application and further improve Any UI fixes                 | 10th July |
-| Work on an additional feature if time permits Work on Milestone 3 submission       | 25th July |
-
-
-
-<h3>Project Log</h3>
-
-
-| S/N | Task                                | Date            | Orbitee 1 | Orbitee 2 | Remarks                                                          |
-|-----|-------------------------------------|-----------------|-----------|-----------|------------------------------------------------------------------|
-| 1   | Team meeting & Initial Planning     | 10 May          | 5         | 5         | Setting up of workflow and Delegation of tasks for Lift Off      |
-| 2   | Meeting with Adviser Q&A Session    | 12 May  14 May  | 2         | 2         |                                                                  |
-| 3   | Asset Creation                      | 15 May          | 3         |           | Making of logo                                                   |
-| 4   | Poster Creation                     | 15 May          | 2         | 2         | Making of Poster for Lift Off                                    |
-| 5   | Video Script                        | 15 May          |           | 1         | Making of Script for Video                                       |
-| 6   | Team meeting                        | 16 May          | 3         | 3         | Finalised Lift-Off submissions                                   |
-| 7   | Prep for MC Workshops               | 16 May          | 3         | 3         | Git and React Native Sessions                                    |
-| 8   | Team Meeting                        | 21 May          | 3         | 3         | Screen Layouts and Delegation of Tasks                           |
-| 9   | Creating Mockups of Screens         | 22 May          | 4         | 4         | Overview and Login/Register Pages Records and Add Records Pages  |
-| 10  | Programming and Creation of Screens | 23 May          | 6         | 6         | Pages of the app as above                                        |
-| 12  | Team Meeting                        | 26 May          | 3         | 3         | Updates on progress, Milestone submission, delegate tasks        |
-| 11  | Programming                         | 24 May          | 6         | 6         | Adding functionality to screens                                  |
-| 13  | Programming                         | 27 May          | 6         | 6         | Navigation Bar and Database                                      |
-| 14  | Team Meeting                        | 28 May          | 3         | 3         | Updates on progress                                              |
-| 14  | Programming                         | 28 May          | 6         | 6         | Adding Fonts and Icons, and finalising POC                       |
-| 15  | Team Meeting                        | 31 May          | 4         | 4         | Finalising POC, video and milestone 1 submission                              |
 
