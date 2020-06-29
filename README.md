@@ -1,7 +1,8 @@
-<h1>Pearlopoly Milestone 1 Submission</h1>
+<h1>Pearlopoly Milestone 2 Submission</h1>
 
-- [Google Docs Link](https://docs.google.com/document/d/1RF33jvM1W7EyzeQXQ9VAWzMl5IHEuhBGm4Lj3POhVdY/edit?usp=sharing)
-- [Link to demo of Proof of Concept](https://drive.google.com/file/d/1M5meCd1f9HY-bMSjypXGVnHPZwolw7aY/view?usp=sharing)
+- [Google Docs Link](https://docs.google.com/document/d/12by_jcH7jBmpQ3__S4nS7uV3D9sOKNWBPyQnE7pBAKA/edit?usp=sharing)
+- [Link to application](https://expo.io/@nikhilalalalala/Pearlopoly)
+- [Link to demo video](https://drive.google.com/file/d/1M5meCd1f9HY-bMSjypXGVnHPZwolw7aY/view?usp=sharing)
 
 
 <h3>Team name</h3>
@@ -24,7 +25,6 @@ Apollo 11
 All too often, students find themselves struggling with their finances. ‘I’m broke,’ they whine, with only two digits in their bank accounts, all while simultaneously shopping online, booking a Grab ride, and waiting in line for the latest bubble tea flavour released. It is easy to forget where the money flows, and they often forget the reason why they’re constantly broke.
 
 <br />
-
 Many existing applications that help track users’ finances have boring interfaces and do not attract many students to stay on the platform. More often than not, it depends on the user’s discipline to key in their records in a tedious manner. Moreover, they serve to solely track the user’s expenditure and income such that the educational element is missed out. We hope to come in and bridge this gap by making our platform engaging, fun and educational.
 
 <h3>Aim</h3>
