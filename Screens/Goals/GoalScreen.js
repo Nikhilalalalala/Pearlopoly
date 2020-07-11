@@ -35,8 +35,22 @@ class GoalScreen extends React.Component {
     this.setState({ useruid: useruid });
     this.getData(useruid);      
   }
-
+  
   getData(uid) {
+    this.subscriber = 
+      firebase.firestore().collection('users').doc(`${uid}`).onSnapshot(doc => {
+        this.setState({
+          limits: {
+            overall: doc.data().OverallLimit || 0,
+            education: doc.data().EducationLimit || 0,
+            food: doc.data().FoodLimit || 0 ,
+            other: doc.data().OtherLimit || 0,
+            shopping: doc.data().ShoppingLimit || 0,
+            transport: doc.data().TransportLimit || 0, 
+          },
+        })
+        console.log('limits', this.state.limits)
+      })
     this.subscriber =
       firebase
         .firestore()
@@ -51,7 +65,7 @@ class GoalScreen extends React.Component {
             let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
             let nowDate = new Date()
             if (nowDate < nextWeek) {
-              this.setState({ 
+              /* this.setState({ 
                 limits: {
                   overall: doc.data().OverallLimit,
                   education: doc.data().EducationLimit,
@@ -60,7 +74,7 @@ class GoalScreen extends React.Component {
                   shopping: doc.data().ShoppingLimit,
                   transport: doc.data().TransportLimit,
                 },
-              });
+              }); */
               this.setState({
                 expenditure: {
                   education: doc.data().TotalEducation,
@@ -78,6 +92,14 @@ class GoalScreen extends React.Component {
 
   updateLimits = (amount) => {
     if (amount > 0) {
+      let newData = {OverallLimit: amount};
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(`${this.state.useruid}`)
+        .set(newData, {merge: true});
+    }
+    /* if (amount > 0) {
       firebase
         .firestore()
         .collection('users')
@@ -98,7 +120,6 @@ class GoalScreen extends React.Component {
               if(nowDate < nextWeek) {
                 let newData;
                 newData = {OverallLimit: amount};
-                
                 firebase
                   .firestore()
                   .collection('users')
@@ -147,16 +168,14 @@ class GoalScreen extends React.Component {
                     });
           }
         })
-    }
+    } */
   };
 
 
   handleAmount = (amount) => {
     if(!isNaN(amount)) {
       let amt = parseFloat(amount, 10);
-      console.log(amt)
       if (amt > 0) {
-        console.log('itsmore than 0?')
         this.setState({amount: amt});
       } else {
         Alert.alert('Invalid amount', 
