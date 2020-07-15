@@ -67,6 +67,28 @@ class GoalProgressBar extends React.Component {
                 },
               });
             }
+            else {
+              this.setState({ 
+                limits: {
+                  overall: 0,
+                  education: 0,
+                  food: 0,
+                  other: 0,
+                  shopping: 0,
+                  transport: 0,
+                },
+              });
+              this.setState({
+                expenditure: {
+                  overall: 0,
+                  education: 0,
+                  food: 0,
+                  other: 0,
+                  shopping: 0,
+                  transport: 0,
+                },
+              });
+            }
           });
         });
       }
@@ -112,6 +134,21 @@ class GoalProgressBar extends React.Component {
                 horizontal = {true}
               />
               <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>No limit set yet</Text>
+            </View>
+          )
+        }
+        //new week stopgap; at least i know what's the problem lmao
+        else if(isNaN(this.state.expenditure.overall)) {
+          return(
+            <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }}>
+              <StackedBarChart
+                style ={{height: '100%', width: '100%'}}
+                keys = {['noRecords']}
+                colors = {['#BCD8C1']}
+                data = {[{noRecords: 1}]}
+                horizontal = {true}
+              />
+              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>A new week has started!</Text>
             </View>
           )
         }

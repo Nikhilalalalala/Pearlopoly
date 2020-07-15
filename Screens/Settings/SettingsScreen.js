@@ -11,6 +11,7 @@ import {
 import { Icon } from "react-native-elements";
 import * as firebase from "firebase";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import Tutorial from '../components/Tutorial';
 
 class SettingsScreen extends Component {
   state = {
@@ -21,6 +22,7 @@ class SettingsScreen extends Component {
     newUserName: "",
     modalVisibleAboutUs: false,
     modalVisibleFAQ: false,
+    modalVisibleUserGuide: false,
   };
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
@@ -183,6 +185,17 @@ class SettingsScreen extends Component {
           <View style={styles.line} />
 
           <Text style={styles.header}>Infomation </Text>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ modalVisibleUserGuide: true});
+            }}
+          >
+            <Text style={styles.item}>User Guide</Text>
+          </TouchableOpacity>
+          <View style={styles.line} />
+          <Tutorial visibility={this.state.modalVisibleAboutUs} />
+
           <TouchableOpacity
             onPress={() => {
               this.setModalVisibleAboutUs(true);
