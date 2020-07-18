@@ -12,6 +12,8 @@ import {
   Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import { Rating } from 'react-native-elements';
+import { Tooltip } from 'react-native-elements';
 import * as firebase from "firebase";
 import firebaseDb from "../firebaseDb";
 
@@ -54,7 +56,7 @@ class AddRecord extends Component {
       );
     }
   };
-  
+
   handleName = (name) => {
     this.setState({ name: name });
   };
@@ -298,6 +300,9 @@ class AddRecord extends Component {
       </TouchableOpacity>
     );
   }
+  ratingCompleted(rating) {
+    console.log("Rating is: " + rating)
+  }
 
   render() {
     return (
@@ -325,6 +330,37 @@ class AddRecord extends Component {
               keyboardType="numeric"
             ></TextInput>
           </View>
+          <View style={styles.fieldViewName}>
+            <Tooltip popover={
+              
+              <Text>Info here</Text>
+            
+            }>
+            <View style={{flexDirection:"row", marginTop: 5, alignItems:"center"}}>
+              <Text style={styles.fieldTitle}> Guiltymeter: </Text>  
+              <Icon 
+              name={"question-circle-o"}
+              type={'font-awesome'}
+              color='#BB7E5D'
+              iconStyle={{fontSize: 18}}
+              />
+            </View>
+            </Tooltip>        
+            <Rating
+            type='custom'
+            reviews={['1','2','3','4','5']}
+            ratingCount={5}
+            imageSize={30}
+            style={{marginTop:5}}
+            // showRating
+            ratingBackgroundColor={"#FAF3DD"}
+            ratingColor={"#BB7E5D"}
+            ratingTextColor={"#BB7E5D"}
+            onFinishRating={this.ratingCompleted}
+              />
+          </View>
+
+
           <View style={styles.categoryRowOne}>
             {this.category("Education", "school", "", "expense")}
             {this.category(
