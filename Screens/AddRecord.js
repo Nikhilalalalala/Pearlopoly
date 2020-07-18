@@ -30,9 +30,12 @@ class AddRecord extends Component {
   // componentWillUnmount() { need to detach listeners}
 
   handleAmount = (amount) => {
-    if (!isNaN(amount)) {
-      let amt = parseFloat(amount, 10);
+    let amount_actual = amount.nativeEvent.text
+    console.log(amount_actual)
+    if (!isNaN(amount_actual)) {
+      let amt = parseFloat(amount_actual, 10);
       if (amt > 0) {
+        console.log(amt)
         this.setState({ amount: amt });
       } else {
         Alert.alert(
@@ -51,6 +54,7 @@ class AddRecord extends Component {
       );
     }
   };
+  
   handleName = (name) => {
     this.setState({ name: name });
   };
@@ -59,6 +63,11 @@ class AddRecord extends Component {
     this.setState({ chosenCategory: category });
   };
 
+  updateAmountState = (amount) => {
+    this.setState({ amount: amount });
+  };
+
+  
   addDocID = (id) => {
     firebaseDb
       .firestore()
@@ -196,27 +205,43 @@ class AddRecord extends Component {
 
   addRecord = () => {
     if (this.state.name && this.state.amount && this.state.chosenCategory) {
-      let name = this.state.name;
-      let realAmt = this.state.amount;
-      let chosenCategory = this.state.chosenCategory;
-      this.setState({ name: "", amount: "", chosenCategory: "" });
-
-      firebaseDb
-        .firestore()
-        .collection("users")
-        .doc(`${this.state.useruid}`)
-        .collection("records")
-        .add({
-          name: name,
-          amount: realAmt,
-          Timestamp: Date.now(),
-          category: chosenCategory,
-        })
-        .then((doc) => {
-          this.addDocID(doc.id);
-          this.updateStatistics(realAmt, chosenCategory);
-          this.props.navigation.navigate("Record");
-        });
+      let invalid = false
+      let amount = this.state.amount
+      if (!isNaN(amount)) { 
+        let amt = parseFloat(amount, 10);
+        if (amt <0) invalid = true
+      } else {
+        invalid = true
+      }
+      if (invalid) {
+        Alert.alert(
+          "Invalid Amount", "Please enter a valid amount",
+          [{ text: "OK" }],{ cancelable: false }
+        );
+      } else {
+        console.log('writing data')
+          let name = this.state.name;
+          let realAmt = this.state.amount;
+          let chosenCategory = this.state.chosenCategory;
+          this.setState({ name: "", amount: "", chosenCategory: "" });
+    
+          firebaseDb
+            .firestore()
+            .collection("users")
+            .doc(`${this.state.useruid}`)
+            .collection("records")
+            .add({
+              name: name,
+              amount: realAmt,
+              Timestamp: Date.now(),
+              category: chosenCategory,
+            })
+            .then((doc) => {
+              this.addDocID(doc.id);
+              this.updateStatistics(realAmt, chosenCategory);
+              this.props.navigation.navigate("Record");
+            });
+      }
     } else if (!this.state.amount) {
       Alert.alert(
         "Invalid Amount",
@@ -293,7 +318,8 @@ class AddRecord extends Component {
             <Text style={styles.fieldTitle}> Amount: </Text>
             <TextInput
               placeholder="Amount"
-              onChangeText={this.handleAmount}
+              onChangeText = {this.updateAmountState}
+              // onSubmitEditing={this.updateAmountState}
               style={styles.amountField}
               value={this.state.amount}
               keyboardType="numeric"

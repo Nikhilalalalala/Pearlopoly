@@ -44,12 +44,22 @@ class SingleGoal extends React.Component {
     }
   };
 
-  handleAmount = (amount) => {
+  updateAmountState = (amount) => {
+    this.setState({amount: amount})
+  }
+
+  handleAmount = () => {
+    let amount = this.state.amount
     let invalid = false
-    console.log(amount)
-    if(!isNaN(amount)) {
-      let amt = parseFloat(amount, 10);
-      if (amt > 0) this.setState({amount: amt});
+    // let amount_actual = amount.nativeEvent.text
+    let amount_actual = amount
+    if(!isNaN(amount_actual)) {
+      let amt = parseFloat(amount_actual, 10);
+      if (amt > 0) {
+        this.setState({amount: amt});
+        this.setState({modalVisible: false})
+        this.updateLimits(amt, this.props.category); 
+      }
       else invalid = true
     } else {
       invalid = true
@@ -111,13 +121,14 @@ class SingleGoal extends React.Component {
             <Text style={{ fontFamily: 'Lato-Regular', paddingTop:5, }}>Set {category} goal limit:</Text>
             <TextInput
               placeholder='Limit'
-              onChangeText={this.handleAmount}
+              onChangeText={this.updateAmountState}
               keyboardType='numeric'
               autoFocus={true}
-              onSubmitEditing={() =>  {this.setState({modalVisible: false}); this.updateLimits(this.state.amount, category); } }
+              onSubmitEditing={this.handleAmount}
+              
               style={{borderWidth: 1, borderColor:'#BB7E5D', width: 100, paddingHorizontal: 10, marginTop: 20, fontFamily: 'Lato-Regular'}}
             ></TextInput>
-            <TouchableOpacity style={modal.button} onPress={() => {this.setState({modalVisible: false}); this.updateLimits(this.state.amount, category); }}>
+            <TouchableOpacity style={modal.button} onPress={() => this.handleAmount()}>
               <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
             </TouchableOpacity>
           </View>
