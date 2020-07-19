@@ -53,16 +53,20 @@ class SingleGoal extends React.Component {
     let invalid = false
     // let amount_actual = amount.nativeEvent.text
     let amount_actual = amount
-    if(!isNaN(amount_actual)) {
-      let amt = parseFloat(amount_actual, 10);
-      if (amt > 0) {
-        this.setState({amount: amt});
-        this.setState({modalVisible: false})
-        this.updateLimits(amt, this.props.category); 
+    if (amount) {
+      if(!isNaN(amount_actual)) {
+        let amt = parseFloat(amount_actual, 10);
+        if (amt > 0) {
+          this.setState({amount: amt});
+          this.setState({modalVisible: false})
+          this.updateLimits(amt, this.props.category); 
+        }
+        else invalid = true
+      } else {
+        invalid = true
       }
-      else invalid = true
     } else {
-      invalid = true
+      this.setState({modalVisible: false})
     }
     if (invalid) {
       Alert.alert('Invalid amount', 
