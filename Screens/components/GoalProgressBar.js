@@ -137,7 +137,7 @@ class GoalProgressBar extends React.Component {
             </View>
           )
         }
-        //new week stopgap; at least i know what's the problem lmao
+        //new week stopgap; gotta figure out why expenditure.overall is NaN; apparently, its because there isn't a 'TotalOverall' field in the database i appear to have broken code that is unrelated to what i have been doing. how wonderful.
         else if(isNaN(this.state.expenditure.overall)) {
           return(
             <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }}>
