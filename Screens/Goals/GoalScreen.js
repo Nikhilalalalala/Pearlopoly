@@ -8,11 +8,8 @@ import SingleGoal from './SingleGoal';
 class GoalScreen extends React.Component {
   state = {
     modalVisible: false,
-
     useruid: null,
-    
     amount: 0,
-
     limits: {
       overall: 0,
       education: 0,
@@ -49,7 +46,6 @@ class GoalScreen extends React.Component {
             transport: doc.data().TransportLimit || 0, 
           },
         })
-        console.log('limits', this.state.limits)
       })
     this.subscriber =
       firebase
@@ -65,16 +61,6 @@ class GoalScreen extends React.Component {
             let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
             let nowDate = new Date()
             if (nowDate < nextWeek) {
-              /* this.setState({ 
-                limits: {
-                  overall: doc.data().OverallLimit,
-                  education: doc.data().EducationLimit,
-                  food: doc.data().FoodLimit,
-                  other: doc.data().OtherLimit,
-                  shopping: doc.data().ShoppingLimit,
-                  transport: doc.data().TransportLimit,
-                },
-              }); */
               this.setState({
                 expenditure: {
                   education: doc.data().TotalEducation,
