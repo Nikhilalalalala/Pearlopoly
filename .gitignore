@@ -12,6 +12,7 @@ web-report/
 firebaseDb.js
 firebaseConfig.js
 google-services.json
+pearlopoly-firebase-adminsdk.json
 
 # macOS
 .DS_Store

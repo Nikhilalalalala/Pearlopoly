@@ -188,13 +188,14 @@ class SettingsScreen extends Component {
 
           <TouchableOpacity
             onPress={() => {
-              this.setState({ modalVisibleUserGuide: true});
+              this.setState({ modalVisibleUserGuide: !this.state.modalVisibleUserGuide});
+              console.log('yes')
             }}
           >
             <Text style={styles.item}>User Guide</Text>
           </TouchableOpacity>
           <View style={styles.line} />
-          <Tutorial visibility={this.state.modalVisibleAboutUs} />
+          <Tutorial visibility={this.state.modalVisibleUserGuide} />
 
           <TouchableOpacity
             onPress={() => {

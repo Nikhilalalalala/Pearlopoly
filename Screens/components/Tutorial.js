@@ -70,7 +70,7 @@ const userGuide = [
 
 class Tutorial extends React.Component {
   state = {
-    modalVisible: true,
+    modalVisible: false,
   };
 
   renderItems = ({item, index}) => {
@@ -87,17 +87,24 @@ class Tutorial extends React.Component {
     );
   };
 
+  visibility = () => {
+    this.setState({ modalVisible: this.props.visibility });
+  }
+
   render() {
     return(
       <View>
         <Modal 
           animationType='slide'
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={true}
         >
           <TouchableOpacity
             style={modal.backgroundDim}
-            onPress={ () => console.log('i have been touched')}
+            onPress={ () => {
+              console.log('i have been touched');
+              this.setState({ modalVisible: !this.state.modalVisible });
+            }}
           />
 
           <View style={modal.main}>
