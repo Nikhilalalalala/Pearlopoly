@@ -32,7 +32,18 @@ class GoalProgressBar extends React.Component {
   };
 
   getData(uid) {
-    this.subscriber =
+      firebase.firestore().collection('users').doc(`${uid}`).onSnapshot(doc => {
+        this.setState({
+          limits: {
+            overall: doc.data().OverallLimit || 0,
+            education: doc.data().EducationLimit || 0,
+            food: doc.data().FoodLimit || 0 ,
+            other: doc.data().OtherLimit || 0,
+            shopping: doc.data().ShoppingLimit || 0,
+            transport: doc.data().TransportLimit || 0, 
+          },
+        })
+      })
       firebase
         .firestore()
         .collection("users")
@@ -46,16 +57,7 @@ class GoalProgressBar extends React.Component {
             let nextWeek = new Date(recentDate.getFullYear(), recentDate.getMonth(), recentDate.getDate() + 7);
             let nowDate = new Date()
             if (nowDate < nextWeek) {
-              this.setState({ 
-                limits: {
-                  overall: doc.data().OverallLimit,
-                  education: doc.data().EducationLimit,
-                  food: doc.data().FoodLimit,
-                  other: doc.data().OtherLimit,
-                  shopping: doc.data().ShoppingLimit,
-                  transport: doc.data().TransportLimit,
-                },
-              });
+              
               this.setState({
                 expenditure: {
                   overall: doc.data().TotalOverall,

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import * as firebase from "firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "react-native-elements";
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const DayRecord = (props) => {
   return (
@@ -167,6 +168,31 @@ class AllRecordsScreen extends Component {
       <View style={screen.container}>
         <View style={main.line} />
         {this.state.numOfRecords ? (
+      //     <SwipeListView
+      //     data={this.state.records}
+      //     renderItem={ (data, rowMap) => (
+      //         // <View style={styles.rowFront}>
+      //         //     <Text>I am {data.item.text} in a SwipeListView</Text>
+      //         // </View>
+      //         <SingleRecord
+      //           name={data.name}
+      //           key={data.recordID}
+      //           category={data.category}
+      //           value={data.amount}
+      //           isIncome={data.isIncome}
+      //           // date={toPrint}
+      //         />
+      //     )}
+      //     renderHiddenItem={ () => (
+      //       <View style={styles.rowBack}>
+      //           <View style={[styles.backRightBtn, styles.backRightBtnRight]}>
+      //               <Text style={styles.backTextWhite}>Delete</Text>
+      //           </View>
+      //       </View>
+      //     )}
+      //     leftOpenValue={75}
+      //     rightOpenValue={-75}
+      // />
           <ScrollView
             alwaysBounceVertical={true}
             showsVerticalScrollIndicator={false}
@@ -202,7 +228,7 @@ export default AllRecordsScreen;
 
 const styleRecord = StyleSheet.create({
   container: {
-    paddingHorizontal: "5%",
+    // paddingHorizontal: "5%",
   },
   emptyState: {
     flex: 1,
@@ -244,6 +270,7 @@ const stylesSingleRecord = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
+
   nameAndIcon: {
     paddingBottom: 5,
     flexDirection: "row",
@@ -325,5 +352,45 @@ const main = StyleSheet.create({
     width: "100%",
     height: 3,
     backgroundColor: "#FAF3DD",
+  },
+});
+
+
+const styles = StyleSheet.create({
+  container: {
+      backgroundColor: 'white',
+      flex: 1,
+  },
+  backTextWhite: {
+      color: '#FFF',
+  },
+  rowFront: {
+      alignItems: 'center',
+      backgroundColor: '#CCC',
+      borderBottomColor: 'black',
+      borderBottomWidth: 1,
+      justifyContent: 'center',
+      height: 50,
+  },
+  rowBack: {
+      alignItems: 'center',
+      backgroundColor: 'red',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingLeft: 15,
+      height: 60,
+  },
+  backRightBtn: {
+      alignItems: 'center',
+      bottom: 0,
+      justifyContent: 'center',
+      position: 'absolute',
+      top: 0,
+      width: 75,
+  },
+  backRightBtnRight: {
+      backgroundColor: 'red',
+      right: 0,
   },
 });

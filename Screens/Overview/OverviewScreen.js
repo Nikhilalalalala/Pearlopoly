@@ -18,10 +18,36 @@ import * as firebase from 'firebase';
 //* props contains user, get useruid from there,
 //* see LoadingScreen
 
-class OverviewScreen extends Component {
-componentDidUpdate() {
-  //calculate for all the categories
-}
+class OverviewScreen extends Component { 
+
+  state = {
+    tip: '',
+  }
+
+  componentDidMount() {
+    this.getRandomTip()
+  }
+
+  
+  getRandomTip = () => {
+    firebase
+      .firestore()
+      .collection("education")
+      .get()
+      .then(collection => {
+        let randomNum = Math.round(Math.random() * (collection.size - 1))
+        console.log(randomNum)
+        let i = 0
+        collection.forEach(each => {
+          i ++ 
+          if ( i === randomNum) {
+            this.setState({tip: each.data()})
+          }
+        })
+      })
+    
+  }
+
   render() {
     return (
       <SafeAreaView style={screen.container}>
@@ -35,6 +61,7 @@ componentDidUpdate() {
         <View style={main.goalBox}>
           <Text style={{ fontFamily: "Lato-Regular", }}>Goal Progress</Text>
           <GoalProgressBar />
+<<<<<<< HEAD
           <Text style={{ textAlign: "center", fontFamily: "Lato-Regular", padding:10 }}>
             <Text  style={{ textDecorationLine:'underline', paddingBottom: 10,}}>
               Follow the 50-30-20 budget rule!{'\n'}
@@ -42,6 +69,9 @@ componentDidUpdate() {
             From your allowance, spend 50% on essentials, 
             spend 30% on your wants, and save the remaining 20%
           </Text>
+=======
+          <Text style={{ textAlign: "center", fontFamily: "Lato-Regular", padding:10 }}> {this.state.tip.tip}</Text>
+>>>>>>> master
         </View>
 
         <View style={main.line} />
