@@ -97,7 +97,7 @@ class Tutorial extends React.Component {
         <Modal 
           animationType='slide'
           transparent={true}
-          visible={true}
+          visible={false}
         >
           <TouchableOpacity
             style={modal.backgroundDim}

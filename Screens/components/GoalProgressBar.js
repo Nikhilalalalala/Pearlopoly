@@ -32,18 +32,22 @@ class GoalProgressBar extends React.Component {
   };
 
   getData(uid) {
-      firebase.firestore().collection('users').doc(`${uid}`).onSnapshot(doc => {
-        this.setState({
-          limits: {
-            overall: doc.data().OverallLimit || 0,
-            education: doc.data().EducationLimit || 0,
-            food: doc.data().FoodLimit || 0 ,
-            other: doc.data().OtherLimit || 0,
-            shopping: doc.data().ShoppingLimit || 0,
-            transport: doc.data().TransportLimit || 0, 
-          },
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(`${uid}`)
+        .onSnapshot(doc => {
+          this.setState({
+            limits: {
+              overall: doc.data().OverallLimit || 0,
+              education: doc.data().EducationLimit || 0,
+              food: doc.data().FoodLimit || 0 ,
+              other: doc.data().OtherLimit || 0,
+              shopping: doc.data().ShoppingLimit || 0,
+              transport: doc.data().TransportLimit || 0, 
+            },
+          })
         })
-      })
       firebase
         .firestore()
         .collection("users")

@@ -12,6 +12,7 @@ import { Icon } from "react-native-elements";
 import * as firebase from "firebase";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Tutorial from '../components/Tutorial';
+import PearlCounter from '../components/PearlCounter';
 
 class SettingsScreen extends Component {
   state = {
@@ -181,6 +182,12 @@ class SettingsScreen extends Component {
               }}
             />
           </View>
+
+          <View style={styles.line} />
+            
+          <TouchableOpacity>
+            <PearlCounter />
+          </TouchableOpacity>
 
           <View style={styles.line} />
 

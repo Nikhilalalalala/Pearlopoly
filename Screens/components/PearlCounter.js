@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, } from 'react-native';
 import { Icon } from 'react-native-elements'; //circle
 
 import * as firebase from 'firebase';
-import firebaseDb from '../firebaseDb';
+import firebaseDb from '../../firebaseDb';
 
-class PearlCounter extends Component {
+class PearlCounter extends React.Component {
   state = {
     pearls: 0,
 
@@ -15,14 +15,13 @@ class PearlCounter extends Component {
       last: null,
     }
   };
-/*
+
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ useruid: useruid });
-    this.getEndDate(useruid);
     this.getData(useruid);
   }
-
+/*
   getEndDate(uid) {
     firebase
       .firestore()
@@ -66,6 +65,7 @@ class PearlCounter extends Component {
         })
       }))
   }
+  */
 
   getData(uid) {
       firebase
@@ -73,21 +73,18 @@ class PearlCounter extends Component {
         .collection('users')
         .doc(`${uid}`)
         .collection('pearls')
-        .orderBy("date")
         .get()
         .then(data => {
-          console.log(data.size);
-
           this.setState({ pearls: data.size });
         })
         
   }
-*/
+
   render() {
     return(
       <View style={styles.container}>
-        <Text>{this.state.pearls}</Text>
-        <Icon>circle</Icon>
+        <Text style={styles.text}>Pearls: {this.state.pearls}</Text>
+        <Icon>add-circle</Icon>
       </View>
     );
   }
@@ -95,13 +92,20 @@ class PearlCounter extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 40,
-    width: 100,
-    backgroundColor: '#FFBE86',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
+    height: 44,
+    width: '90%',
+    paddingLeft: '5%',
+    paddingVertical: 10,
+  },
+  text: {
+    fontSize: 20,
+    fontFamily: 'Lato-Regular',
   }
 })
 
 export default PearlCounter;
+
+// discuss WHERE to check
+// isPearlObtained: true ????
+// to prevent double/multiple awarding
+// or will checking current date > endDate(stats doc) and current date > last pearl date + 7?

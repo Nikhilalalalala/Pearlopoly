@@ -61,17 +61,7 @@ class OverviewScreen extends Component {
         <View style={main.goalBox}>
           <Text style={{ fontFamily: "Lato-Regular", }}>Goal Progress</Text>
           <GoalProgressBar />
-<<<<<<< HEAD
-          <Text style={{ textAlign: "center", fontFamily: "Lato-Regular", padding:10 }}>
-            <Text  style={{ textDecorationLine:'underline', paddingBottom: 10,}}>
-              Follow the 50-30-20 budget rule!{'\n'}
-            </Text>
-            From your allowance, spend 50% on essentials, 
-            spend 30% on your wants, and save the remaining 20%
-          </Text>
-=======
           <Text style={{ textAlign: "center", fontFamily: "Lato-Regular", padding:10 }}> {this.state.tip.tip}</Text>
->>>>>>> master
         </View>
 
         <View style={main.line} />
