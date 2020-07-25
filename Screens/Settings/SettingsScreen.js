@@ -194,7 +194,7 @@ class SettingsScreen extends Component {
 
           <Text style={styles.header}>Infomation </Text>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               this.setState({ modalVisibleUserGuide: !this.state.modalVisibleUserGuide});
             }}
@@ -202,7 +202,7 @@ class SettingsScreen extends Component {
             <Text style={styles.item}>User Guide</Text>
           </TouchableOpacity>
           <View style={styles.line} />
-          <Tutorial visibility={this.state.modalVisibleUserGuide} />
+          <Tutorial visibility={this.state.modalVisibleUserGuide} /> */}
 
           <TouchableOpacity
             onPress={() => {
