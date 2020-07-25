@@ -33,33 +33,44 @@ export default class LoadingScreen extends Component {
 
   pearlCheck(user) {
     firebase
-    .firestore()
-    .collection('users')
-    .doc(`${user.uid}`)
-    .collection('statistics')
-    .orderBy('beginDate', 'desc')
-    .limit(1)
-    .get()
-    .then((collection) => {
-      collection.forEach((doc) => {
-        let beginDate = new Date(doc.data().beginDate);
-        //global
-        endDate = new Date(
-          beginDate.getFullYear(),
-          beginDate.getMonth(),
-          beginDate.getDate() + 7
-        );
-        //global
-        statsID = doc.id;
-        //global
-        pearl = doc.data().pearlID;
-        //global
-        spending = doc.data().TotalOverall;
-        //global
-        limit = doc.data().OverallLimit;
-        this.claimStatusCheck(user);
+      .firestore()
+      .collection('users')
+      .doc(`${user.uid}`)
+      .get()
+      .then(userdata => {
+        limit = userdata.data().OverallLimit;
       });
-    });
+
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(`${user.uid}`)
+      .collection('statistics')
+      .orderBy('beginDate', 'desc')
+      .limit(1)
+      .get()
+      .then((collection) => {
+        collection.forEach((doc) => {
+          if (!doc.empty) {
+            let beginDate = new Date(doc.data().beginDate);
+            //global
+            endDate = new Date(
+              beginDate.getFullYear(),
+              beginDate.getMonth(),
+              beginDate.getDate() + 7
+            );
+            //global
+            statsID = doc.id;
+            //global
+            pearl = doc.data().pearlID;
+            //global
+            spending = doc.data().TotalOverall;
+            //global
+            this.claimStatusCheck(user);
+          }
+        
+        });
+      });
   };
   
   claimStatusCheck(user) {
@@ -72,24 +83,29 @@ export default class LoadingScreen extends Component {
       .limit(1)
       .get()
       .then(collection => {
-        collection.forEach(doc => {
-          let latestPearl = doc.id;
-          // if pearl has already been claimed, the latest pearl claimed should have the same as the pearlID in the latest stat doc
-          // in theory, if the latest pearl claimed isn't the same as the pearlID in the latest stat doc, we're just screwed
-          // if the stats doc has already been checked but the user cannot claim the pearl (spending > limit), then there's no need to check
-          // in theory, as long as there is something there, pearl will be true, but really i'm not sure if !undefined will be true
-          if(pearl != latestPearl || pearl != 'checked') {
-            //stats doc does not have a pearl
-            this.validityCheck(user);
-          };
-        });
+        if(!collection.empty) {
+          collection.forEach(doc => {
+            let latestPearl = doc.id;
+            // if pearl has already been claimed, the latest pearl claimed should have the same as the pearlID in the latest stat doc
+            // in theory, if the latest pearl claimed isn't the same as the pearlID in the latest stat doc, we're just screwed
+            // if the stats doc has already been checked but the user cannot claim the pearl (spending > limit), then there's no need to check
+            // in theory, as long as there is something there, pearl will be true, but really i'm not sure if !undefined will be true
+            if(pearl != latestPearl && pearl != 'checked') {
+              //stats doc does not have a pearl
+              this.validityCheck(user);
+            };
+          });
+        }
+        else {
+          this.validityCheck(user);
+        }
       });
   };
   
   validityCheck(user) {
     //check if a new week has started
     //if a new week has not started and the stats doc is still valid, then we shouldn't be checking whether or not a pearl should be awarded
-    if(this.state.currentDate >= endDate) {
+    if(this.state.current >= endDate) {
       if(limit >= spending) {
         // spending is within the limit
         this.awardPearl(true, user);
@@ -110,7 +126,7 @@ export default class LoadingScreen extends Component {
         .doc(`${user.uid}`)
         .collection('pearls')
         .add({
-          date: this.state.dates.current,
+          date: this.state.current,
         })
         .then((doc) => {
           // create a new pearl, and put the pearlID in the corresponding stats doc
