@@ -9,21 +9,15 @@ import {
 import * as firebase from "firebase";
 import firebaseDb from '../../firebaseDb';
 
+//i'm sick and tired of states not getting updated in time
+var endDate, pearl, spending, limit, statsID;
+
 export default class LoadingScreen extends Component {
   state = {
-    dates: {
-      current: new Date(),
-      end: null,
-    },
-    
-    pearlID: '',
-    statsID: '',
+    current: new Date(),
   }
 
   componentDidMount() {
-    /*if (firebase.auth().currentUser.uid != null) {
-      this.pearlCheck(firebase.auth().currentUser.uid);
-    }*/
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -35,98 +29,112 @@ export default class LoadingScreen extends Component {
       }
     });
   }
+  //zzz actually so sleepy now i probably shouldn't have stayed up to 4 achieving absolutely nothing
 
   pearlCheck(user) {
-    console.log('checking pearl')
-    //check if pearl for latest stats doc has been retrieved
-    const doc = firebase
+    firebase
+    .firestore()
+    .collection('users')
+    .doc(`${user.uid}`)
+    .collection('statistics')
+    .orderBy('beginDate', 'desc')
+    .limit(1)
+    .get()
+    .then((collection) => {
+      collection.forEach((doc) => {
+        let beginDate = new Date(doc.data().beginDate);
+        //global
+        endDate = new Date(
+          beginDate.getFullYear(),
+          beginDate.getMonth(),
+          beginDate.getDate() + 7
+        );
+        //global
+        statsID = doc.id;
+        //global
+        pearl = doc.data().pearlID;
+        //global
+        spending = doc.data().TotalOverall;
+        //global
+        limit = doc.data().OverallLimit;
+        this.claimStatusCheck(user);
+      });
+    });
+  };
+  
+  claimStatusCheck(user) {
+    firebase
       .firestore()
       .collection('users')
-      .doc(`${user}`)
-      .collection('statistics')
-      .orderBy('beginDate')
+      .doc(`${user.uid}`)
+      .collection('pearls')
+      .orderBy('date', 'desc')
       .limit(1)
       .get()
-      .then((collection) => {
-        collection.forEach((doc) => {
-          console.log('is the pearl claimed?')
-          console.log(`pearl is ${doc.data().pearl}`)
-          //pearl is unclaimed
-          if (typeof (doc.data().pearl) === 'undefined') {
-            console.log('unclaimed pearl');
-            this.setState({ pearlID: 'unclaimed'});
-            //retrive end date
-            let beginDate = new Date(doc.data().beginDate);
-            let endDate = new Date(
-              beginDate.getFullYear(),
-              beginDate.getMonth(),
-              begineDate.getDate() + 7
-            );
-            this.setState({ dates: {
-              end: endDate,
-            }});
-            // retrieve latest stats doc id
-            this.setState({ statsID: doc.id });
-
-            if(this.state.dates.current >= this.state.dates.end) {
-              //the latest stat doc has no pearl redeemed, but the period is over
-              //check if pearl should or shouldn't be awarded
-              //aka is the spending within the limit (less than or equal to)
-              if (doc.data().TotalOverall <= doc.data().OverallLimit) {
-                console.log('yes pearl');
-                this.awardPearl(true, user);
-              }
-              else {
-                console.log('no pearl');
-                this.awardPearl(false, user);
-              }
-            }
-
-          }
-          //pearl has been claimed
-          else {
-            this.setState({ pearl: 'checked' })
-            console.log('pearl has been claimed')
+      .then(collection => {
+        collection.forEach(doc => {
+          let latestPearl = doc.id;
+          // if pearl has already been claimed, the latest pearl claimed should have the same as the pearlID in the latest stat doc
+          // in theory, if the latest pearl claimed isn't the same as the pearlID in the latest stat doc, we're just screwed
+          // if the stats doc has already been checked but the user cannot claim the pearl (spending > limit), then there's no need to check
+          // in theory, as long as there is something there, pearl will be true, but really i'm not sure if !undefined will be true
+          if(pearl != latestPearl || pearl != 'checked') {
+            //stats doc does not have a pearl
+            this.validityCheck(user);
           };
-
         });
-
-
-      }); 
+      });
   };
-
+  
+  validityCheck(user) {
+    //check if a new week has started
+    //if a new week has not started and the stats doc is still valid, then we shouldn't be checking whether or not a pearl should be awarded
+    if(this.state.currentDate >= endDate) {
+      if(limit >= spending) {
+        // spending is within the limit
+        this.awardPearl(true, user);
+      }
+      else {
+        // spending has exceeded the limit
+        this.awardPearl(false, user);
+      }
+    };
+  };
+  
   awardPearl(award, user) {
-    if (award === true) {
-      //add pearl to collection
+    if(award === true) {
+      // spending is within the limit
       firebase
         .firestore()
         .collection('users')
-        .doc(`${user}`)
+        .doc(`${user.uid}`)
         .collection('pearls')
         .add({
           date: this.state.dates.current,
         })
         .then((doc) => {
-          this.setState({ pearlID: doc.id });
+          // create a new pearl, and put the pearlID in the corresponding stats doc
+          let pearlID = doc.id;
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(`${user.uid}`)
+            .collection('statistics')
+            .doc(statsID)
+            .set({ pearlID: pearlID }, { merge: true });
         });
-      // add pearl id to stats doc to indicate redeemed
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(`${user}`)
-        .collection('statistics')
-        .doc(this.state.statsID)
-        .set({ pearlID: pearl }, { merge: true });
     }
     else {
-      //pearl not awarded, add pearl field to stats doc to indicate checked
+      // spending has exceeded the limit
+      // indicate that the stat doc has already been through checking
+      // and that no pearl was awarded
       firebase
         .firestore()
         .collection('users')
-        .doc(`${user}`)
+        .doc(`${user.uid}`)
         .collection('statistics')
         .doc(this.state.statsID)
-        .set({ pearlID: null }, { merge: true });
+        .set({ pearlID: 'checked' }, { merge: true });
     }
   };
 
@@ -138,3 +146,4 @@ export default class LoadingScreen extends Component {
     );
   }
 }
+
