@@ -25,6 +25,7 @@ class SettingsScreen extends Component {
     modalVisibleFAQ: false,
     modalVisibleUserGuide: false,
   };
+
   componentDidMount() {
     let useruid = firebase.auth().currentUser.uid;
     this.setState({ currentUserUid: useruid });
@@ -196,7 +197,6 @@ class SettingsScreen extends Component {
           <TouchableOpacity
             onPress={() => {
               this.setState({ modalVisibleUserGuide: !this.state.modalVisibleUserGuide});
-              console.log('yes')
             }}
           >
             <Text style={styles.item}>User Guide</Text>

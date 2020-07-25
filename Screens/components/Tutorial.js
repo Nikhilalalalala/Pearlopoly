@@ -63,14 +63,15 @@ const userGuide = [
     title: 'Overview: Goal',
     img: require('../../assets/placeholder.png'),
     desc: 'The limit can be set on the goals page',
-    next: '',
+    next: 'Done',
     back: '<<< Back',
   },
 ];
 
 class Tutorial extends React.Component {
+  
   state = {
-    modalVisible: false,
+    modalVisible: true,
   };
 
   renderItems = ({item, index}) => {
@@ -81,15 +82,14 @@ class Tutorial extends React.Component {
       <Text style={modal.pageDesc}>{item.desc}</Text>
       <View style={modal.pageIndicator}>
         <Text>{item.back}</Text>
-        <Text>{item.next}</Text>
+        <Text onPress={ () => {
+          console.log(index)
+          if (index === 8) this.setState({modalVisible: false})
+        }}>{item.next}</Text>
       </View>
     </View>
     );
   };
-
-  visibility = () => {
-    this.setState({ modalVisible: this.props.visibility });
-  }
 
   render() {
     return(
@@ -97,13 +97,14 @@ class Tutorial extends React.Component {
         <Modal 
           animationType='slide'
           transparent={true}
-          visible={false}
+          visible={this.state.modalVisible && this.props.visibility}
+          // visible={false}
         >
           <TouchableOpacity
             style={modal.backgroundDim}
             onPress={ () => {
-              console.log('i have been touched');
-              this.setState({ modalVisible: !this.state.modalVisible });
+              // console.log('i have been touched');
+              this.setState({ modalVisible: false });
             }}
           />
 
@@ -113,6 +114,7 @@ class Tutorial extends React.Component {
               renderItem = {this.renderItems}
               itemWidth={carouselWidth*0.9}
               sliderWidth={carouselWidth}
+              // layout={'default'}
               />
           </View>
         </Modal>
