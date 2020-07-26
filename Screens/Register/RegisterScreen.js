@@ -72,6 +72,7 @@ class RegisterScreen extends Component {
         email: this.state.email,
         uid: uid,
         createdAt: Date.now(),
+        viewUserGuideFirstTime: false
       })
       .then(() => {
         // console.log("new user document created");

@@ -32,18 +32,22 @@ class GoalProgressBar extends React.Component {
   };
 
   getData(uid) {
-      firebase.firestore().collection('users').doc(`${uid}`).onSnapshot(doc => {
-        this.setState({
-          limits: {
-            overall: doc.data().OverallLimit || 0,
-            education: doc.data().EducationLimit || 0,
-            food: doc.data().FoodLimit || 0 ,
-            other: doc.data().OtherLimit || 0,
-            shopping: doc.data().ShoppingLimit || 0,
-            transport: doc.data().TransportLimit || 0, 
-          },
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(`${uid}`)
+        .onSnapshot(doc => {
+          this.setState({
+            limits: {
+              overall: doc.data().OverallLimit || 0,
+              education: doc.data().EducationLimit || 0,
+              food: doc.data().FoodLimit || 0 ,
+              other: doc.data().OtherLimit || 0,
+              shopping: doc.data().ShoppingLimit || 0,
+              transport: doc.data().TransportLimit || 0, 
+            },
+          })
         })
-      })
       firebase
         .firestore()
         .collection("users")
@@ -66,6 +70,28 @@ class GoalProgressBar extends React.Component {
                   other: doc.data().TotalOtherSpending,
                   shopping: doc.data().TotalShopping,
                   transport: doc.data().TotalTransport,
+                },
+              });
+            }
+            else {
+              this.setState({ 
+                limits: {
+                  overall: 0,
+                  education: 0,
+                  food: 0,
+                  other: 0,
+                  shopping: 0,
+                  transport: 0,
+                },
+              });
+              this.setState({
+                expenditure: {
+                  overall: 0,
+                  education: 0,
+                  food: 0,
+                  other: 0,
+                  shopping: 0,
+                  transport: 0,
                 },
               });
             }
@@ -114,6 +140,21 @@ class GoalProgressBar extends React.Component {
                 horizontal = {true}
               />
               <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>No limit set yet</Text>
+            </View>
+          )
+        }
+        //new week stopgap; gotta figure out why expenditure.overall is NaN; apparently, its because there isn't a 'TotalOverall' field in the database i appear to have broken code that is unrelated to what i have been doing. how wonderful.
+        else if(isNaN(this.state.expenditure.overall)) {
+          return(
+            <View style={{height: 40, width: '100%', display: 'flex', alignItems: 'center', justifyContent:'center', }}>
+              <StackedBarChart
+                style ={{height: '100%', width: '100%'}}
+                keys = {['noRecords']}
+                colors = {['#BCD8C1']}
+                data = {[{noRecords: 1}]}
+                horizontal = {true}
+              />
+              <Text style={{fontFamily: 'Lato-Regular', position: 'absolute', padding: 11, alignSelf: 'center'}}>A new week has started!</Text>
             </View>
           )
         }
