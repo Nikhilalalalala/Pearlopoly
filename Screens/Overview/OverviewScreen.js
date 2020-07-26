@@ -5,9 +5,7 @@ import {
   View,
   SafeAreaView,
   StatusBar,
-  TouchableOpacity,
   Dimensions,
-  useWindowDimensions,
 } from "react-native";
 
 import Tutorial from '../components/Tutorial';

@@ -6,7 +6,7 @@ const userGuide = [
   {
     title: 'Welcome!',
     img: require('../../assets/guide1.png'),
-    desc: 'Welcome to Pearlopoly! This user guide can be found right here in the settings should you need it again or choose to skip it. Swipe to continue!',
+    desc: 'Welcome to Pearlopoly! Swipe to continue!',
     next: 'Next >>>',
     back: '',
   },
@@ -52,20 +52,20 @@ const userGuide = [
     next: 'Next >>>',
     back: '<<< Back',
   },
-  {
-    title: 'Settings',
-    img: require('../../assets/placeholder.png'),
-    desc: 'idk is this even needed',
-    next: 'Next >>>',
-    back: '<<< Back',
-  },
-  {
-    title: 'Overview: Goal',
-    img: require('../../assets/placeholder.png'),
-    desc: 'The limit can be set on the goals page',
-    next: 'Done',
-    back: '<<< Back',
-  },
+  // {
+  //   title: 'Settings',
+  //   img: require('../../assets/guide8.png'),
+  //   desc: 'idk is this even needed',
+  //   next: 'Next >>>',
+  //   back: '<<< Back',
+  // },
+  // {
+  //   title: 'Overview: Goal',
+  //   img: require('../../assets/placeholder.png'),
+  //   desc: 'The limit can be set on the goals page',
+  //   next: 'Done',
+  //   back: '<<< Back',
+  // },
 ];
 
 class Tutorial extends React.Component {
@@ -84,7 +84,7 @@ class Tutorial extends React.Component {
         <Text>{item.back}</Text>
         <Text onPress={ () => {
           console.log(index)
-          if (index === 8) this.setState({modalVisible: false})
+          if (index === 7) this.setState({modalVisible: false})
         }}>{item.next}</Text>
       </View>
     </View>
