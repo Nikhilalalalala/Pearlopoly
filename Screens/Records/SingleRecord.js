@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView , Modal, Dimensions, TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View , Modal, Dimensions, TouchableOpacity} from "react-native";
 import { Icon } from "react-native-elements";
 
 export default class SingleRecord extends Component {

@@ -3,85 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import * as firebase from "firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "react-native-elements";
-import { SwipeListView } from 'react-native-swipe-list-view';
-import SingleRecord from "../SingleRecord.js"
-// const DayRecord = (props) => {
-//   return (
-//     <View style={[stylesDayRecord.container, props.style]}>
-//       <Text style={stylesDayRecord.date}>{props.date}</Text>
-//       <SingleRecord
-//         category="Education"
-//         value="5.00"
-//         name="Buying Stationary"
-//       />
-//       <SingleRecord
-//         category="Education"
-//         value="5.00"
-//         name="Buying Stationary"
-//       />
-//     </View>
-//   );
-// };
-
-const iconify = (cat) => {
-  let nameIcon;
-  let type = "";
-  switch (cat) {
-    case "Food":
-      nameIcon = "restaurant";
-      break;
-    case "Education":
-      nameIcon = "school";
-      break;
-    case "Transport":
-      nameIcon = "train";
-      break;
-    case "Shopping":
-      nameIcon = "shopping-bag";
-      type = "font-awesome";
-      break;
-    case "Other Spending":
-      nameIcon = "question-circle-o";
-      type = "font-awesome";
-      break;
-    case "Income":
-      nameIcon = "usd";
-      type = "font-awesome";
-      break;
-  }
-  return (
-    <Icon
-      style={stylesSingleRecord.categoryIcon}
-      name={nameIcon}
-      type={type}
-      color={cat !== "Income" ? "#ed6a5a" : "#75B9BE"}
-    />
-  );
-};
-
-// const SingleRecord = (props) => {
-//   return (
-//     <View style={stylesSingleRecord.container}>
-//       <Text style={stylesSingleRecord.name}>{props.date}</Text>
-
-//       <View style={stylesSingleRecord.bottomRow}>
-//         <View style={stylesSingleRecord.nameAndIcon}>
-//           {iconify(props.category)}
-//           <Text style={stylesSingleRecord.name}>{props.name}</Text>
-//         </View>
-//         <Text
-//           style={
-//             props.isIncome
-//               ? stylesSingleRecord.incomevalue
-//               : stylesSingleRecord.expensevalue
-//           }
-//         >
-//           $ {Number(props.value).toFixed(2)}
-//         </Text>
-//       </View>
-//     </View>
-//   );
-// };
+import SingleRecord from "./SingleRecord"
 
 class AllRecordsScreen extends Component {
   state = {
@@ -108,8 +30,6 @@ class AllRecordsScreen extends Component {
         this.setState({ numOfRecords: records.length });
       });
   }
-
-  componentDidUpdate() {}
 
   dailyRecords = () => {
     let date = new Date();
@@ -218,24 +138,6 @@ const styleRecord = StyleSheet.create({
     padding: 10,
     fontFamily: "Lato-Regular",
     fontSize: 18,
-  },
-});
-
-const stylesDayRecord = StyleSheet.create({
-  container: {
-    backgroundColor: "#FAF3DD",
-    flexDirection: "column",
-    alignItems: "stretch",
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  date: {
-    paddingVertical: 5,
-    fontFamily: "Lato-Regular",
-    textAlign: "center",
   },
 });
 
