@@ -49,7 +49,7 @@ const userGuide = [
     title: 'Category goals',
     img: require('../../assets/guide7.png'),
     desc: 'Tap on corresponding buttons to set/edit each goal\'s category. The colour-coded buttons will show the limit set and the current expenditure for the category.',
-    next: 'Next >>>',
+    next: 'Done',
     back: '<<< Back',
   },
   // {
@@ -84,7 +84,7 @@ class Tutorial extends React.Component {
         <Text>{item.back}</Text>
         <Text onPress={ () => {
           console.log(index)
-          if (index === 7) this.setState({modalVisible: false})
+          if (index === 6) this.setState({modalVisible: false})
         }}>{item.next}</Text>
       </View>
     </View>
