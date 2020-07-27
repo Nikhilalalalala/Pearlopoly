@@ -120,7 +120,10 @@ class SingleGoal extends React.Component {
         transparent={true}
         visible={this.state.modalVisible}
       >
-        <View style={modal.backgroundDim}>
+        <TouchableOpacity
+          style={modal.backgroundDim}
+          onPress={ () => this.setState({modalVisible: false})}
+        />
           <View style={modal.overallEdit}>
             <Text style={{ fontFamily: 'Lato-Regular', paddingTop:5, }}>Set {category} goal limit:</Text>
             <TextInput
@@ -136,7 +139,6 @@ class SingleGoal extends React.Component {
               <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
             </TouchableOpacity>
           </View>
-        </View>
       </Modal>
       </View>
     );
