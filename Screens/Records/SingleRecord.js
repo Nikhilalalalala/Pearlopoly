@@ -52,8 +52,8 @@ export default class SingleRecord extends Component {
       for (let i = 0; i < numRating; i++) {
         rating.push(
             <Icon
-              name={"usd"}
-              type= "font-awesome"
+              name={"star"}
+              // type= "font-awesome"
               size={18}
               style={{paddingRight: 5, bottom:2,}}
               color={"#f2cc5a"} /> 
