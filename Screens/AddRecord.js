@@ -210,9 +210,10 @@ class AddRecord extends Component {
     if (this.state.name && this.state.amount && this.state.chosenCategory && this.state.rating > 0) {
       let invalid = false
       let amount = this.state.amount
+      var amount_number
       if (!isNaN(amount)) { 
-        let amt = parseFloat(amount, 10);
-        if (amt <0) invalid = true
+        amount_number = parseFloat(amount, 10);
+        if (amount_number <0) invalid = true
       } else {
         invalid = true
       }
@@ -223,7 +224,7 @@ class AddRecord extends Component {
         );
       } else {
           let name = this.state.name;
-          let realAmt = this.state.amount;
+          // let realAmt = this.state.amount;
           let chosenCategory = this.state.chosenCategory;
           let satisfactionRating = this.state.rating;
           this.setState({ name: "", amount: "", chosenCategory: "", rating: 0, ratingName: 'Choose a rating between 1-5'});
@@ -235,7 +236,7 @@ class AddRecord extends Component {
             .collection("records")
             .add({
               name: name,
-              amount: realAmt,
+              amount: amount_number,
               Timestamp: Date.now(),
               category: chosenCategory,
               satisfactionRating: satisfactionRating
@@ -303,8 +304,7 @@ class AddRecord extends Component {
   }
 
   ratingCompleted = (rating) => {
-    console.log("Rating is: " + rating)
-    let ratingNames = ['', 'Should not have done that', 'A little guilty', 'Meh', "I'm Satisfied!", 'Yes! That spending/income was a good one!']
+    let ratingNames = ['Choose a rating between 1-5', 'Should not have done that', 'A little guilty', 'Meh', "I'm Satisfied!", 'Yes! That spending/income was a good one!']
     let ratingName = ratingNames[rating]
     let numRating = rating
     this.setState({
@@ -320,7 +320,7 @@ class AddRecord extends Component {
         <View style={main.line} />
 
         <ScrollView style={{alignSelf:'center',}}> 
-          <View style={styles.container}>
+          <View style={styles.container} key={0}>
             <View style={styles.fieldViewName}>
               <Text style={styles.fieldTitle}> Name of Expense: </Text>
               <TextInput
@@ -413,7 +413,7 @@ class AddRecord extends Component {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={this.addRecord}>
+          <TouchableOpacity style={styles.button} onPress={this.addRecord} key={1}>
             <Text
               style={{
                 alignSelf: "center",
