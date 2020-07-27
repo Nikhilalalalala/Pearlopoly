@@ -55,7 +55,7 @@ const userGuide = [
   {
     title: 'Pearls',
     img: require('../../assets/guide8.png'),
-    desc: 'Each week you keep to your overall limit, you will receive a pearl. You can view how many pearls you have and what achievements you have unlocked here.',
+    desc: 'For each week you keep to your overall limit, you will receive a pearl. You can view how many pearls you have and what achievements you have unlocked here.',
     next: 'Done',
     back: '<<< Back',
   }
