@@ -5,7 +5,7 @@ import Carousel from 'react-native-snap-carousel';
 const userGuide = [
   {
     title: 'Welcome!',
-    img: require('../../assets/guide1.png'),
+    img: require('../../assets/welcome.png'),
     desc: 'Welcome to Pearlopoly! Swipe to continue!',
     next: 'Next >>>',
     back: '',
@@ -49,23 +49,17 @@ const userGuide = [
     title: 'Category goals',
     img: require('../../assets/guide7.png'),
     desc: 'Tap on corresponding buttons to set/edit each goal\'s category. The colour-coded buttons will show the limit set and the current expenditure for the category.',
-    next: 'Done',
+    next: 'Next >>>',
     back: '<<< Back',
   },
-  // {
-  //   title: 'Settings',
-  //   img: require('../../assets/guide8.png'),
-  //   desc: 'idk is this even needed',
-  //   next: 'Next >>>',
-  //   back: '<<< Back',
-  // },
-  // {
-  //   title: 'Overview: Goal',
-  //   img: require('../../assets/placeholder.png'),
-  //   desc: 'The limit can be set on the goals page',
-  //   next: 'Done',
-  //   back: '<<< Back',
-  // },
+  {
+    title: 'Pearls',
+    img: require('../../assets/guide8.png'),
+    desc: 'Each week you keep to your overall limit, you will receive a pearl. You can view how many pearls you have and what achievements you have unlocked here.',
+    next: 'Done',
+    back: '<<< Back',
+  }
+  
 ];
 
 class Tutorial extends React.Component {
@@ -84,7 +78,7 @@ class Tutorial extends React.Component {
         <Text>{item.back}</Text>
         <Text onPress={ () => {
           console.log(index)
-          if (index === 6) this.setState({modalVisible: false})
+          if (index === 7) this.setState({modalVisible: false})
         }}>{item.next}</Text>
       </View>
     </View>
@@ -98,7 +92,7 @@ class Tutorial extends React.Component {
           animationType='slide'
           transparent={true}
           visible={this.state.modalVisible && this.props.visibility}
-          // visible={false}
+          //visible={true}
         >
           <TouchableOpacity
             style={modal.backgroundDim}
