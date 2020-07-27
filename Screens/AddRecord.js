@@ -243,7 +243,7 @@ class AddRecord extends Component {
             })
             .then((doc) => {
               this.addDocID(doc.id);
-              this.updateStatistics(realAmt, chosenCategory);
+              this.updateStatistics(amount_number, chosenCategory);
               this.props.navigation.navigate("Record");
             });
       }
