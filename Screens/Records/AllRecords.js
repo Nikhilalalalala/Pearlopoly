@@ -64,6 +64,7 @@ class AllRecordsScreen extends Component {
           category={element.category}
           value={element.amount}
           isIncome={isIncome}
+          timestamp = {element.Timestamp}
           date={toPrint}
           rating={element.satisfactionRating}
         />
