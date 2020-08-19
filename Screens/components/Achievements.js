@@ -19,11 +19,33 @@ const achievementsList = [
   'The eleventh achievement\n41 pearls to achieve',
   'The achievement after the eleventh\n48 pearls to achieve',
   'Forgive me, I\'m running out of ideas\n55 pearls to achieve',
-  'Last one, trust me\n63 pearls to achieve',
+  'Last bad one, trust me\n63 pearls to achieve',
   'Filling the cup up\n71 pearls to achieve',
   'Eighty-six the bad spending habits\n80 pearls to achieve',
   '10 to go\n90 pearls to achieve',
   'Big 100!\n100 pearls to achieve',
+];
+
+const achievementCup = [
+  '../../assets/A0.png',
+  '../../assets/A1.png',
+  '../../assets/A2.png',
+  '../../assets/A3.png',
+  '../../assets/A4.png',
+  '../../assets/A5.png',
+  '../../assets/A6.png',
+  '../../assets/A7.png',
+  '../../assets/A8.png',
+  '../../assets/A9.png',
+  '../../assets/A10.png',
+  '../../assets/A11.png',
+  '../../assets/A12.png',
+  '../../assets/A13.png',
+  '../../assets/A14.png',
+  '../../assets/A15.png',
+  '../../assets/A16.png',
+  '../../assets/A17.png',
+  '../../assets/A18.png',
 ];
 
 var achievedArr = [];
