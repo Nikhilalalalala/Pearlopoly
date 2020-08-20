@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View , Modal, Dimensions, TouchableOpacity} from "react-native";
 import { Icon } from "react-native-elements";
+import * as firebase from "firebase";
 
 export default class SingleRecord extends Component {
   
   state = { 
-    isModalOpen: false
+    isModalOpen: false,
+    useruid: ''
+  }
+
+  componentDidMount() {
+    let useruid = firebase.auth().currentUser.uid;
+    this.setState({ useruid: useruid });
   }
   
   iconify = (cat) => {
@@ -44,7 +51,75 @@ export default class SingleRecord extends Component {
     );
   };
 
-
+  deleteRecord = () => {
+    let id = this.props.id;
+    let a_date = new Date (this.props.timestamp);
+    let date = new Date(a_date.getFullYear(), a_date.getMonth(), a_date.getSeconds() + 10)
+    firebase.firestore().collection("users").doc(`${this.state.useruid}`).collection("statistics")
+      .orderBy("beginDate", "desc")
+      .limit(1)
+      .get()
+      .then((data) => {
+        if (!data.empty) {
+          data.forEach((dat) => {
+            let docData = dat.data();
+            let statsDate = new Date(docData.beginDate);
+            // only changes stats doc if it is in the current week 
+            if (date > statsDate) {
+              let newData = {
+                TotalEducation: 0,
+                TotalFood: 0,
+                TotalShopping: 0,
+                TotalTransport: 0,
+                TotalOtherSpending: 0,
+                TotalIncome: 0,
+                TotalOverall: 0,
+                beginDate: docData.beginDate,
+                statsID: docData.statsID
+              };
+              switch (this.props.category) {
+                case "Food":                  
+                  newData = {
+                    TotalFood: docData.TotalFood - this.props.value || 0 ,
+                    TotalOverall: docData.TotalOverall - this.props.value || 0,
+                  };
+                  break;
+                case "Education":
+                  newData = { TotalEducation: docData.TotalEducation - this.props.value,
+                    TotalOverall: docData.TotalOverall - this.props.value,
+                  };
+                  break;
+                case "Transport":
+                  newData = { TotalTransport: docData.TotalTransport - this.props.value,
+                    TotalOverall: docData.TotalOverall - this.props.value,
+                  };
+                  break;
+                case "Shopping":
+                  newData = { TotalShopping: docData.TotalShopping  - this.props.value,
+                    TotalOverall: docData.TotalOverall - this.props.value,
+                  };
+                  break;
+                case "Other Spending":
+                  newData = {
+                    TotalOtherSpending: docData.TotalOtherSpending  - this.props.value,
+                    TotalOverall: docData.TotalOverall - this.props.value,
+                  };
+                  break;
+                case "Income":
+                  newData = { TotalIncome: docData.TotalIncome - this.props.value};
+                  break;
+              }
+              firebase.firestore().collection("users").doc(`${this.state.useruid}`).collection("statistics")
+              .doc(docData.statsID).set(
+                newData, {merge: true}
+              )
+            }
+          })
+        }
+      }).then(()=> {
+        firebase.firestore().collection('users').doc(`${this.state.useruid}`).collection("records").doc(id).delete();
+      })
+  }
 
   ratify = (numRating) =>  {
     let rating  = []
@@ -101,9 +176,9 @@ export default class SingleRecord extends Component {
               { this.ratify(this.props.rating).length > 0 && <View style={{flexDirection: 'row', }}><Text> Satisfaction Rating: </Text>{this.ratify(this.props.rating)}</View>  }
                 {/* </View> */}
                 <View style={{flexDirection:'row', alignItems:'center', justifyContent: "center", width: '100%',}}>
-                  {/* <TouchableOpacity style={modal.buttonDelete} onPress={() => this.setState({isModalOpen: false})}>
+                  <TouchableOpacity style={modal.buttonDelete} onPress={() => this.deleteRecord()}>
                     <Text style={{ fontFamily: 'Lato-Regular' }}>Delete</Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity> 
                   <TouchableOpacity style={modal.button} onPress={() => this.setState({isModalOpen: false})}>
                     <Text style={{ fontFamily: 'Lato-Regular' }}>Done</Text>
                   </TouchableOpacity>
@@ -209,6 +284,8 @@ export default class SingleRecord extends Component {
       fontFamily: "Lato-Regular",
       textAlign: "right",
       // bottom: 28,
+      fontSize:20,
+      paddingBottom: 15,
       paddingRight: 5,
       alignSelf: "flex-end",
     },

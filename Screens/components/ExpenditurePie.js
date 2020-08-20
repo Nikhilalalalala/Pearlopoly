@@ -98,7 +98,7 @@ class ExpenditurePie extends React.Component {
             }
           />
           <Text style={{position: 'absolute', alignSelf: 'center', justifyContent: 'center', fontFamily: 'Lato-Regular'}}>
-            No records Yet :(
+            No Expenditure Yet :(
           </Text>
         </View>
         );
