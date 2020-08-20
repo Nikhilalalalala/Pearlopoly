@@ -69,22 +69,29 @@ class Achievements extends React.Component {
     if(this.state.pearls != 0) {
       for(var i=0; this.state.pearls>=milestoneList[i]; i++) {
       };
-      var achievementNumber = i+1;
+      var achievementNumber = i;
       this.setState({ achievements: achievementNumber });
     }
     else {
       this.setState({ achievements: 0 });
+    };
+    
+    if (i==0) {
+      for (j=0; j<18; j++) {
+        unachievedArr.push(achievementsList[j]);
+      };
+    }
+    else {
+      for(var j=0; j<achievementNumber; j++) {
+        achievedArr.push(achievementsList[j]);
+      };
+  
+      for(; j<18; j++) {
+        unachievedArr.push(achievementsList[j]);
+      };
     }
     
-    
 
-    for(var j=0; j<achievementNumber; j++) {
-      achievedArr.push(achievementsList[j]);
-    };
-
-    for(; j<18; j++) {
-      unachievedArr.push(achievementsList[j]);
-    };
 
   }
 
