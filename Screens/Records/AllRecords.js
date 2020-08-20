@@ -60,6 +60,7 @@ class AllRecordsScreen extends Component {
       records.push(
         <SingleRecord
           name={element.name}
+          id={element.recordID}
           key={element.recordID}
           category={element.category}
           value={element.amount}
