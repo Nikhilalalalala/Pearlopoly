@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView, Modal, Image } from 'react-native';
 import { Icon } from 'react-native-elements'; //circle
+import AchievementImg from './AchievementImg';
 
 import * as firebase from 'firebase';
 import firebaseDb from '../../firebaseDb';
@@ -26,34 +27,12 @@ const achievementsList = [
   'Big 100!\n100 pearls to achieve',
 ];
 
-const achievementCup = [
-  '../../assets/A0.png',
-  '../../assets/A1.png',
-  '../../assets/A2.png',
-  '../../assets/A3.png',
-  '../../assets/A4.png',
-  '../../assets/A5.png',
-  '../../assets/A6.png',
-  '../../assets/A7.png',
-  '../../assets/A8.png',
-  '../../assets/A9.png',
-  '../../assets/A10.png',
-  '../../assets/A11.png',
-  '../../assets/A12.png',
-  '../../assets/A13.png',
-  '../../assets/A14.png',
-  '../../assets/A15.png',
-  '../../assets/A16.png',
-  '../../assets/A17.png',
-  '../../assets/A18.png',
-];
-
 var achievedArr = [];
 var unachievedArr = [];
 
 class Achievements extends React.Component {
   state = {
-    pearls: 0,
+    pearls: null,
 
     dates: {
       current: new Date(),
@@ -90,8 +69,11 @@ class Achievements extends React.Component {
     if(this.state.pearls != 0) {
       for(var i=0; this.state.pearls>=milestoneList[i]; i++) {
       };
-      var achievementNumber = i;
+      var achievementNumber = i+1;
       this.setState({ achievements: achievementNumber });
+    }
+    else {
+      this.setState({ achievements: 0 });
     }
     
     
@@ -145,6 +127,10 @@ class Achievements extends React.Component {
             </View>
 
             <View style={modal.line} />
+            
+            <View style={{alignSelf: 'center'}}>
+              <AchievementImg />
+            </View>
 
             <ScrollView style={{flex: 1}}>
               {achievedArr.map((text) => (
@@ -258,6 +244,7 @@ const achieve = StyleSheet.create({
   }
 
 })
+
 
 export default Achievements;
 
